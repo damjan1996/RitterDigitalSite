@@ -1,0 +1,262 @@
+/* src/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import DM Sans from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+@layer base {
+  :root {
+    --color-primary: 35 40 45;          /* Header, Footer, strukturelle Elemente */
+    --color-secondary: 80 105 125;      /* Content-Boxen, Panels, Text */
+    --color-accent: 255 138 76;         /* CTAs, Buttons, Highlights */
+    --color-background: 244 245 246;    /* Seitenhintergrund */
+    --color-tertiary: 58 79 102;        /* Ergänzende Akzente, Icons */
+
+    /* Border Farbe für Shadcn UI Komponenten */
+    --color-border: 229 231 235;        /* Leichte Grau-Farbe für Borders */
+
+    /* Weitere Farbvariablen für UI-Elemente */
+    --color-success: 34 197 94;
+    --color-error: 239 68 68;
+    --color-warning: 245 158 11;
+    --color-info: 59 130 246;
+
+    /* Abstände auf Basis des 8px-Grid-Systems */
+    --spacing-1: 8px;
+    --spacing-2: 16px;
+    --spacing-3: 24px;
+    --spacing-4: 32px;
+    --spacing-5: 40px;
+    --spacing-6: 48px;
+    --spacing-8: 64px;
+    --spacing-10: 80px;
+    --spacing-12: 96px;
+
+    /* Schrifthöhen auf Basis des 8px-Grid-Systems */
+    --line-height-none: 1;
+    --line-height-tight: 1.25;
+    --line-height-snug: 1.375;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.625;
+    --line-height-loose: 2;
+
+    /* Schriftgrößen */
+    --font-size-xs: 0.75rem;     /* 12px */
+    --font-size-sm: 0.875rem;    /* 14px */
+    --font-size-base: 1rem;      /* 16px */
+    --font-size-lg: 1.125rem;    /* 18px */
+    --font-size-xl: 1.25rem;     /* 20px */
+    --font-size-2xl: 1.5rem;     /* 24px */
+    --font-size-3xl: 1.875rem;   /* 30px */
+    --font-size-4xl: 2.25rem;    /* 36px */
+    --font-size-5xl: 3rem;       /* 48px */
+
+    /* Radius */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --radius-xl: 12px;
+    --radius-2xl: 16px;
+    --radius-full: 9999px;
+  }
+
+  /* Grundlegende Stil-Resets und Definitionen */
+  * {
+    @apply border-gray-200;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-primary font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Fokus-Stile für Barrierefreiheit */
+  :focus-visible {
+    @apply outline-accent outline-2 outline-offset-2;
+  }
+}
+
+@layer components {
+  /* Container-Stil */
+  .container {
+    @apply mx-auto px-4 max-w-7xl;
+  }
+
+  /* Formatierung für "section" Elemente */
+  section {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* Überschriften-Stile - updated for DM Sans */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium leading-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+
+  h6 {
+    @apply text-base md:text-lg;
+  }
+
+  /* Link-Stile */
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Stile für Listen */
+  ul, ol {
+    @apply pl-6;
+  }
+
+  /* Grundlegende Animationen */
+  .transition-base {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Hover-Effekte */
+  .hover-grow {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  /* Schatten-Effekte */
+  .shadow-hover {
+    @apply transition-shadow duration-300 hover:shadow-lg;
+  }
+
+  /* Stilisierte Trenner */
+  .divider {
+    @apply h-px w-full bg-primary/10 my-6;
+  }
+
+  /* Einheitliche Abstände auf Basis des 8px-Grid-Systems */
+  .spacing-1 {
+    @apply p-1;
+  }
+
+  .spacing-2 {
+    @apply p-2;
+  }
+
+  .spacing-3 {
+    @apply p-3;
+  }
+
+  .spacing-4 {
+    @apply p-4;
+  }
+
+  /* Einheitliche Abstände für Abschnitte */
+  .section-spacing-y {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
+  .section-spacing-x {
+    @apply px-4 md:px-6 lg:px-8;
+  }
+
+  /* Animierte Unterstriche für Links */
+  .link-underline {
+    @apply relative inline-block;
+  }
+
+  .link-underline::after {
+    @apply content-[''] absolute w-0 h-0.5 bg-accent bottom-0 left-0 transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Stilisierte Abschnitte für die Homepage und andere Seiten */
+  .hero-section {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .feature-section {
+    @apply py-12 md:py-16 lg:py-20 bg-background;
+  }
+
+  .cta-section {
+    @apply py-12 md:py-16 bg-primary text-white;
+  }
+}
+
+/* Utilities für spezifische Layout-Anforderungen */
+@layer utilities {
+  /* Versteckt Elemente visuell, aber erhält sie für Screenreader (Barrierefreiheit) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Nützlich für Bilder, die mit einem bestimmten Seitenverhältnis angezeigt werden sollen */
+  .aspect-ratio-1-1 {
+    aspect-ratio: 1 / 1;
+  }
+
+  .aspect-ratio-4-3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Hilfs-Klassen für Flex-Layouts */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  /* Klasse zum Umbrechen von langen URLs/Wörtern */
+  .break-word {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Linie für dekorative Zwecke, wie Abschnittstrenner */
+  .decorative-line {
+    @apply h-1 w-16 bg-accent my-4;
+  }
+
+  /* Für sticky Header, die beim Scrollen eine andere Farbe bekommen */
+  .header-scrolled {
+    @apply bg-white shadow-md;
+  }
+}
