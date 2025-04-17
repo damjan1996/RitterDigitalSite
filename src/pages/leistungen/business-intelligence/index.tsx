@@ -3,8 +3,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import React from 'react';
 
+import { ServiceCTA } from '../../../components/leistungen/ServiceCTA';
 import { ServiceBenefits } from '../service/ServiceBenefits';
-import { ServiceCTA } from '../service/ServiceCTA';
 import { ServiceDetails } from '../service/ServiceDetails';
 import { ServiceFeatures } from '../service/ServiceFeatures';
 import { ServiceHero } from '../service/ServiceHero';

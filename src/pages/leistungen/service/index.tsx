@@ -1,8 +1,9 @@
 // src/pages/leistungen/service/index.tsx
 import React from 'react';
 
+import { ServiceCTA } from '../../../components/leistungen/ServiceCTA';
+
 import { ServiceBenefits } from './ServiceBenefits';
-import { ServiceCTA } from './ServiceCTA';
 import { ServiceDetails } from './ServiceDetails';
 import { ServiceFeatures } from './ServiceFeatures';
 import { ServiceHero } from './ServiceHero';
