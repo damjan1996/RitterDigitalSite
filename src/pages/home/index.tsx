@@ -1,20 +1,23 @@
-// src/pages/home/components/index.tsx
-import { Hero } from './components/Hero'
-import { ServiceTeaser } from './components/ServiceTeaser'
-import { Benefits } from './components/Benefits'
-import { Clients } from './components/Clients'
-import { LatestBlogPosts } from './components/LatestBlogPosts'
+// src/pages/home/index.tsx
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import React from 'react';
 
-export { Hero, ServiceTeaser, Benefits, Clients, LatestBlogPosts }
+import { SEO } from '@/components/common/seo';
 
-export const HomePage: React.FC = () => {
-    return (
-        <>
-            <Hero />
-            <ServiceTeaser />
-            <Benefits />
-            <Clients />
-            <LatestBlogPosts />
-        </>
-    )
-}
+import { HomePage } from './components';
+
+const Home: NextPage = () => {
+  return (
+    <>
+      <SEO
+        title="Ritter Digital GmbH | Ihr Partner für Digitalisierung"
+        description="Ritter Digital ist Ihr Experte für Business Intelligence, Data Warehouse, Softwareentwicklung und KI-Lösungen. Wir unterstützen Unternehmen dabei, die Potenziale der Digitalisierung zu erschließen."
+        pageType="home"
+      />
+      <HomePage />
+    </>
+  );
+};
+
+export default Home;

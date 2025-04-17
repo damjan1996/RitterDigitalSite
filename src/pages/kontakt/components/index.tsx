@@ -1,29 +1,28 @@
 // src/pages/kontakt/components/index.tsx
 import React from 'react';
-import { Hero } from './Hero';
+
 import { ContactForm } from './ContactForm';
 import { ContactInfo } from './ContactInfo';
+import { Hero } from './Hero';
 import { Map } from './Map';
 
 export const KontaktPage: React.FC = () => {
-    return (
-        <>
-            <Hero />
-            <section className="py-16 bg-background">
-                <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                        <ContactForm />
-                        <div>
-                            <ContactInfo />
-                            <div className="mt-8">
-                                <Map />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
+  return (
+    <>
+      <Hero />
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <ContactForm />
+          <div className="flex flex-col gap-8">
+            <ContactInfo />
+            <Map />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
-export { Hero, ContactForm, ContactInfo, Map };
+export { ContactForm, ContactInfo, Hero, Map };
+
+export default KontaktPage;

@@ -1,11 +1,13 @@
 // src/lib/analytics.ts
-import { useEffect } from 'react';
 
 // Typdeklaration für Google Analytics
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
-    dataLayer?: any[];
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+    Leadinfo?: {
+      trackPage: (id: string) => void;
+    };
   }
 }
 
@@ -30,6 +32,7 @@ export const initGA = (): void => {
   // Initialisiert das gtag-Objekt
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
+    // eslint-disable-next-line prefer-rest-params
     window.dataLayer?.push(arguments);
   };
 
@@ -56,7 +59,6 @@ const initLeadInfo = (): void => {
   script.async = true;
   script.src = 'https://cdn.leadinfo.net/ping.js';
   script.onload = () => {
-    // @ts-ignore
     window.Leadinfo?.trackPage(LEADINFO_ID);
   };
   document.head.appendChild(script);
@@ -81,11 +83,11 @@ export const pageview = (url: string): void => {
  * Trackt ein Ereignis in Google Analytics
  */
 export const event = ({
-                        action,
-                        category,
-                        label,
-                        value,
-                      }: {
+  action,
+  category,
+  label,
+  value,
+}: {
   action: string;
   category: string;
   label?: string;
@@ -130,10 +132,12 @@ export const eventTypes = {
   },
 };
 
-// Exportiere die gesamte Analytics-Funktionalität
-export default {
+// Exportiere die gesamte Analytics-Funktionalität als benanntes Objekt
+export const analytics = {
   initGA,
   pageview,
   event,
   eventTypes,
 };
+
+export default analytics;

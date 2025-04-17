@@ -1,5 +1,5 @@
 // src/pages/_document.tsx
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Document, { Html, Head, Main, NextScript, type DocumentContext } from 'next/document';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -32,8 +32,8 @@ class MyDocument extends Document {
           <link rel="manifest" href="/site.webmanifest" />
         </Head>
         <body className="bg-background font-sans text-primary antialiased">
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );

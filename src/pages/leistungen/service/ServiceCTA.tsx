@@ -1,38 +1,41 @@
 // src/pages/leistungen/service/ServiceCTA.tsx
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import { Button } from '@/components/ui/button';
 
 interface ServiceCTAProps {
-    text: string;
-    description: string;
-    buttonText?: string;
-    buttonLink?: string;
+  text?: string;
+  description?: string;
+  buttonText?: string;
+  buttonLink?: string;
 }
 
 export const ServiceCTA: React.FC<ServiceCTAProps> = ({
-                                                          text,
-                                                          description,
-                                                          buttonText = "Jetzt Kontakt aufnehmen",
-                                                          buttonLink = "/kontakt"
-                                                      }) => {
-    return (
-        <section className="py-20 bg-primary text-white">
-            <div className="container mx-auto px-4 text-center">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                        {text}
-                    </h2>
-                    <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
-                        {description}
-                    </p>
-                    <Link href={buttonLink}>
-                        <Button variant="accent" size="lg" className="px-8 py-6 text-lg">
-                            {buttonText}
-                        </Button>
-                    </Link>
-                </div>
-            </div>
-        </section>
-    );
+  text = 'Sprechen Sie mit unseren Experten',
+  description = 'Unsere Spezialisten beraten Sie gerne zu Ihren individuellen Anforderungen und finden die passende Lösung für Ihr Unternehmen.',
+  buttonText = 'Jetzt Kontakt aufnehmen',
+  buttonLink = '/kontakt',
+}) => {
+  return (
+    <section className="bg-primary py-20 text-white">
+      <div className="container mx-auto px-4 text-center">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="mb-6 text-3xl font-bold md:text-4xl">{text}</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-lg opacity-90">{description}</p>
+          <Link href={buttonLink}>
+            <Button
+              variant="default"
+              size="lg"
+              className="bg-white px-8 py-6 text-lg text-primary hover:bg-white/90"
+            >
+              {buttonText}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 };
+
+export default ServiceCTA;

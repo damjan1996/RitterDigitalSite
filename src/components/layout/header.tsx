@@ -1,46 +1,42 @@
 // src/components/layout/header.tsx
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Logo } from './logo'
-import { Navigation } from './navigation'
-import { MobileNavigation } from './mobile-navigation'
-import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+
+import { cn } from '@/lib/utils';
+
+import { MobileNavigation } from './mobile-navigation';
 
 export interface HeaderProps {
-  transparent?: boolean
-  className?: string
+  transparent?: boolean;
+  className?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-                                                transparent = false,
-                                                className
-                                              }) => {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export const Header: React.FC<HeaderProps> = ({ transparent = false, className }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Überwache das Scrollen und füge Schatten hinzu, wenn gescrollt wird
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Verhindere Scrollen, wenn das mobile Menü geöffnet ist
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = ''
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [isMenuOpen])
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
 
   // Animation variants
   const headerVariants = {
@@ -50,10 +46,10 @@ export const Header: React.FC<HeaderProps> = ({
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  }
+        ease: 'easeOut',
+      },
+    },
+  };
 
   const logoVariants = {
     hidden: { opacity: 0, x: -10 },
@@ -63,23 +59,23 @@ export const Header: React.FC<HeaderProps> = ({
       transition: {
         duration: 0.5,
         delay: 0.2,
-        ease: "easeOut"
-      }
-    }
-  }
+        ease: 'easeOut',
+      },
+    },
+  };
 
   const navItemVariants = {
     hidden: { opacity: 0, y: -10 },
-    visible: i => ({
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.4,
-        delay: 0.3 + (i * 0.1),
-        ease: "easeOut"
-      }
-    })
-  }
+        delay: 0.3 + i * 0.1,
+        ease: 'easeOut',
+      },
+    }),
+  };
 
   const contactVariants = {
     hidden: { opacity: 0, x: 10 },
@@ -89,17 +85,17 @@ export const Header: React.FC<HeaderProps> = ({
       transition: {
         duration: 0.5,
         delay: 0.6,
-        ease: "easeOut"
-      }
-    }
-  }
+        ease: 'easeOut',
+      },
+    },
+  };
 
   return (
     <motion.header
       className={cn(
-        'fixed top-0 left-0 right-0 z-40 w-full transition-all duration-300',
+        'fixed left-0 right-0 top-0 z-40 w-full transition-all duration-300',
         transparent && !isScrolled ? 'bg-transparent' : 'bg-white',
-        isScrolled && 'shadow-none border-b border-gray-100',
+        isScrolled && 'border-b border-gray-100 shadow-none',
         isMenuOpen && 'bg-white',
         className
       )}
@@ -113,10 +109,10 @@ export const Header: React.FC<HeaderProps> = ({
           <motion.div variants={logoVariants}>
             <Link href="/" className="relative z-50 flex items-center gap-2">
               <motion.div
-                className="w-7 h-7 bg-black flex items-center justify-center text-white text-xs font-normal"
+                className="flex h-7 w-7 items-center justify-center bg-black text-xs font-normal text-white"
                 whileHover={{
                   scale: 1.1,
-                  transition: { duration: 0.2 }
+                  transition: { duration: 0.2 },
                 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -124,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
               </motion.div>
               <span
                 className={cn(
-                  "font-normal text-base tracking-tight transition-colors duration-300",
+                  'text-base font-normal tracking-tight transition-colors duration-300',
                   transparent && !isScrolled && !isMenuOpen ? 'text-white' : 'text-black'
                 )}
               >
@@ -134,28 +130,23 @@ export const Header: React.FC<HeaderProps> = ({
           </motion.div>
 
           {/* Main Navigation - Centered with staggered animation */}
-          <div className="hidden lg:flex justify-center">
+          <div className="hidden justify-center lg:flex">
             <nav>
               <ul className="flex space-x-12">
                 {['Home', 'About', 'Services'].map((item, index) => (
-                  <motion.li
-                    key={item}
-                    custom={index}
-                    variants={navItemVariants}
-                    className="group"
-                  >
+                  <motion.li key={item} custom={index} variants={navItemVariants} className="group">
                     <Link
                       href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                       className={cn(
-                        "text-sm font-normal transition-colors relative",
+                        'relative text-sm font-normal transition-colors',
                         transparent && !isScrolled
-                          ? "text-white hover:text-gray-200"
-                          : "text-gray-500 hover:text-black"
+                          ? 'text-white hover:text-gray-200'
+                          : 'text-gray-500 hover:text-black'
                       )}
                     >
                       <span className="relative inline-block">
                         {item}
-                        <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"></span>
+                        <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-current transition-all duration-300 group-hover:w-full"></span>
                       </span>
                     </Link>
                   </motion.li>
@@ -165,52 +156,57 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Contact Link and Phone Number - Right with animation */}
-          <motion.div
-            className="hidden lg:flex items-center space-x-6"
-            variants={contactVariants}
-          >
+          <motion.div className="hidden items-center space-x-6 lg:flex" variants={contactVariants}>
             {/* Phone Number */}
             <motion.a
               href="tel:+4912345678"
               className={cn(
-                "text-sm font-normal transition-colors flex items-center gap-2",
+                'flex items-center gap-2 text-sm font-normal transition-colors',
                 transparent && !isScrolled
-                  ? "text-white hover:text-gray-200"
-                  : "text-gray-500 hover:text-black"
+                  ? 'text-white hover:text-gray-200'
+                  : 'text-gray-500 hover:text-black'
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
               +49 123 456 78
             </motion.a>
 
             {/* Contact Button with fixed hover */}
-            <Link
-              href="/kontakt"
-              className="relative group"
-            >
+            <Link href="/kontakt" className="group relative">
               <motion.div
                 className={cn(
-                  "text-sm font-normal transition-colors py-2 px-4 relative z-10",
+                  'relative z-10 px-4 py-2 text-sm font-normal transition-colors',
                   transparent && !isScrolled
-                    ? "text-white group-hover:text-gray-200"
-                    : "text-gray-500 group-hover:text-black"
+                    ? 'text-white group-hover:text-gray-200'
+                    : 'text-gray-500 group-hover:text-black'
                 )}
                 whileHover={{
                   scale: 1.05,
-                  transition: { duration: 0.2 }
+                  transition: { duration: 0.2 },
                 }}
                 whileTap={{ scale: 0.98 }}
               >
                 Kontakt
               </motion.div>
-              <span className={cn(
-                "absolute inset-0 border border-current opacity-0 group-hover:opacity-100 transition-all duration-300",
-                transparent && !isScrolled ? "border-white" : "border-black"
-              )}></span>
+              <span
+                className={cn(
+                  'absolute inset-0 border border-current opacity-0 transition-all duration-300 group-hover:opacity-100',
+                  transparent && !isScrolled ? 'border-white' : 'border-black'
+                )}
+              ></span>
             </Link>
           </motion.div>
 
@@ -230,7 +226,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
     </motion.header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

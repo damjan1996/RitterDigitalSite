@@ -1,21 +1,20 @@
-/* src/styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap'); /* src/styles/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Import DM Sans from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
 @layer base {
   :root {
-    --color-primary: 35 40 45;          /* Header, Footer, strukturelle Elemente */
-    --color-secondary: 80 105 125;      /* Content-Boxen, Panels, Text */
-    --color-accent: 255 138 76;         /* CTAs, Buttons, Highlights */
-    --color-background: 244 245 246;    /* Seitenhintergrund */
-    --color-tertiary: 58 79 102;        /* Ergänzende Akzente, Icons */
+    --color-primary: 35 40 45; /* Header, Footer, strukturelle Elemente */
+    --color-secondary: 80 105 125; /* Content-Boxen, Panels, Text */
+    --color-accent: 255 138 76; /* CTAs, Buttons, Highlights */
+    --color-background: 244 245 246; /* Seitenhintergrund */
+    --color-tertiary: 58 79 102; /* Ergänzende Akzente, Icons */
 
     /* Border Farbe für Shadcn UI Komponenten */
-    --color-border: 229 231 235;        /* Leichte Grau-Farbe für Borders */
+    --color-border: 229 231 235; /* Leichte Grau-Farbe für Borders */
 
     /* Weitere Farbvariablen für UI-Elemente */
     --color-success: 34 197 94;
@@ -43,15 +42,15 @@
     --line-height-loose: 2;
 
     /* Schriftgrößen */
-    --font-size-xs: 0.75rem;     /* 12px */
-    --font-size-sm: 0.875rem;    /* 14px */
-    --font-size-base: 1rem;      /* 16px */
-    --font-size-lg: 1.125rem;    /* 18px */
-    --font-size-xl: 1.25rem;     /* 20px */
-    --font-size-2xl: 1.5rem;     /* 24px */
-    --font-size-3xl: 1.875rem;   /* 30px */
-    --font-size-4xl: 2.25rem;    /* 36px */
-    --font-size-5xl: 3rem;       /* 48px */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-lg: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem; /* 20px */
+    --font-size-2xl: 1.5rem; /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem; /* 36px */
+    --font-size-5xl: 3rem; /* 48px */
 
     /* Radius */
     --radius-sm: 2px;
@@ -73,20 +72,22 @@
   }
 
   body {
-    @apply bg-background text-primary font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background font-sans text-primary;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
   }
 
   /* Fokus-Stile für Barrierefreiheit */
   :focus-visible {
-    @apply outline-accent outline-2 outline-offset-2;
+    @apply outline-2 outline-offset-2 outline-accent;
   }
 }
 
 @layer components {
   /* Container-Stil */
   .container {
-    @apply mx-auto px-4 max-w-7xl;
+    @apply mx-auto max-w-7xl px-4;
   }
 
   /* Formatierung für "section" Elemente */
@@ -95,7 +96,12 @@
   }
 
   /* Überschriften-Stile - updated for DM Sans */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-medium leading-tight;
   }
 
@@ -129,7 +135,8 @@
   }
 
   /* Stile für Listen */
-  ul, ol {
+  ul,
+  ol {
     @apply pl-6;
   }
 
@@ -150,7 +157,7 @@
 
   /* Stilisierte Trenner */
   .divider {
-    @apply h-px w-full bg-primary/10 my-6;
+    @apply my-6 h-px w-full bg-primary/10;
   }
 
   /* Einheitliche Abstände auf Basis des 8px-Grid-Systems */
@@ -185,7 +192,7 @@
   }
 
   .link-underline::after {
-    @apply content-[''] absolute w-0 h-0.5 bg-accent bottom-0 left-0 transition-all duration-300;
+    @apply absolute bottom-0 left-0 h-0.5 w-0 bg-accent transition-all duration-300 content-[''];
   }
 
   .link-underline:hover::after {
@@ -198,11 +205,11 @@
   }
 
   .feature-section {
-    @apply py-12 md:py-16 lg:py-20 bg-background;
+    @apply bg-background py-12 md:py-16 lg:py-20;
   }
 
   .cta-section {
-    @apply py-12 md:py-16 bg-primary text-white;
+    @apply bg-primary py-12 text-white md:py-16;
   }
 }
 
@@ -252,7 +259,7 @@
 
   /* Linie für dekorative Zwecke, wie Abschnittstrenner */
   .decorative-line {
-    @apply h-1 w-16 bg-accent my-4;
+    @apply my-4 h-1 w-16 bg-accent;
   }
 
   /* Für sticky Header, die beim Scrollen eine andere Farbe bekommen */

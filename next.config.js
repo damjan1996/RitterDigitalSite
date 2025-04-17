@@ -85,10 +85,8 @@ const nextConfig = {
   experimental: {
     // optimieren für statische Export, wenn gewünscht
     // outputStandalone: true,
-
     // Verbesserte Client-Router-Cache
     // optimisticClientCache: true,
-
     // Moderne Browserunterstützung für größere Performance
     // browsersListForSwc: true,
     // legacyBrowsers: false,

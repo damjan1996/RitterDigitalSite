@@ -1,53 +1,61 @@
 // src/pages/leistungen/service/ServiceDetails.tsx
-import React, { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 
-interface ServiceDetailsProps {
-    title: string;
-    description: string;
-    videoSrc?: string;
-    children?: ReactNode;
+export interface ServiceDetailsProps {
+  title: string;
+  description: string;
+  items?: string[];
+  videoSrc?: string;
+  children?: ReactNode;
 }
 
 export const ServiceDetails: React.FC<ServiceDetailsProps> = ({
-                                                                  title,
-                                                                  description,
-                                                                  videoSrc,
-                                                                  children
-                                                              }) => {
-    return (
-        <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h2 className="text-3xl font-bold text-primary mb-6">
-                            {title}
-                        </h2>
-                        <p className="text-lg text-secondary mb-6">
-                            {description}
-                        </p>
+  title,
+  description,
+  items,
+  videoSrc,
+  children,
+}) => {
+  return (
+    <section className="bg-white py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <div>
+            <h2 className="mb-6 text-3xl font-bold text-primary">{title}</h2>
+            <p className="mb-6 text-lg text-secondary">{description}</p>
 
-                        {children}
-                    </div>
+            {items && (
+              <ul className="mb-6 list-inside list-disc">
+                {items.map(item => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            )}
 
-                    <div className="bg-background p-4 rounded-lg">
-                        {videoSrc ? (
-                            <div className="aspect-video rounded-md overflow-hidden">
-                                <iframe
-                                    src={videoSrc}
-                                    title="Video"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="w-full h-full border-0"
-                                ></iframe>
-                            </div>
-                        ) : (
-                            <div className="aspect-video bg-gray-200 rounded-md flex items-center justify-center">
-                                <p className="text-secondary">Video nicht verfügbar</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+            {children}
+          </div>
+
+          <div className="rounded-lg bg-background p-4">
+            {videoSrc ? (
+              <div className="aspect-video overflow-hidden rounded-md">
+                <iframe
+                  src={videoSrc}
+                  title="Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="h-full w-full border-0"
+                ></iframe>
+              </div>
+            ) : (
+              <div className="flex aspect-video items-center justify-center rounded-md bg-gray-200">
+                <p className="text-secondary">Video nicht verfügbar</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
+
+export default ServiceDetails;

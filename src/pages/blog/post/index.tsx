@@ -7,7 +7,7 @@ export { PostComments } from './PostComments';
 export { RelatedPosts } from './RelatedPosts';
 
 const PostComponents: React.FC = () => {
-    return null; // Diese Datei dient nur als Export-Sammlung
+  return null; // Diese Datei dient nur als Export-Sammlung
 };
 
 export default PostComponents;

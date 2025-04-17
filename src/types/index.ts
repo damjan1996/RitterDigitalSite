@@ -16,11 +16,11 @@ export type ViewMode = 'list' | 'grid' | 'compact';
 export type SortDirection = 'asc' | 'desc';
 
 export type CookieConsent = {
-    necessary: boolean;
-    analytics: boolean;
-    marketing: boolean;
-    preferences: boolean;
-    timestamp: number;
+  necessary: boolean;
+  analytics: boolean;
+  marketing: boolean;
+  preferences: boolean;
+  timestamp: number;
 };
 
 export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -34,26 +34,32 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ButtonVariant =
-    | 'primary'
-    | 'secondary'
-    | 'accent'
-    | 'outline'
-    | 'ghost'
-    | 'link'
-    | 'danger';
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'outline'
+  | 'ghost'
+  | 'link'
+  | 'danger';
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
 export type ToastType = 'info' | 'success' | 'warning' | 'error';
 
 export type Toast = {
-    id: string;
-    type: ToastType;
-    title?: string;
-    message: string;
-    duration?: number;
-    position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
-    onClose?: () => void;
+  id: string;
+  type: ToastType;
+  title?: string;
+  message: string;
+  duration?: number;
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-center'
+    | 'bottom-center';
+  onClose?: () => void;
 };
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -67,12 +73,12 @@ export type LayoutType = 'default' | 'blog' | 'landing' | 'admin';
 export type Device = 'mobile' | 'tablet' | 'desktop';
 
 export type ColorScheme =
-    | 'primary'
-    | 'secondary'
-    | 'accent'
-    | 'tertiary'
-    | 'background'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'info';
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'tertiary'
+  | 'background'
+  | 'success'
+  | 'error'
+  | 'warning'
+  | 'info';

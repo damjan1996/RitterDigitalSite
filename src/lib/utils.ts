@@ -1,5 +1,5 @@
 // src/lib/utils.ts
-import { ClassValue, clsx } from 'clsx';
+import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 /**
@@ -47,18 +47,20 @@ export function truncateText(text: string, maxLength: number): string {
  */
 export function slugify(text: string): string {
   return text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '') // Entfernt Sonderzeichen außer Leerzeichen und Bindestriche
-      .replace(/\s+/g, '-') // Ersetzt Leerzeichen durch Bindestriche
-      .replace(/-+/g, '-') // Vermeidet doppelte Bindestriche
-      .trim();
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Entfernt Sonderzeichen außer Leerzeichen und Bindestriche
+    .replace(/\s+/g, '-') // Ersetzt Leerzeichen durch Bindestriche
+    .replace(/-+/g, '-') // Vermeidet doppelte Bindestriche
+    .trim();
 }
 
 /**
  * Generiert eine zufällige ID
  */
 export function generateId(length: number = 8): string {
-  return Math.random().toString(36).substring(2, 2 + length);
+  return Math.random()
+    .toString(36)
+    .substring(2, 2 + length);
 }
 
 /**
@@ -74,19 +76,17 @@ export function stripHtml(html: string): string {
  */
 export function toTitleCase(text: string): string {
   return text
-      .toLowerCase()
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 /**
  * Wandelt einen Camel Case String in einen mit Leerzeichen getrennten String um
  */
 export function camelCaseToWords(text: string): string {
-  return text
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/^./, (str) => str.toUpperCase());
+  return text.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 }
 
 /**
@@ -121,13 +121,13 @@ export function formatFileSize(bytes: number): string {
 /**
  * Debounce-Funktion für verzögerte Ausführung
  */
-export function debounce<T extends (...args: any[]) => any>(
-    func: T,
-    wait: number
+export function debounce<T extends (...args: unknown[]) => unknown>(
+  func: T,
+  wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout | null = null;
 
-  return function(...args: Parameters<T>) {
+  return function (...args: Parameters<T>) {
     const later = () => {
       timeout = null;
       func(...args);
@@ -149,7 +149,8 @@ export function safeJsonParse<T>(json: string, fallback: T): T {
   }
 }
 
-export default {
+// Benanntes Objekt für den Export
+export const utils = {
   cn,
   formatDate,
   formatDateTime,
@@ -164,3 +165,5 @@ export default {
   debounce,
   safeJsonParse,
 };
+
+export default utils;

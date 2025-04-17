@@ -1,21 +1,20 @@
 // src/pages/_app.tsx
 import type { AppProps } from 'next/app';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
+import { useEffect } from 'react';
 import '@/styles/globals.css';
 
 // Layout-Komponenten
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
 import { CookieBanner } from '@/components/layout/cookie-banner';
-
+import { Footer } from '@/components/layout/footer';
+import { Header } from '@/components/layout/header';
 // Analytics
+import { defaultSeo } from '@/config/seo';
 import { initGA, pageview } from '@/lib/analytics';
 
 // SEO-Konfiguration
-import { defaultSEO } from '@/config/seo';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -40,22 +39,22 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-      <>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <DefaultSeo {...defaultSEO} />
+      <DefaultSeo {...defaultSeo} />
 
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-grow">
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-          <CookieBanner />
-        </div>
-      </>
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-grow">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+        <CookieBanner />
+      </div>
+    </>
   );
 }

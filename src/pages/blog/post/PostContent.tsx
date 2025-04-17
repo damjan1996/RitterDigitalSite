@@ -1,132 +1,128 @@
 // src/pages/blog/post/PostContent.tsx
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+
 import { cn } from '@/lib/utils';
 
 interface PostContentProps {
-    content: string;
-    className?: string;
+  content: string;
+  className?: string;
 }
 
 export const PostContent: React.FC<PostContentProps> = ({
-                                                            content,
-                                                            className
-                                                        }) => {
-    // Hilfsfunktion zum Erstellen von HTML mit korrekter Formatierung
-    const createMarkup = () => {
-        return { __html: formatContent(content) };
-    };
+  content = '', // Default-Wert hinzugefügt
+  className,
+}) => {
+  // Hilfsfunktion zum Erstellen von HTML mit korrekter Formatierung
+  const createMarkup = () => {
+    return { __html: formatContent(content) };
+  };
 
-    // Formatiert den Inhalt für bessere Anzeige
-    const formatContent = (htmlContent: string): string => {
-        let formattedContent = htmlContent;
+  // Formatiert den Inhalt für bessere Anzeige
+  const formatContent = (htmlContent: string): string => {
+    if (!htmlContent) return ''; // Prüfen auf null/undefined
 
-        // Bilder responsiv machen
-        formattedContent = formattedContent.replace(
-            /<img(.*?)src="(.*?)"(.*?)>/g,
-            '<img$1src="$2"$3 class="max-w-full h-auto rounded-lg my-4" loading="lazy">'
-        );
+    let formattedContent = htmlContent;
 
-        // Überschriften stylen
-        formattedContent = formattedContent.replace(
-            /<h2(.*?)>(.*?)<\/h2>/g,
-            '<h2$1 class="text-2xl font-bold mt-8 mb-4">$2</h2>'
-        );
+    try {
+      // Bilder responsiv machen
+      formattedContent = formattedContent.replace(
+        /<img(.*?)src="(.*?)"(.*?)>/g,
+        '<img$1src="$2"$3 class="max-w-full h-auto rounded-lg my-4" loading="lazy">'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<h3(.*?)>(.*?)<\/h3>/g,
-            '<h3$1 class="text-xl font-bold mt-6 mb-3">$2</h3>'
-        );
+      // Überschriften stylen
+      formattedContent = formattedContent.replace(
+        /<h2(.*?)>(.*?)<\/h2>/g,
+        '<h2$1 class="text-2xl font-bold mt-8 mb-4">$2</h2>'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<h4(.*?)>(.*?)<\/h4>/g,
-            '<h4$1 class="text-lg font-bold mt-4 mb-2">$2</h4>'
-        );
+      formattedContent = formattedContent.replace(
+        /<h3(.*?)>(.*?)<\/h3>/g,
+        '<h3$1 class="text-xl font-bold mt-6 mb-3">$2</h3>'
+      );
 
-        // Absätze stylen
-        formattedContent = formattedContent.replace(
-            /<p(.*?)>(.*?)<\/p>/g,
-            '<p$1 class="mb-4 text-secondary">$2</p>'
-        );
+      formattedContent = formattedContent.replace(
+        /<h4(.*?)>(.*?)<\/h4>/g,
+        '<h4$1 class="text-lg font-bold mt-4 mb-2">$2</h4>'
+      );
 
-        // Listen stylen
-        formattedContent = formattedContent.replace(
-            /<ul(.*?)>/g,
-            '<ul$1 class="list-disc pl-6 mb-4 text-secondary">'
-        );
+      // Absätze stylen
+      formattedContent = formattedContent.replace(
+        /<p(.*?)>(.*?)<\/p>/g,
+        '<p$1 class="mb-4 text-secondary">$2</p>'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<ol(.*?)>/g,
-            '<ol$1 class="list-decimal pl-6 mb-4 text-secondary">'
-        );
+      // Listen stylen
+      formattedContent = formattedContent.replace(
+        /<ul(.*?)>/g,
+        '<ul$1 class="list-disc pl-6 mb-4 text-secondary">'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<li(.*?)>(.*?)<\/li>/g,
-            '<li$1 class="mb-2">$2</li>'
-        );
+      formattedContent = formattedContent.replace(
+        /<ol(.*?)>/g,
+        '<ol$1 class="list-decimal pl-6 mb-4 text-secondary">'
+      );
 
-        // Links stylen
-        formattedContent = formattedContent.replace(
-            /<a(.*?)href="(.*?)"(.*?)>(.*?)<\/a>/g,
-            '<a$1href="$2"$3 class="text-accent hover:underline">$4</a>'
-        );
+      formattedContent = formattedContent.replace(
+        /<li(.*?)>(.*?)<\/li>/g,
+        '<li$1 class="mb-2">$2</li>'
+      );
 
-        // Blockquotes stylen
-        formattedContent = formattedContent.replace(
-            /<blockquote(.*?)>(.*?)<\/blockquote>/g,
-            '<blockquote$1 class="border-l-4 border-accent pl-4 italic my-6 text-secondary">$2</blockquote>'
-        );
+      // Links stylen
+      formattedContent = formattedContent.replace(
+        /<a(.*?)href="(.*?)"(.*?)>(.*?)<\/a>/g,
+        '<a$1href="$2"$3 class="text-accent hover:underline">$4</a>'
+      );
 
-        // Code-Blöcke stylen
-        formattedContent = formattedContent.replace(
-            /<pre(.*?)>(.*?)<\/pre>/g,
-            '<pre$1 class="bg-gray-50 rounded-md p-4 overflow-x-auto my-6 text-sm">$2</pre>'
-        );
+      // Blockquotes stylen
+      formattedContent = formattedContent.replace(
+        /<blockquote(.*?)>(.*?)<\/blockquote>/g,
+        '<blockquote$1 class="border-l-4 border-accent pl-4 italic my-6 text-secondary">$2</blockquote>'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<code(.*?)>(.*?)<\/code>/g,
-            '<code$1 class="bg-gray-100 rounded px-1 py-0.5 text-sm font-mono">$2</code>'
-        );
+      // Code-Blöcke stylen
+      formattedContent = formattedContent.replace(
+        /<pre(.*?)>(.*?)<\/pre>/g,
+        '<pre$1 class="bg-gray-50 rounded-md p-4 overflow-x-auto my-6 text-sm">$2</pre>'
+      );
 
-        // Tabellen stylen
-        formattedContent = formattedContent.replace(
-            /<table(.*?)>/g,
-            '<div class="overflow-x-auto my-6"><table$1 class="min-w-full divide-y divide-gray-200">'
-        );
+      formattedContent = formattedContent.replace(
+        /<code(.*?)>(.*?)<\/code>/g,
+        '<code$1 class="bg-gray-100 rounded px-1 py-0.5 text-sm font-mono">$2</code>'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<\/table>/g,
-            '</table></div>'
-        );
+      // Tabellen stylen
+      formattedContent = formattedContent.replace(
+        /<table(.*?)>/g,
+        '<div class="overflow-x-auto my-6"><table$1 class="min-w-full divide-y divide-gray-200">'
+      );
 
-        formattedContent = formattedContent.replace(
-            /<thead(.*?)>/g,
-            '<thead$1 class="bg-gray-50">'
-        );
+      formattedContent = formattedContent.replace(/<\/table>/g, '</table></div>');
 
-        formattedContent = formattedContent.replace(
-            /<th(.*?)>(.*?)<\/th>/g,
-            '<th$1 class="px-6 py-3 text-left text-xs font-medium text-tertiary uppercase tracking-wider">$2</th>'
-        );
+      formattedContent = formattedContent.replace(/<thead(.*?)>/g, '<thead$1 class="bg-gray-50">');
 
-        formattedContent = formattedContent.replace(
-            /<td(.*?)>(.*?)<\/td>/g,
-            '<td$1 class="px-6 py-4 whitespace-nowrap text-sm text-secondary">$2</td>'
-        );
+      formattedContent = formattedContent.replace(
+        /<th(.*?)>(.*?)<\/th>/g,
+        '<th$1 class="px-6 py-3 text-left text-xs font-medium text-tertiary uppercase tracking-wider">$2</th>'
+      );
 
-        return formattedContent;
-    };
+      formattedContent = formattedContent.replace(
+        /<td(.*?)>(.*?)<\/td>/g,
+        '<td$1 class="px-6 py-4 whitespace-nowrap text-sm text-secondary">$2</td>'
+      );
+    } catch (error) {
+      console.error('Error formatting content:', error);
+      return htmlContent; // Originalen Inhalt zurückgeben, falls Fehler
+    }
 
-    return (
-        <div className={cn("prose prose-lg max-w-none", className)}>
-            <div
-                dangerouslySetInnerHTML={createMarkup()}
-                className="blog-content"
-            />
+    return formattedContent;
+  };
 
-            {/* CSS für die Blog-Inhalte */}
-            <style jsx global>{`
+  return (
+    <div className={cn('prose prose-lg max-w-none', className)}>
+      <div dangerouslySetInnerHTML={createMarkup()} className="blog-content" />
+
+      <style>{`
         .blog-content img {
           border-radius: 0.5rem;
           margin: 1.5rem 0;
@@ -199,8 +195,8 @@ export const PostContent: React.FC<PostContentProps> = ({
           margin-bottom: 0;
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default PostContent;

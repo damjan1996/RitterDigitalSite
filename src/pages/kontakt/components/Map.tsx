@@ -2,12 +2,12 @@
 import React from 'react';
 
 export const Map: React.FC = () => {
-    return (
-        <div className="bg-white p-8 rounded-lg shadow-sm">
-            <h2 className="text-2xl font-semibold text-primary mb-6">Standort</h2>
+  return (
+    <div className="rounded-lg bg-white p-8 shadow-sm">
+      <h2 className="mb-6 text-2xl font-semibold text-primary">Standort</h2>
 
-            <div className="aspect-video w-full h-[300px] bg-gray-100 rounded-md overflow-hidden">
-                {/*
+      <div className="aspect-video h-[300px] w-full overflow-hidden rounded-md bg-gray-100">
+        {/*
           Hier würde normalerweise die Integration einer Karte erfolgen,
           z.B. mit Google Maps, OpenStreetMap oder Mapbox.
 
@@ -26,40 +26,40 @@ export const Map: React.FC = () => {
 
           Alternativ: Statisches Bild als Platzhalter
         */}
-                <div className="w-full h-full flex items-center justify-center bg-gray-200">
-                    <div className="text-center">
-                        <svg
-                            className="w-12 h-12 mx-auto text-tertiary opacity-50"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                        </svg>
-                        <p className="mt-2 text-tertiary">
-                            Kartenansicht von Ritter Digital GmbH
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div className="mt-4 text-sm text-secondary">
-                <p>
-                    Wenn Sie uns besuchen möchten, finden Sie uns in der Nähe des Stadtzentrums.
-                    Parkplätze sind in unmittelbarer Nähe verfügbar.
-                </p>
-            </div>
+        <div className="flex h-full w-full items-center justify-center bg-gray-200">
+          <div className="text-center">
+            <svg
+              className="mx-auto h-12 w-12 text-tertiary opacity-50"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <p className="mt-2 text-tertiary">Kartenansicht von Ritter Digital GmbH</p>
+          </div>
         </div>
-    );
+      </div>
+
+      <div className="mt-4 text-sm text-secondary">
+        <p>
+          Wenn Sie uns besuchen möchten, finden Sie uns in der Nähe des Stadtzentrums. Parkplätze
+          sind in unmittelbarer Nähe verfügbar.
+        </p>
+      </div>
+    </div>
+  );
 };
+
+export default Map;

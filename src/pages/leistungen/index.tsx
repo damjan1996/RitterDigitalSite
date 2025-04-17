@@ -1,22 +1,23 @@
 // src/pages/leistungen/index.tsx
-import React from 'react';
+import type { NextPage } from 'next';
 import Head from 'next/head';
-import { NextPage } from 'next';
+import React from 'react';
+
 import { LeistungenPage } from './components';
 
 const Leistungen: NextPage = () => {
-    return (
-        <>
-            <Head>
-                <title>Unsere Leistungen | Ritter Digital GmbH</title>
-                <meta
-                    name="description"
-                    content="Entdecken Sie unsere Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz. Ritter Digital GmbH ist Ihr Partner für digitale Transformation."
-                />
-            </Head>
-            <LeistungenPage />
-        </>
-    );
+  return (
+    <>
+      <Head>
+        <title>Unsere Leistungen | Ritter Digital GmbH</title>
+        <meta
+          name="description"
+          content="Entdecken Sie unsere Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz. Ritter Digital GmbH ist Ihr Partner für digitale Transformation."
+        />
+      </Head>
+      <LeistungenPage />
+    </>
+  );
 };
 
 export default Leistungen;

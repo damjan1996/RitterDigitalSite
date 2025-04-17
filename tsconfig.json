@@ -41,7 +41,7 @@
     "declarationMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "allowSyntheticDefaultImports": true
   },
   "include": [
