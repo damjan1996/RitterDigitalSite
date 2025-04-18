@@ -80,6 +80,21 @@ export const Hero: React.FC<HeroProps> = ({
 }) => {
   const [activeService, setActiveService] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  // Get header height for proper spacing
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+    return () => window.removeEventListener('resize', updateHeaderHeight);
+  }, []);
 
   // Automatic service rotation with pause on hover
   useEffect(() => {
@@ -112,9 +127,10 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <section
       className={cn(
-        'relative flex h-screen flex-col justify-center overflow-hidden bg-white',
+        'relative flex min-h-screen flex-col justify-center overflow-hidden bg-white',
         className
       )}
+      style={{ paddingTop: `${headerHeight}px` }}
     >
       {/* Enhanced background with layered elements for depth */}
       <div className="absolute inset-0 h-full w-full">
