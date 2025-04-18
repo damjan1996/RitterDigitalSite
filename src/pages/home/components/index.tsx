@@ -6,7 +6,9 @@ import { Benefits } from './Benefits';
 import { Clients } from './Clients';
 import { Hero } from './Hero';
 import { LatestBlogPosts } from './LatestBlogPosts';
+import { References } from './References';
 import { ServiceTeaser } from './ServiceTeaser';
+import { CTAForm } from './CTAForm';
 
 // Create a component that combines all of these
 export const HomePage: React.FC = () => {
@@ -15,8 +17,10 @@ export const HomePage: React.FC = () => {
       <Hero />
       <ServiceTeaser />
       <Benefits />
+      <References />
       <Clients />
       <LatestBlogPosts />
+      <CTAForm />
     </>
   );
 };

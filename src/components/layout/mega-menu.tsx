@@ -1,8 +1,10 @@
+'use client';
+
 // src/components/layout/mega-menu.tsx
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
 
 import type { MenuItem } from '@/config/menu';
 import { cn } from '@/lib/utils';
@@ -25,15 +27,15 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => 
   return (
     <div
       className={cn(
-        'absolute left-0 right-0 top-full z-30 overflow-hidden border-t border-gray-100 bg-white shadow-lg transition-all duration-300',
+        'absolute left-0 right-0 top-full z-30 w-full overflow-hidden border-t border-gray-100 bg-white shadow-lg transition-all duration-300',
         isOpen ? 'max-h-[500px] opacity-100' : 'pointer-events-none max-h-0 opacity-0'
       )}
     >
       <div className="container mx-auto py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div>
-            <h3 className="mb-4 text-xl font-semibold text-primary">{item.title}</h3>
-            <p className="mb-6 text-secondary">
+            <h3 className="mb-4 text-xl font-semibold text-gray-800">Leistungen</h3>
+            <p className="mb-6 text-gray-600">
               Entdecken Sie unsere innovativen Lösungen für Ihr Unternehmen. Wir bieten
               maßgeschneiderte Services, die genau auf Ihre Anforderungen zugeschnitten sind.
             </p>
@@ -46,12 +48,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => 
                   className="group flex items-start rounded-md p-3 transition-colors hover:bg-gray-50"
                   onClick={onClose}
                 >
-                  <ChevronRight className="mr-2 mt-0.5 h-5 w-5 transform text-accent transition-transform group-hover:translate-x-1" />
+                  <ChevronRight className="mr-2 mt-0.5 h-5 w-5 transform text-orange-500 transition-transform group-hover:translate-x-1" />
                   <div>
-                    <h4 className="font-medium text-primary transition-colors group-hover:text-accent">
+                    <h4 className="font-medium text-gray-800 transition-colors group-hover:text-orange-500">
                       {subItem.title}
                     </h4>
-                    <p className="mt-1 text-sm text-secondary">
+                    <p className="mt-1 text-sm text-gray-600">
                       {getServiceDescription(subItem.title)}
                     </p>
                   </div>
@@ -64,7 +66,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => 
             {item.submenu.slice(0, 4).map(subItem => (
               <div key={subItem.href} className="relative h-40 overflow-hidden rounded-md">
                 <Image
-                  src={getServiceImage(subItem.title)}
+                  src={getServiceImage(subItem.title) || '/placeholder.svg'}
                   alt={subItem.title}
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-105"
@@ -89,13 +91,13 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => 
 const getServiceDescription = (title: string): string => {
   switch (title) {
     case 'Business Intelligence':
-      return 'Datenbasierte Entscheidungsfindung für strategische Vorteile.';
+      return 'Datengestützte Einblicke für fundierte Geschäftsentscheidungen.';
     case 'Data Warehouse':
-      return 'Zentrale Datenverwaltung für effiziente Analysen.';
+      return 'Zentrale Datenverwaltung für effiziente Analysen und Reporting.';
     case 'Softwareentwicklung':
-      return 'Maßgeschneiderte Lösungen für Ihre Geschäftsprozesse.';
+      return 'Maßgeschneiderte Lösungen für Ihre individuellen Geschäftsprozesse.';
     case 'Künstliche Intelligenz':
-      return 'Intelligente Automatisierung und Optimierung.';
+      return 'Intelligente Automatisierung und Optimierung Ihrer Prozesse.';
     default:
       return 'Innovative Lösungen für Ihr Unternehmen.';
   }

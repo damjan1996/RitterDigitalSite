@@ -68,19 +68,51 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    /* Fix: Immer Scrollbar anzeigen, aber während Transitions smooth-scrolling deaktivieren */
+    overflow-y: scroll;
     scroll-behavior: smooth;
+  }
+
+  /* Während Seitenübergängen normales Scrollverhalten erzwingen */
+  html.transitioning {
+    scroll-behavior: auto !important;
   }
 
   body {
     @apply bg-background font-sans text-primary;
     font-feature-settings:
-      'rlig' 1,
-      'calt' 1;
+            'rlig' 1,
+            'calt' 1;
+  }
+
+  /* Fix: Body-Styles während Animation */
+  body.animating {
+    height: 100vh;
+    overflow: hidden;
+    margin-right: 0 !important; /* Verhindert Verschiebung wegen Scrollbar */
   }
 
   /* Fokus-Stile für Barrierefreiheit */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  /* Scrollbar-Styling für einheitliches Erscheinungsbild */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(var(--color-background), 0.8);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(var(--color-secondary), 0.5);
+    border-radius: var(--radius-md);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--color-secondary), 0.7);
   }
 }
 

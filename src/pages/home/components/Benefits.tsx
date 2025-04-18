@@ -1,39 +1,36 @@
-// src/pages/home/components/Benefits.tsx
-import { motion } from 'framer-motion';
-import { CheckCircle, Award, Users, Clock, TrendingUp } from 'lucide-react';
-import React from 'react';
+'use client';
 
-import { SectionTitle } from '@/components/common/section-title';
-import { Card, CardContent } from '@/components/ui/card';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
+import Image from 'next/image';
+import type React from 'react';
+
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
 
-// Farbdefinitionen aus dem Farbschema - konsistent mit anderen Komponenten
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Refined color palette - consistent with other components
 const colors = {
-  primary: '#23282D', // Primarna boja za strukturiranje
-  secondary: '#50697D', // Glavna boja za pozadinske
-  accent: '#FF8A4C', // Akcentna boja za isticanje
-  background: '#F4F5F8', // Osnovna boja za pozadinu
-  secondaryAccent: '#3A4F66', // Sekundarna akcentna boja
+  primary: '#1A2027', // Darker primary for better contrast
+  secondary: '#3D5A73', // Richer secondary color
+  accent: '#FF7A35', // Warmer accent for better visibility
+  background: '#FFFFFF', // White background
+  secondaryAccent: '#2A3F56', // Deeper secondary accent
 };
 
 interface BenefitItem {
   title: string;
-  description: string;
-  icon?: React.ReactNode;
 }
 
 interface BenefitsProps {
   title?: string;
-  subtitle?: string;
+  description?: string;
   benefits?: BenefitItem[];
   className?: string;
 }
 
 export const Benefits: React.FC<BenefitsProps> = ({
-  title = 'Warum Ritter Digital wählen?',
-  subtitle = 'Erfahren Sie, wie wir Ihr Unternehmen mit unseren digitalen Lösungen auf die nächste Stufe bringen',
+  title = 'Warum Unternehmen sich für Ritter Digital entscheiden',
+  description = 'Als Geschäftsführer treffen Sie bessere Entscheidungen. Käufer optimieren den Bestand und automatisieren den Einkauf. Lageristen verbessern die Lieferketten.',
   benefits = [],
   className,
 }) => {
@@ -43,32 +40,16 @@ export const Benefits: React.FC<BenefitsProps> = ({
       ? benefits
       : [
           {
-            title: 'Stručnost u digitalnim procesima',
-            description: 'Optimizujemo vaše poslovne procese za maksimalnu efikasnost i rast',
-            icon: <CheckCircle className="h-8 w-8 text-[#FF8A4C]" />,
+            title: 'Fachkenntnisse in digitalen Prozessen',
           },
           {
-            title: 'Donošenje odluka na osnovu podataka',
-            description:
-              'Pružamo vam pravovremene uvide koji vode ka profitabilnijim poslovnim odlukama',
-            icon: <TrendingUp className="h-8 w-8 text-[#3A4F66]" />,
+            title: 'Angepasste Lösungen',
           },
           {
-            title: 'Prilagođena rešenja',
-            description:
-              'Razvijamo softver koji tačno odgovara vašim jedinstvenim poslovnim potrebama',
-            icon: <Award className="h-8 w-8 text-[#FF8A4C]" />,
+            title: 'Langfristige Partnerschaft',
           },
           {
-            title: 'Dokazano iskustvo',
-            description: '20+ godina iskustva i više od 90 zadovoljnih klijenata širom sveta',
-            icon: <Users className="h-8 w-8 text-[#3A4F66]" />,
-          },
-          {
-            title: 'Dugoročno partnerstvo',
-            description:
-              'Ne nudimo samo rešenja, već i kontinuiranu podršku za održivi rast vašeg poslovanja',
-            icon: <Clock className="h-8 w-8 text-[#FF8A4C]" />,
+            title: 'Entscheidungen auf der Grundlage von Daten treffen',
           },
         ];
 
@@ -85,11 +66,11 @@ export const Benefits: React.FC<BenefitsProps> = ({
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
+      transition: { duration: 0.4, ease: 'easeOut' },
     },
   };
 
@@ -98,71 +79,183 @@ export const Benefits: React.FC<BenefitsProps> = ({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.7, ease: 'easeOut' },
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
+
+  // New hover variants for benefit items
+  const benefitItemVariants = {
+    initial: { scale: 1, x: 0 },
+    hover: {
+      scale: 1.02,
+      x: 5,
+      transition: { duration: 0.2, ease: 'easeInOut' },
+    },
+  };
+
+  // Pulsing animation for check icons
+  const checkIconVariants = {
+    initial: { scale: 1 },
+    animate: {
+      scale: [1, 1.15, 1],
+      transition: {
+        duration: 1.5,
+        repeat: Number.POSITIVE_INFINITY,
+        repeatType: 'reverse' as const,
+        ease: 'easeInOut',
+      },
+    },
+  };
+
+  // Image hover effect
+  const imageVariants = {
+    initial: { filter: 'brightness(1)', scale: 1 },
+    hover: {
+      filter: 'brightness(1.1)',
+      scale: 1.03,
+      transition: { duration: 0.3 },
+    },
+  };
+
+  // Background gradient animation
+  const sectionVariants = {
+    initial: {
+      backgroundPosition: '0% 0%',
+    },
+    hover: {
+      backgroundPosition: '100% 100%',
+      transition: { duration: 3, ease: 'linear' },
     },
   };
 
   return (
-    <section className={cn('bg-white py-16 md:py-24', className)}>
-      <Container>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={titleVariants}
-        >
-          <SectionTitle title={title} subtitle={subtitle} align="center" className="mb-16" />
-        </motion.div>
+    <motion.section
+      className={cn('relative overflow-hidden py-16 md:py-24', className)}
+      style={{
+        backgroundColor: colors.background,
+        background: `linear-gradient(120deg, ${colors.background} 0%, #f8f9fa 50%, ${colors.background} 100%)`,
+        backgroundSize: '200% 200%',
+      }}
+      initial="initial"
+      whileHover="hover"
+      variants={sectionVariants}
+    >
+      <Container className="relative z-10 max-w-6xl">
+        <div className="flex flex-col items-start gap-16 lg:flex-row lg:gap-24">
+          {/* Left side: Content */}
+          <motion.div
+            className="w-full lg:w-1/2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.h2
+              className="mb-6 text-3xl font-medium text-[#1A2027] md:text-4xl"
+              variants={titleVariants}
+            >
+              {title}
+            </motion.h2>
 
-        <motion.div
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={containerVariants}
-        >
-          {displayBenefits.map((benefit, index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <Card className="h-full overflow-hidden border border-[#F4F5F8] shadow-sm transition-all duration-300 hover:shadow-md">
-                {/* Subtle accent line at the top with alternating colors */}
-                <div className={`h-1 ${index % 2 === 0 ? 'bg-[#FF8A4C]' : 'bg-[#3A4F66]'}`} />
+            <motion.p className="mb-10 text-base text-[#3D5A73] md:text-lg" variants={itemVariants}>
+              {description}
+            </motion.p>
 
-                <CardContent className="pt-6">
+            <motion.div
+              className="space-y-4"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              {displayBenefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-start gap-3 rounded-lg p-2 transition-colors"
+                  variants={itemVariants}
+                  initial="initial"
+                  whileHover="hover"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={index}
+                >
                   <motion.div
-                    className="flex flex-col items-center text-center"
-                    whileHover={{ y: -5, transition: { duration: 0.3 } }}
+                    className="mt-0.5 flex h-5 w-5 items-center justify-center text-[#FF7A35]"
+                    variants={checkIconVariants}
+                    initial="initial"
+                    animate="animate"
                   >
-                    <motion.div
-                      className={`mb-4 rounded-full p-3 ${index % 2 === 0 ? 'bg-[#FF8A4C]/10' : 'bg-[#3A4F66]/10'}`}
-                      whileHover={{
-                        scale: 1.1,
-                        backgroundColor:
-                          index % 2 === 0 ? 'rgba(255, 138, 76, 0.2)' : 'rgba(58, 79, 102, 0.2)',
-                        transition: { duration: 0.3 },
-                      }}
-                    >
-                      {benefit.icon || <CheckCircle className="h-8 w-8 text-[#FF8A4C]" />}
-                    </motion.div>
-                    <motion.h3
-                      className="mb-3 text-xl font-semibold text-[#23282D]"
-                      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                    >
-                      {benefit.title}
-                    </motion.h3>
-                    <p className="text-[#50697D]">{benefit.description}</p>
+                    <Check className="h-5 w-5" />
                   </motion.div>
-                </CardContent>
-
-                {/* Subtle accent in the corner */}
-                <div
-                  className={`absolute bottom-0 right-0 h-16 w-16 rounded-tl-full opacity-5 ${index % 2 === 0 ? 'bg-[#FF8A4C]' : 'bg-[#3A4F66]'}`}
-                ></div>
-              </Card>
+                  <motion.p
+                    className="text-base text-[#3D5A73] transition-colors"
+                    variants={benefitItemVariants}
+                  >
+                    {benefit.title}
+                  </motion.p>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
-        </motion.div>
+          </motion.div>
+
+          {/* Right side: Illustration */}
+          <motion.div
+            className="relative w-full overflow-hidden rounded-xl lg:w-1/2"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <motion.div
+              className="relative"
+              variants={imageVariants}
+              initial="initial"
+              whileHover="hover"
+            >
+              <Image
+                src="/circuit-illustration.png"
+                alt="Digital Circuit Illustration"
+                width={600}
+                height={500}
+                className="w-full opacity-20 transition-all duration-300"
+              />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-transparent to-[#FF7A35]/10"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.div>
+          </motion.div>
+        </div>
       </Container>
-    </section>
+
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: 'reverse',
+        }}
+      />
+      <motion.div
+        className="absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5"
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.4, 0.2],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: 'reverse',
+          delay: 1,
+        }}
+      />
+    </motion.section>
   );
 };
 

@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/layout/mobile-navigation.tsx
 import { ChevronDown, Mail, Menu, Phone, X } from 'lucide-react';
 import Link from 'next/link';
@@ -5,8 +7,45 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { mainMenuItems } from '@/config/menu';
 import { cn } from '@/lib/utils';
+
+// Definiere die Menüstruktur direkt in der Komponente
+const mainMenuItems = [
+  {
+    title: 'Startseite',
+    href: '/',
+  },
+  {
+    title: 'Leistungen',
+    href: '/leistungen',
+    submenu: [
+      {
+        title: 'Business Intelligence',
+        href: '/leistungen/business-intelligence',
+      },
+      {
+        title: 'Data Warehouse',
+        href: '/leistungen/data-warehouse',
+      },
+      {
+        title: 'Softwareentwicklung',
+        href: '/leistungen/softwareentwicklung',
+      },
+      {
+        title: 'Künstliche Intelligenz',
+        href: '/leistungen/kuenstliche-intelligenz',
+      },
+    ],
+  },
+  {
+    title: 'Über Uns',
+    href: '/ueber-uns',
+  },
+  {
+    title: 'Blog',
+    href: '/blog',
+  },
+];
 
 interface MobileNavigationProps {
   isOpen: boolean;
@@ -65,7 +104,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
             toggleMenu();
           }
         }}
-        aria-label="Close menu overlay"
+        aria-label="Menü-Overlay schließen"
       />
 
       {/* Mobile Menu Panel */}

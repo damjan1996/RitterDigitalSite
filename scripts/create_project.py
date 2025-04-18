@@ -16,7 +16,7 @@ directory_structure = {
         "tailwind.config.js",
         "tsconfig.json",
         "README.md",
-        ".env.local",
+        ".env",
         ".gitignore",
         "next-env.d.ts",
         "postcss.config.js",
@@ -418,7 +418,7 @@ const nextConfig = {
 module.exports = nextConfig;
 """
 
-# Beispiel für .env.local Inhalt
+# Beispiel für .env Inhalt
 env_local_content = """# Supabase Konfiguration
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
@@ -463,7 +463,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env.local
+.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -1138,7 +1138,7 @@ def create_project_structure():
                     f.write(tailwind_config_content)
                 elif file == 'next.config.js':
                     f.write(next_config_content)
-                elif file == '.env.local':
+                elif file == '.env':
                     f.write(env_local_content)
                 elif file == '.gitignore':
                     f.write(gitignore_content)

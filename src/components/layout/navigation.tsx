@@ -1,13 +1,53 @@
+'use client';
+
 // src/components/layout/navigation.tsx
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect, useRef } from 'react';
+import type React from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-import { mainMenuItems } from '@/config/menu';
 import { cn } from '@/lib/utils';
 
 import { MegaMenu } from './mega-menu';
+
+// Definiere die Menüstruktur direkt in der Komponente
+const mainMenuItems = [
+  {
+    title: 'Startseite',
+    href: '/',
+  },
+  {
+    title: 'Leistungen',
+    href: '/leistungen',
+    submenu: [
+      {
+        title: 'Business Intelligence',
+        href: '/leistungen/business-intelligence',
+      },
+      {
+        title: 'Data Warehouse',
+        href: '/leistungen/data-warehouse',
+      },
+      {
+        title: 'Softwareentwicklung',
+        href: '/leistungen/softwareentwicklung',
+      },
+      {
+        title: 'Künstliche Intelligenz',
+        href: '/leistungen/kuenstliche-intelligenz',
+      },
+    ],
+  },
+  {
+    title: 'Über Uns',
+    href: '/ueber-uns',
+  },
+  {
+    title: 'Blog',
+    href: '/blog',
+  },
+];
 
 export const Navigation: React.FC = () => {
   const router = useRouter();

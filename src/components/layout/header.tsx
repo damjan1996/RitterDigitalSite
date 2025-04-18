@@ -1,11 +1,23 @@
-// src/components/layout/header.tsx
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+'use client';
 
+import { motion } from 'framer-motion';
+import { Menu, Phone, X } from 'lucide-react';
+import Link from 'next/link';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
 
-import { MobileNavigation } from './mobile-navigation';
+// Refined color palette - consistent with other components
+const colors = {
+  primary: '#1A2027', // Darker primary for better contrast
+  secondary: '#3D5A73', // Richer secondary color
+  accent: '#FF7A35', // Warmer accent for better visibility
+  background: '#FFFFFF', // White background
+  secondaryAccent: '#2A3F56', // Deeper secondary accent
+};
 
 export interface HeaderProps {
   transparent?: boolean;
@@ -15,6 +27,7 @@ export interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ transparent = false, className }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('');
 
   // Überwache das Scrollen und füge Schatten hinzu, wenn gescrollt wird
   useEffect(() => {
@@ -38,194 +51,188 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
     };
   }, [isMenuOpen]);
 
-  // Animation variants
-  const headerVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
-    },
-  };
+  // Setze den aktiven Link basierend auf dem aktuellen Pfad
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/') {
+      setActiveLink('Startseite');
+    } else if (path.includes('ueber-uns')) {
+      setActiveLink('Über Uns');
+    } else if (path.includes('leistungen')) {
+      setActiveLink('Leistungen');
+    } else if (path.includes('blog')) {
+      setActiveLink('Blog');
+    } else if (path.includes('kontakt')) {
+      setActiveLink('Kontakt');
+    }
+  }, []);
 
-  const logoVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.2,
-        ease: 'easeOut',
-      },
-    },
-  };
-
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        delay: 0.3 + i * 0.1,
-        ease: 'easeOut',
-      },
-    }),
-  };
-
-  const contactVariants = {
-    hidden: { opacity: 0, x: 10 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.6,
-        ease: 'easeOut',
-      },
-    },
-  };
+  const navItems = [
+    { name: 'Leistungen', path: '/leistungen' },
+    { name: 'Über Uns', path: '/ueber-uns' },
+    { name: 'Blog', path: '/blog' },
+  ];
 
   return (
-    <motion.header
+    <header
       className={cn(
         'fixed left-0 right-0 top-0 z-40 w-full transition-all duration-300',
         transparent && !isScrolled ? 'bg-transparent' : 'bg-white',
-        isScrolled && 'border-b border-gray-100 shadow-none',
+        isScrolled && 'border-b border-gray-100 shadow-sm',
         isMenuOpen && 'bg-white',
         className
       )}
-      initial="hidden"
-      animate="visible"
-      variants={headerVariants}
     >
-      <div className="container mx-auto py-3">
+      <Container className="py-4">
         <div className="flex items-center justify-between">
-          {/* Logo with animation */}
-          <motion.div variants={logoVariants}>
-            <Link href="/" className="relative z-50 flex items-center gap-2">
-              <motion.div
-                className="flex h-7 w-7 items-center justify-center bg-black text-xs font-normal text-white"
-                whileHover={{
-                  scale: 1.1,
-                  transition: { duration: 0.2 },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                R²
+          {/* Logo */}
+          <div>
+            <Link href="/" className="relative z-50 flex items-center">
+              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <img
+                  src="/images/logos/rd_logo.png"
+                  alt="Ritter Digital Logo"
+                  className="h-12 w-auto"
+                />
               </motion.div>
-              <span
-                className={cn(
-                  'text-base font-normal tracking-tight transition-colors duration-300',
-                  transparent && !isScrolled && !isMenuOpen ? 'text-white' : 'text-black'
-                )}
-              >
-                Ritter Digital
-              </span>
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Main Navigation - Centered with staggered animation */}
-          <div className="hidden justify-center lg:flex">
+          {/* Main Navigation */}
+          <div className="hidden lg:block">
             <nav>
-              <ul className="flex space-x-12">
-                {['Home', 'About', 'Services'].map((item, index) => (
-                  <motion.li key={item} custom={index} variants={navItemVariants} className="group">
+              <ul className="flex space-x-10">
+                {navItems.map(item => (
+                  <li key={item.name} className="group">
                     <Link
-                      href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                      href={item.path}
                       className={cn(
-                        'relative text-sm font-normal transition-colors',
+                        'relative py-2 text-sm font-medium transition-colors duration-200',
                         transparent && !isScrolled
                           ? 'text-white hover:text-gray-200'
-                          : 'text-gray-500 hover:text-black'
+                          : 'text-[#3D5A73] hover:text-[#1A2027]'
                       )}
+                      onMouseEnter={() => setActiveLink(item.name)}
+                      onMouseLeave={() => {
+                        const path = window.location.pathname;
+                        if (path.includes('ueber-uns') && item.name === 'Über Uns') return;
+                        if (path.includes('leistungen') && item.name === 'Leistungen') return;
+                        if (path.includes('blog') && item.name === 'Blog') return;
+                        if (path.includes('kontakt') && item.name === 'Kontakt') return;
+                        setActiveLink('');
+                      }}
                     >
                       <span className="relative inline-block">
-                        {item}
-                        <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-current transition-all duration-300 group-hover:w-full"></span>
+                        {item.name}
+                        <span
+                          className={cn(
+                            'absolute -bottom-1 left-0 h-[1px] transition-all duration-200',
+                            activeLink === item.name ? 'w-full' : 'w-0 group-hover:w-full'
+                          )}
+                          style={{
+                            backgroundColor: transparent && !isScrolled ? 'white' : colors.accent,
+                          }}
+                        />
                       </span>
                     </Link>
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </nav>
           </div>
 
-          {/* Contact Link and Phone Number - Right with animation */}
-          <motion.div className="hidden items-center space-x-6 lg:flex" variants={contactVariants}>
+          {/* Contact Link and Phone Number */}
+          <div className="hidden items-center space-x-6 lg:flex">
             {/* Phone Number */}
-            <motion.a
+            <a
               href="tel:+4912345678"
               className={cn(
-                'flex items-center gap-2 text-sm font-normal transition-colors',
+                'flex items-center gap-2 text-sm font-medium transition-colors duration-200',
                 transparent && !isScrolled
                   ? 'text-white hover:text-gray-200'
-                  : 'text-gray-500 hover:text-black'
+                  : 'text-[#3D5A73] hover:text-[#1A2027]'
               )}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
+              <Phone className="h-4 w-4" />
               +49 123 456 78
-            </motion.a>
+            </a>
 
-            {/* Contact Button with fixed hover */}
-            <Link href="/kontakt" className="group relative">
-              <motion.div
+            {/* Contact Button */}
+            <Link href="/kontakt">
+              <Button
+                variant="outline"
                 className={cn(
-                  'relative z-10 px-4 py-2 text-sm font-normal transition-colors',
+                  'rounded-sm border px-5 py-2 text-sm transition-all duration-300',
                   transparent && !isScrolled
-                    ? 'text-white group-hover:text-gray-200'
-                    : 'text-gray-500 group-hover:text-black'
+                    ? 'border-white text-white hover:bg-white hover:text-[#1A2027]'
+                    : 'border-[#1A2027] text-[#1A2027] hover:bg-[#1A2027] hover:text-white'
                 )}
-                whileHover={{
-                  scale: 1.05,
-                  transition: { duration: 0.2 },
-                }}
-                whileTap={{ scale: 0.98 }}
               >
                 Kontakt
-              </motion.div>
-              <span
-                className={cn(
-                  'absolute inset-0 border border-current opacity-0 transition-all duration-300 group-hover:opacity-100',
-                  transparent && !isScrolled ? 'border-white' : 'border-black'
-                )}
-              ></span>
+              </Button>
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Mobile Menu Toggle with animation */}
-          <motion.div
-            className="lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-          >
-            <MobileNavigation
-              isOpen={isMenuOpen}
-              setIsOpen={setIsMenuOpen}
-              isDark={transparent && !isScrolled}
-            />
-          </motion.div>
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={cn(
+                'flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200',
+                transparent && !isScrolled
+                  ? 'text-white hover:text-gray-200'
+                  : 'text-[#1A2027] hover:text-[#3D5A73]'
+              )}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
-      </div>
-    </motion.header>
+      </Container>
+
+      {/* Mobile Menu */}
+      <motion.div
+        className={cn(
+          'fixed inset-0 z-30 flex flex-col bg-white p-6 pt-24',
+          isMenuOpen ? 'block' : 'hidden'
+        )}
+        initial={{ opacity: 0, y: -20 }}
+        animate={isMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <nav className="flex flex-col space-y-6">
+          {navItems.map(item => (
+            <Link
+              key={item.name}
+              href={item.path}
+              className="text-lg font-normal text-[#1A2027] transition-colors duration-200 hover:text-[#FF7A35]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <Link
+            href="/kontakt"
+            className="text-lg font-normal text-[#1A2027] transition-colors duration-200 hover:text-[#FF7A35]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Kontakt
+          </Link>
+        </nav>
+
+        <div className="mt-auto">
+          <a
+            href="tel:+4912345678"
+            className="flex items-center gap-2 text-[#3D5A73] transition-colors duration-200 hover:text-[#1A2027]"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <Phone className="h-4 w-4" />
+            +49 123 456 78
+          </a>
+        </div>
+      </motion.div>
+    </header>
   );
 };
 
