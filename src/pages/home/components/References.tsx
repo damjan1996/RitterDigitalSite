@@ -1,63 +1,63 @@
-"use client"
+'use client';
 
-import { motion } from "framer-motion"
-import Image from "next/image"
-import type React from "react"
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import type React from 'react';
 
-import { Container } from "@/components/ui/container"
-import { cn } from "@/lib/utils"
+import { Container } from '@/components/ui/container';
+import { cn } from '@/lib/utils';
 
 // Refined color palette - consistent with other components
 const colors = {
-  primary: "#1A2027", // Darker primary for better contrast
-  secondary: "#3D5A73", // Richer secondary color
-  accent: "#FF7A35", // Warmer accent for better visibility
-  background: "#FFFFFF", // White background
-  secondaryAccent: "#2A3F56", // Deeper secondary accent
-}
+  primary: '#1A2027', // Darker primary for better contrast
+  secondary: '#3D5A73', // Richer secondary color
+  accent: '#FF7A35', // Warmer accent for better visibility
+  background: '#FFFFFF', // White background
+  secondaryAccent: '#2A3F56', // Deeper secondary accent
+};
 
 interface Reference {
-  name: string
-  logo: string
+  name: string;
+  logo: string;
 }
 
 interface CaseStudy {
-  title: string
-  subtitle: string
-  description: string
-  image: string
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
 }
 
 interface ReferencesProps {
-  title?: string
-  references?: Reference[]
-  caseStudy?: CaseStudy
-  className?: string
+  title?: string;
+  references?: Reference[];
+  caseStudy?: CaseStudy;
+  className?: string;
 }
 
 export const References: React.FC<ReferencesProps> = ({
-                                                        title = "Vertraut von",
-                                                        references = [],
-                                                        caseStudy = {
-                                                          title: "Erfolgreiche Projekte sprechen für uns",
-                                                          subtitle: "VERTRAUEN WIRD DURCH ERGEBNISSE AUFGEBAUT",
-                                                          description:
-                                                            "Die digitale Transformation der Rudolf Flume Technik GmbH zeigt, wie wir Unternehmen zukunftsfähig machen. Durch maßgeschneiderte JTL-Lösungen und Business Intelligence Tools haben wir die Prozesse optimiert. Mit gesteigerter Effizienz konnte unser Kunde seine Marktposition ausbauen.",
-                                                          image: "/meeting-image.jpg",
-                                                        },
-                                                        className,
-                                                      }) => {
+  title = 'Vertraut von',
+  references = [],
+  caseStudy = {
+    title: 'Erfolgreiche Projekte sprechen für uns',
+    subtitle: 'VERTRAUEN WIRD DURCH ERGEBNISSE AUFGEBAUT',
+    description:
+      'Die digitale Transformation der Rudolf Flume Technik GmbH zeigt, wie wir Unternehmen zukunftsfähig machen. Durch maßgeschneiderte JTL-Lösungen und Business Intelligence Tools haben wir die Prozesse optimiert. Mit gesteigerter Effizienz konnte unser Kunde seine Marktposition ausbauen.',
+    image: '/meeting-image.jpg',
+  },
+  className,
+}) => {
   // Default-References verwenden, wenn keine angegeben wurden
   const displayReferences =
     references.length > 0
       ? references
       : [
-        { name: "GIS", logo: "/logos/gis-logo.png" },
-        { name: "LIN-IT", logo: "/logos/lin-it-logo.png" },
-        { name: "HOMA", logo: "/logos/homa-logo.png" },
-        { name: "RITTER", logo: "/logos/ritter-logo.png" },
-        { name: "FLUME TECHNIK", logo: "/logos/flume-technik-logo.png" },
-      ]
+          { name: 'GIS', logo: '/logos/gis-logo.png' },
+          { name: 'LIN-IT', logo: '/logos/lin-it-logo.png' },
+          { name: 'HOMA', logo: '/logos/homa-logo.png' },
+          { name: 'RITTER', logo: '/logos/ritter-logo.png' },
+          { name: 'FLUME TECHNIK', logo: '/logos/flume-technik-logo.png' },
+        ];
 
   // Animation variants
   const containerVariants = {
@@ -69,29 +69,29 @@ export const References: React.FC<ReferencesProps> = ({
         delayChildren: 0.3,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
+      transition: { duration: 0.4, ease: 'easeOut' },
     },
-  }
+  };
 
   const titleVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
-  }
+  };
 
   return (
     <section
-      className={cn("relative overflow-hidden py-16 md:py-24", className)}
+      className={cn('relative overflow-hidden py-16 md:py-24', className)}
       style={{ backgroundColor: colors.background }}
     >
       <Container className="relative z-10 max-w-6xl">
@@ -102,10 +102,7 @@ export const References: React.FC<ReferencesProps> = ({
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.h3
-            className="mb-12 text-xl font-normal text-[#6B7280]"
-            variants={titleVariants}
-          >
+          <motion.h3 className="mb-12 text-xl font-normal text-[#6B7280]" variants={titleVariants}>
             {title}
           </motion.h3>
 
@@ -123,9 +120,7 @@ export const References: React.FC<ReferencesProps> = ({
                 variants={itemVariants}
               >
                 {/* Placeholder for logo - in a real implementation, you would use actual logo images */}
-                <div className="h-8 w-32 text-center text-[#6B7280]">
-                  {reference.name}
-                </div>
+                <div className="h-8 w-32 text-center text-[#6B7280]">{reference.name}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -192,7 +187,7 @@ export const References: React.FC<ReferencesProps> = ({
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default References
+export default References;
