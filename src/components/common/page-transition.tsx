@@ -57,7 +57,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
 
   // Notfall-Funktion: Stellt sicher, dass die Animation nicht stecken bleibt
   const forceCompleteTransition = useCallback(() => {
-    console.log('Safety: Force completing transition');
+    // console.log entfernt
     setShowLogo(false);
     setShowContent(true);
     setIsAnimating(false);
@@ -98,25 +98,25 @@ const PageTransition = ({ children }: PageTransitionProps) => {
     setShowContent(false);
     setShowLogo(true);
 
-    // Sicherheits-Timeout: Transition nach max. 3 Sekunden erzwingen
+    // Sicherheits-Timeout reduziert: Transition nach max. 2 Sekunden erzwingen
     safetyTimeoutRef.current = setTimeout(() => {
       forceCompleteTransition();
-    }, 3000);
+    }, 2000);
   }, [setIsTransitioning, clearAllTimers, forceCompleteTransition]);
 
   const finishTransition = useCallback(() => {
     setShowContent(true);
 
     // Kleinere Verzögerung bevor Logo ausgeblendet wird
-    setTimeout(() => {
+    logoTimerRef.current = setTimeout(() => {
       setShowLogo(false);
 
       // Interaktionen erst nach Logo-Animation wieder aktivieren
-      setTimeout(() => {
+      contentTimerRef.current = setTimeout(() => {
         setIsAnimating(false);
         setIsTransitioning(false);
-      }, 300);
-    }, 100);
+      }, 200); // Reduziert von 300ms auf 200ms
+    }, 50); // Reduziert von 100ms auf 50ms
 
     resetScroll();
 
@@ -129,8 +129,18 @@ const PageTransition = ({ children }: PageTransitionProps) => {
 
   // Erster Seitenaufruf
   useEffect(() => {
+    // Sicherstellen, dass dieser Code nur im Browser ausgeführt wird
+    if (typeof window === 'undefined') return;
+
     // Warte auf Router-Bereitschaft
     if (!router.isReady) return;
+
+    // Sicherstellen, dass der Übergang nicht zu früh erzwungen wird
+    const initialSafety = setTimeout(() => {
+      if (!isInitializedRef.current) {
+        forceCompleteTransition();
+      }
+    }, 2500);
 
     if (!isInitializedRef.current) {
       isInitializedRef.current = true;
@@ -139,16 +149,24 @@ const PageTransition = ({ children }: PageTransitionProps) => {
       // Übergang starten
       startTransition();
 
-      // Nach 700ms Inhalt einblenden
+      // Nach 500ms Inhalt einblenden (reduziert von 700ms)
       contentTimerRef.current = setTimeout(() => {
         finishTransition();
-      }, 700);
+      }, 500);
     }
 
     return () => {
+      clearTimeout(initialSafety);
       clearAllTimers();
     };
-  }, [router.isReady, router.asPath, startTransition, finishTransition, clearAllTimers]);
+  }, [
+    router.isReady,
+    router.asPath,
+    startTransition,
+    finishTransition,
+    clearAllTimers,
+    forceCompleteTransition,
+  ]);
 
   // Router-Event-Handler
   useEffect(() => {
@@ -161,20 +179,26 @@ const PageTransition = ({ children }: PageTransitionProps) => {
       startTransition();
     };
 
-    const handleRouteChangeComplete = (url: string) => {
+    const handleRouteChangeComplete = (url: string, { shallow }: { shallow: boolean }) => {
       // Aktualisiere aktuellen Pfad
       setCurrentPath(url);
+
+      // Bei einem Shallow-Update direkt finishen ohne Verzögerung
+      if (shallow) {
+        finishTransition();
+        return;
+      }
 
       // Starte Animation-Sequence nach kurzem Delay
       // damit die Route vollständig geladen ist
       setTimeout(() => {
         finishTransition();
-      }, 400);
+      }, 300); // Reduziert von 400ms auf 300ms
     };
 
     // Fallback für Fehler beim Routenwechsel
-    const handleRouteChangeError = () => {
-      console.error('Route change error - forcing transition completion');
+    const handleRouteChangeError = (_: string, { shallow }: { shallow: boolean }) => {
+      // console.error entfernt
       forceCompleteTransition();
     };
 
@@ -201,6 +225,8 @@ const PageTransition = ({ children }: PageTransitionProps) => {
 
   // Body und HTML-Klassen während Animation setzen
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+
     if (isAnimating) {
       document.body.classList.add('animating');
       document.documentElement.classList.add('transitioning');
@@ -217,7 +243,9 @@ const PageTransition = ({ children }: PageTransitionProps) => {
 
   // Scroll-Position während Animation blockieren
   useEffect(() => {
-    const handleTransitionScrolling = (e: Event) => {
+    if (typeof window === 'undefined') return;
+
+    const handleTransitionScrolling = (_: Event) => {
       if (isAnimating) {
         window.scrollTo(0, 0);
       }
