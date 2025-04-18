@@ -3,7 +3,7 @@
 import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useScrollContext } from './scroll-context';
 
@@ -41,189 +41,83 @@ const Logo = () => (
 
 const PageTransition = ({ children }: PageTransitionProps) => {
   const router = useRouter();
-  const [showLogo, setShowLogo] = useState(true);
-  const [showContent, setShowContent] = useState(false);
+  const [showLogo, setShowLogo] = useState(false); // Start with logo hidden
+  const [showContent, setShowContent] = useState(true); // Start with content shown
   const { setIsTransitioning } = useScrollContext();
-  const [isAnimating, setIsAnimating] = useState(true);
-  const [currentPath, setCurrentPath] = useState('');
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // Refs für Timer und Sicherheits-Timeout
-  const logoTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const contentTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const safetyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Initialisierungs-Flag
-  const isInitializedRef = useRef(false);
-
-  // Notfall-Funktion: Stellt sicher, dass die Animation nicht stecken bleibt
-  const forceCompleteTransition = useCallback(() => {
-    // console.log entfernt
-    setShowLogo(false);
-    setShowContent(true);
-    setIsAnimating(false);
-    setIsTransitioning(false);
-  }, [setIsTransitioning]);
-
-  const resetScroll = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'instant',
-    });
-  }, []);
-
-  const clearAllTimers = useCallback(() => {
-    if (logoTimerRef.current) {
-      clearTimeout(logoTimerRef.current);
-      logoTimerRef.current = null;
-    }
-
-    if (contentTimerRef.current) {
-      clearTimeout(contentTimerRef.current);
-      contentTimerRef.current = null;
-    }
-
-    if (safetyTimeoutRef.current) {
-      clearTimeout(safetyTimeoutRef.current);
-      safetyTimeoutRef.current = null;
-    }
-  }, []);
-
-  const startTransition = useCallback(() => {
-    // Alle Timer stoppen
-    clearAllTimers();
-
-    // Zustand für Animation setzen
-    setIsAnimating(true);
-    setIsTransitioning(true);
-    setShowContent(false);
-    setShowLogo(true);
-
-    // Sicherheits-Timeout reduziert: Transition nach max. 2 Sekunden erzwingen
-    safetyTimeoutRef.current = setTimeout(() => {
-      forceCompleteTransition();
-    }, 2000);
-  }, [setIsTransitioning, clearAllTimers, forceCompleteTransition]);
-
-  const finishTransition = useCallback(() => {
-    setShowContent(true);
-
-    // Kleinere Verzögerung bevor Logo ausgeblendet wird
-    logoTimerRef.current = setTimeout(() => {
-      setShowLogo(false);
-
-      // Interaktionen erst nach Logo-Animation wieder aktivieren
-      contentTimerRef.current = setTimeout(() => {
-        setIsAnimating(false);
-        setIsTransitioning(false);
-      }, 200); // Reduziert von 300ms auf 200ms
-    }, 50); // Reduziert von 100ms auf 50ms
-
-    resetScroll();
-
-    // Sicherheits-Timeout löschen, da Transition regulär beendet wurde
-    if (safetyTimeoutRef.current) {
-      clearTimeout(safetyTimeoutRef.current);
-      safetyTimeoutRef.current = null;
-    }
-  }, [setIsTransitioning, resetScroll]);
-
-  // Erster Seitenaufruf
+  // Vereinfachte Erstinitialisierung - wichtig für Deployment-Stabilität
   useEffect(() => {
-    // Sicherstellen, dass dieser Code nur im Browser ausgeführt wird
     if (typeof window === 'undefined') return;
 
-    // Warte auf Router-Bereitschaft
-    if (!router.isReady) return;
+    // Initial Logo kurz anzeigen, dann Content direkt einblenden
+    setShowLogo(true);
+    setIsAnimating(true);
+    setIsTransitioning(true);
 
-    // Sicherstellen, dass der Übergang nicht zu früh erzwungen wird
-    const initialSafety = setTimeout(() => {
-      if (!isInitializedRef.current) {
-        forceCompleteTransition();
-      }
-    }, 2500);
+    // Sicherstellen, dass die Animation nicht stecken bleibt
+    const initialSafetyTimeout = setTimeout(() => {
+      setShowLogo(false);
+      setShowContent(true);
+      setIsAnimating(false);
+      setIsTransitioning(false);
+    }, 1000); // Nach 1 Sekunde immer anzeigen, egal was passiert
 
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-      setCurrentPath(router.asPath);
-
-      // Übergang starten
-      startTransition();
-
-      // Nach 500ms Inhalt einblenden (reduziert von 700ms)
-      contentTimerRef.current = setTimeout(() => {
-        finishTransition();
-      }, 500);
-    }
+    // Nach kurzer Zeit standardmäßig einblenden
+    const normalTimeout = setTimeout(() => {
+      setShowLogo(false);
+      setShowContent(true);
+      setIsAnimating(false);
+      setIsTransitioning(false);
+    }, 800);
 
     return () => {
-      clearTimeout(initialSafety);
-      clearAllTimers();
+      clearTimeout(initialSafetyTimeout);
+      clearTimeout(normalTimeout);
     };
-  }, [
-    router.isReady,
-    router.asPath,
-    startTransition,
-    finishTransition,
-    clearAllTimers,
-    forceCompleteTransition,
-  ]);
+  }, [setIsTransitioning]);
 
-  // Router-Event-Handler
+  // Vereinfachte Router-Events - nur Änderung erkennen, keine komplexen Animationen
   useEffect(() => {
-    if (!router.isReady || !isInitializedRef.current) return;
+    if (typeof window === 'undefined' || !router.isReady) return;
 
-    const handleRouteChangeStart = (url: string) => {
-      // Prüfe auf echten Routenwechsel (nicht nur Hash/Anker)
-      if (url.split('#')[0] === currentPath.split('#')[0]) return;
+    const handleRouteChange = () => {
+      // Beim Routenwechsel kurz Logo anzeigen
+      setShowLogo(true);
+      setShowContent(false);
+      setIsAnimating(true);
+      setIsTransitioning(true);
 
-      startTransition();
-    };
-
-    const handleRouteChangeComplete = (url: string, { shallow }: { shallow: boolean }) => {
-      // Aktualisiere aktuellen Pfad
-      setCurrentPath(url);
-
-      // Bei einem Shallow-Update direkt finishen ohne Verzögerung
-      if (shallow) {
-        finishTransition();
-        return;
-      }
-
-      // Starte Animation-Sequence nach kurzem Delay
-      // damit die Route vollständig geladen ist
+      // Nach kurzer Zeit immer einblenden
       setTimeout(() => {
-        finishTransition();
-      }, 300); // Reduziert von 400ms auf 300ms
+        setShowLogo(false);
+        setShowContent(true);
+        setIsAnimating(false);
+        setIsTransitioning(false);
+
+        // Scroll zurücksetzen
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 800);
     };
 
-    // Fallback für Fehler beim Routenwechsel
-    const handleRouteChangeError = (_: string, { shallow }: { shallow: boolean }) => {
-      // console.error entfernt
-      forceCompleteTransition();
+    // Sicherstellen, dass bei Fehlern die Seite trotzdem angezeigt wird
+    const handleRouteError = () => {
+      setShowLogo(false);
+      setShowContent(true);
+      setIsAnimating(false);
+      setIsTransitioning(false);
     };
 
-    // Router-Events abonnieren
-    router.events.on('routeChangeStart', handleRouteChangeStart);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-    router.events.on('routeChangeError', handleRouteChangeError);
+    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeError', handleRouteError);
 
     return () => {
-      router.events.off('routeChangeStart', handleRouteChangeStart);
-      router.events.off('routeChangeComplete', handleRouteChangeComplete);
-      router.events.off('routeChangeError', handleRouteChangeError);
-      clearAllTimers();
+      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off('routeChangeError', handleRouteError);
     };
-  }, [
-    router.events,
-    router.isReady,
-    currentPath,
-    startTransition,
-    finishTransition,
-    clearAllTimers,
-    forceCompleteTransition,
-  ]);
+  }, [router.events, router.isReady, setIsTransitioning]);
 
-  // Body und HTML-Klassen während Animation setzen
+  // Body-Klassen für Animation
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -238,23 +132,6 @@ const PageTransition = ({ children }: PageTransitionProps) => {
     return () => {
       document.body.classList.remove('animating');
       document.documentElement.classList.remove('transitioning');
-    };
-  }, [isAnimating]);
-
-  // Scroll-Position während Animation blockieren
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleTransitionScrolling = (_: Event) => {
-      if (isAnimating) {
-        window.scrollTo(0, 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleTransitionScrolling);
-
-    return () => {
-      window.removeEventListener('scroll', handleTransitionScrolling);
     };
   }, [isAnimating]);
 
@@ -276,7 +153,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
             <div className="flex items-center justify-center">
               <Logo />
 
-              {/* Refined subtle glow effect */}
+              {/* Subtle glow effect */}
               <motion.div
                 className="from-[#FF7A35]/3 to-[#3D5A73]/3 absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r blur-2xl"
                 initial={{ scale: 0.6, opacity: 0 }}
