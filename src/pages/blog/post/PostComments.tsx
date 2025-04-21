@@ -1,14 +1,16 @@
-// src/pages/blog/post/PostComments.tsx
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
 import { AlertCircle, MessageSquare, ThumbsUp, User } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormField,
@@ -54,6 +56,27 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [localComments, setLocalComments] = useState<Comment[]>(comments);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: 'easeOut' },
+    },
+  };
 
   const form = useForm<CommentFormValues>({
     resolver: zodResolver(commentSchema),
@@ -103,84 +126,120 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
   // Rekursive Funktion zum Rendern von Kommentaren und deren Antworten
   const renderComment = (comment: Comment, depth = 0) => {
     return (
-      <div
+      <motion.div
         key={comment.id}
         className={cn(
           'border-l-2 py-2 pl-4',
-          comment.isAdmin ? 'border-accent' : 'border-gray-200',
+          comment.isAdmin ? 'border-[#FF7A35]' : 'border-gray-200',
           depth > 0 && 'ml-6'
         )}
+        variants={itemVariants}
+        whileHover={{ x: 3, transition: { duration: 0.2 } }}
       >
         <div className="flex items-start gap-3">
-          <div className="mt-1 rounded-full bg-gray-100 p-2 text-gray-500">
+          <motion.div
+            className={cn(
+              'mt-1 rounded-full p-2',
+              comment.isAdmin ? 'bg-[#FF7A35]/10 text-[#FF7A35]' : 'bg-gray-100 text-gray-500'
+            )}
+            whileHover={{ scale: 1.1 }}
+          >
             <User className="h-5 w-5" />
-          </div>
+          </motion.div>
 
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h4 className={cn('font-medium', comment.isAdmin && 'text-accent')}>
+              <h4 className={cn('font-medium', comment.isAdmin && 'text-[#FF7A35]')}>
                 {comment.name}
                 {comment.isAdmin && (
-                  <span className="ml-2 rounded bg-accent px-2 py-0.5 text-xs text-white">
+                  <span className="ml-2 rounded bg-[#FF7A35] px-2 py-0.5 text-xs text-white">
                     Admin
                   </span>
                 )}
               </h4>
-              <span className="text-sm text-tertiary">•</span>
-              <span className="text-sm text-tertiary">{formatDate(comment.date)}</span>
+              <span className="text-sm text-[#3D5A73]">•</span>
+              <span className="text-sm text-[#3D5A73]">{formatDate(comment.date)}</span>
             </div>
 
-            <div className="mt-1 text-secondary">{comment.comment}</div>
+            <div className="mt-1 text-[#3D5A73]">{comment.comment}</div>
 
             <div className="mt-2 flex items-center gap-4">
-              <button className="flex items-center gap-1 text-xs text-tertiary hover:text-accent">
+              <motion.button
+                className="flex items-center gap-1 text-xs text-[#3D5A73] hover:text-[#FF7A35]"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <ThumbsUp className="h-3 w-3" />
                 <span>Gefällt mir</span>
-              </button>
+              </motion.button>
 
-              <button className="flex items-center gap-1 text-xs text-tertiary hover:text-accent">
+              <motion.button
+                className="flex items-center gap-1 text-xs text-[#3D5A73] hover:text-[#FF7A35]"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <MessageSquare className="h-3 w-3" />
                 <span>Antworten</span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
 
         {/* Rekursiv Antworten rendern */}
         {comment.replies?.map(reply => renderComment(reply, depth + 1))}
-      </div>
+      </motion.div>
     );
   };
 
   return (
-    <div className={className}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
+      <Card className="overflow-hidden border-none shadow-md">
+        <CardHeader className="border-b border-gray-100 bg-[#F8F9FC] pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg font-medium text-[#1A2027]">
             <MessageSquare className="h-5 w-5" />
-            <span>Kommentare ({localComments.length})</span>
+            <span>
+              Kommentare ({localComments.length})<span className="text-[#FF7A35]">.</span>
+            </span>
           </CardTitle>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="p-6">
           {/* Kommentarliste */}
           {localComments.length > 0 ? (
-            <div className="mb-8 space-y-6">
+            <motion.div
+              className="mb-8 space-y-6"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+            >
               {localComments.map(comment => renderComment(comment))}
-            </div>
+            </motion.div>
           ) : (
-            <div className="py-6 text-center text-secondary">
+            <div className="py-6 text-center text-[#3D5A73]">
               <p>Noch keine Kommentare. Hinterlassen Sie den ersten Kommentar!</p>
             </div>
           )}
 
           {/* Kommentarformular */}
           <div className="mt-6 border-t border-gray-100 pt-6">
-            <h3 className="mb-4 text-lg font-semibold">Kommentar schreiben</h3>
+            <h3 className="mb-4 text-lg font-medium text-[#1A2027]">
+              Kommentar schreiben
+              <span className="text-[#FF7A35]">.</span>
+            </h3>
 
             {/* Erfolgsmeldung */}
             {success && (
-              <div className="mb-4 flex items-start gap-2 rounded-md border border-green-200 bg-green-50 p-4 text-green-700">
+              <motion.div
+                className="mb-4 flex items-start gap-2 rounded-md border border-green-200 bg-green-50 p-4 text-green-700"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
                 <div className="mt-0.5">
                   <AlertCircle className="h-5 w-5" />
                 </div>
@@ -188,12 +247,17 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                   <p className="font-medium">Ihr Kommentar wurde erfolgreich abgesendet!</p>
                   <p className="text-sm">Er wird nach Prüfung veröffentlicht.</p>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* Fehlermeldung */}
             {error && (
-              <div className="mb-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-4 text-red-700">
+              <motion.div
+                className="mb-4 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 p-4 text-red-700"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
                 <div className="mt-0.5">
                   <AlertCircle className="h-5 w-5" />
                 </div>
@@ -201,7 +265,7 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                   <p className="font-medium">Fehler</p>
                   <p className="text-sm">{error}</p>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             <Form {...form}>
@@ -212,11 +276,15 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name *</FormLabel>
+                        <FormLabel className="text-[#1A2027]">Name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ihr Name" {...field} />
+                          <Input
+                            placeholder="Ihr Name"
+                            {...field}
+                            className="border-gray-200 focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-[#FF7A35]" />
                       </FormItem>
                     )}
                   />
@@ -226,12 +294,17 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>E-Mail *</FormLabel>
+                        <FormLabel className="text-[#1A2027]">E-Mail *</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="ihre-email@beispiel.de" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="ihre-email@beispiel.de"
+                            {...field}
+                            className="border-gray-200 focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+                          />
                         </FormControl>
-                        <FormMessage />
-                        <p className="mt-1 text-xs text-tertiary">
+                        <FormMessage className="text-[#FF7A35]" />
+                        <p className="mt-1 text-xs text-[#3D5A73]">
                           Ihre E-Mail wird nicht veröffentlicht.
                         </p>
                       </FormItem>
@@ -244,11 +317,16 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                   name="comment"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Kommentar *</FormLabel>
+                      <FormLabel className="text-[#1A2027]">Kommentar *</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Ihr Kommentar..." rows={5} {...field} />
+                        <Textarea
+                          placeholder="Ihr Kommentar..."
+                          rows={5}
+                          {...field}
+                          className="border-gray-200 focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-[#FF7A35]" />
                     </FormItem>
                   )}
                 />
@@ -259,39 +337,51 @@ export const PostComments: React.FC<PostCommentsProps> = ({ comments = [], class
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                       <FormControl>
-                        <Checkbox
+                        <input
+                          type="checkbox"
                           checked={field.value}
                           onChange={e => field.onChange(e.target.checked)}
+                          className="h-4 w-4 rounded border-gray-300 text-[#FF7A35] focus:ring-[#FF7A35]/20"
                         />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel>
+                        <FormLabel className="text-[#3D5A73]">
                           Ich stimme der Verarbeitung meiner Daten gemäß der{' '}
-                          <Link href="/datenschutz" className="text-accent hover:underline">
+                          <Link href="/datenschutz" className="text-[#FF7A35] hover:underline">
                             Datenschutzerklärung
                           </Link>{' '}
                           zu. *
                         </FormLabel>
-                        <FormMessage />
+                        <FormMessage className="text-[#FF7A35]" />
                       </div>
                     </FormItem>
                   )}
                 />
 
-                <Button
-                  type="submit"
-                  variant="default"
-                  disabled={submitting}
-                  className="bg-accent text-white hover:bg-accent/90"
-                >
-                  {submitting ? 'Wird abgesendet...' : 'Kommentar absenden'}
-                </Button>
+                <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                  <Button
+                    type="submit"
+                    variant="default"
+                    disabled={submitting}
+                    className="bg-[#1A2027] text-white hover:bg-[#2A3F56]"
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      {submitting ? 'Wird abgesendet...' : 'Kommentar absenden'}
+                    </span>
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Button>
+                </motion.div>
               </form>
             </Form>
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 

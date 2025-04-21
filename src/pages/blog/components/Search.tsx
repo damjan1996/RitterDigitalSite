@@ -1,14 +1,16 @@
-// src/pages/blog/components/Search.tsx
-import { Search as SearchIcon, X } from 'lucide-react';
-import { useRouter } from 'next/router';
-import React, { useState, useEffect, useCallback } from 'react';
+'use client';
+
+import { motion } from 'framer-motion';
+import { SearchIcon, X } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import type React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-import { debounce } from '@/lib/utils';
+import { cn, debounce } from '@/lib/utils';
 
 interface SearchProps {
-  onSearch: (query: string) => void;
+  onSearch?: (query: string) => void;
   initialQuery?: string;
   placeholder?: string;
   className?: string;
@@ -28,31 +30,44 @@ const debouncedFunction = <T extends (value: string) => void>(
   }, delay) as (value: string) => void;
 };
 
-export const Search: React.FC<SearchProps> = ({
+const Search = ({
   onSearch,
   initialQuery = '',
   placeholder = 'Blog durchsuchen...',
   className,
-}) => {
+}: SearchProps) => {
   const [query, setQuery] = useState(initialQuery);
   const [isFocused, setIsFocused] = useState(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   // Initialisiere den Suchbegriff aus den URL-Parametern
   useEffect(() => {
-    const searchQuery = (router.query.search as string) || '';
+    const searchQuery = searchParams?.get('search') || '';
     if (searchQuery !== query) {
       setQuery(searchQuery);
     }
-  }, [router.query.search, query]);
+  }, [searchParams, query]);
 
   // Debounced Suchfunktion
   const debouncedSearch = useCallback(
     (value: string) => {
-      const debouncedFn = debouncedFunction(onSearch, 300);
-      debouncedFn(value);
+      if (onSearch) {
+        const debouncedFn = debouncedFunction(onSearch, 300);
+        debouncedFn(value);
+      } else {
+        // Standardverhalten: Aktualisiere die URL, wenn keine onSearch-Funktion bereitgestellt wurde
+        const params = new URLSearchParams(searchParams?.toString());
+        if (value) {
+          params.set('search', value);
+        } else {
+          params.delete('search');
+        }
+        router.push(`${pathname}?${params.toString()}`);
+      }
     },
-    [onSearch]
+    [onSearch, pathname, router, searchParams]
   );
 
   // Aktualisiere die Suche bei Änderungen
@@ -65,16 +80,28 @@ export const Search: React.FC<SearchProps> = ({
   // Zurücksetzen der Suche
   const handleClearSearch = () => {
     setQuery('');
-    onSearch('');
+    if (onSearch) {
+      onSearch('');
+    } else {
+      const params = new URLSearchParams(searchParams?.toString());
+      params.delete('search');
+      router.push(`${pathname}?${params.toString()}`);
+    }
   };
 
   return (
-    <div className={cn('relative mx-auto max-w-xl', className)}>
-      <div
+    <motion.div
+      className={cn('relative mx-auto max-w-xl', className)}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div
         className={cn(
           'relative overflow-hidden rounded-full transition-all duration-200',
-          isFocused ? 'shadow-md' : 'shadow-sm'
+          isFocused ? 'shadow-lg' : 'shadow-md'
         )}
+        whileHover={{ y: -2, boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
       >
         <Input
           type="search"
@@ -82,26 +109,28 @@ export const Search: React.FC<SearchProps> = ({
           onChange={handleSearchChange}
           placeholder={placeholder}
           className={cn(
-            'rounded-full border-none py-6 pl-12 pr-12',
-            'focus:ring-2 focus:ring-accent/40'
+            'rounded-full border-none py-6 pl-12 pr-12 text-[#1A2027]',
+            'bg-white focus:ring-2 focus:ring-[#FF7A35]/40'
           )}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 transform text-tertiary">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 transform text-[#3D5A73]">
           <SearchIcon className="h-5 w-5" />
         </div>
         {query && (
-          <button
+          <motion.button
             onClick={handleClearSearch}
-            className="absolute right-4 top-1/2 -translate-y-1/2 transform text-tertiary hover:text-primary"
+            className="absolute right-4 top-1/2 -translate-y-1/2 transform text-[#3D5A73] hover:text-[#1A2027]"
             aria-label="Suche zurücksetzen"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
           >
             <X className="h-5 w-5" />
-          </button>
+          </motion.button>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

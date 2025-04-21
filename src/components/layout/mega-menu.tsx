@@ -12,11 +12,18 @@ import { cn } from '@/lib/utils';
 interface MegaMenuProps {
   item: MenuItem;
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
-export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => {
+const MegaMenu = ({ item, isOpen, onClose }: MegaMenuProps) => {
   if (!item.submenu || item.submenu.length === 0) return null;
+
+  // Handler for closing the menu
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
 
   // Ermittle Bild-URLs basierend auf dem Service-Namen
   const getServiceImage = (title: string): string => {
@@ -46,7 +53,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ item, isOpen, onClose }) => 
                   key={subItem.href}
                   href={subItem.href}
                   className="group flex items-start rounded-md p-3 transition-colors hover:bg-gray-50"
-                  onClick={onClose}
+                  onClick={handleClose}
                 >
                   <ChevronRight className="mr-2 mt-0.5 h-5 w-5 transform text-orange-500 transition-transform group-hover:translate-x-1" />
                   <div>

@@ -1,6 +1,8 @@
-// src/pages/blog/components/Categories.tsx
+'use client';
+
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -14,71 +16,106 @@ interface Category {
 interface CategoriesProps {
   categories: Category[];
   selectedCategory: string | null;
-  onCategoryChange: (category: string | null) => void;
+  onCategoryChange?: (category: string | null) => void;
   className?: string;
   variant?: 'pills' | 'buttons' | 'links';
 }
 
-export const Categories: React.FC<CategoriesProps> = ({
-  categories = [], // Default-Wert hinzugefügt
+const Categories = ({
+  categories = [],
   selectedCategory,
   onCategoryChange,
   className,
   variant = 'pills',
-}) => {
+}: CategoriesProps) => {
   const handleCategoryClick = (slug: string | null) => {
-    onCategoryChange(slug);
+    if (onCategoryChange) {
+      onCategoryChange(slug);
+    }
   };
 
   if (!categories || categories.length === 0) {
     return null;
   }
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: 'easeOut' },
+    },
+  };
+
   return (
-    <div className={cn('flex flex-wrap justify-center gap-2', className)}>
+    <motion.div
+      className={cn('flex flex-wrap justify-center gap-2', className)}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       {/* "Alle" Kategorie */}
       {variant === 'pills' && (
-        <Button
-          variant={selectedCategory === null ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => handleCategoryClick(null)}
-          className={cn(
-            'rounded-full',
-            selectedCategory === null
-              ? 'bg-primary text-white hover:bg-primary/90'
-              : 'border-white/40 bg-white/20 text-white hover:bg-white/30'
-          )}
-        >
-          Alle
-        </Button>
+        <motion.div variants={itemVariants} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            variant={selectedCategory === null ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => handleCategoryClick(null)}
+            className={cn(
+              'rounded-full',
+              selectedCategory === null
+                ? 'bg-white text-[#1A2027] hover:bg-white/90'
+                : 'border-white/40 bg-white/20 text-white hover:bg-white/30'
+            )}
+          >
+            Alle
+          </Button>
+        </motion.div>
       )}
 
       {variant === 'buttons' && (
-        <Button
-          variant={selectedCategory === null ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => handleCategoryClick(null)}
-        >
-          Alle
-        </Button>
+        <motion.div variants={itemVariants} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+          <Button
+            variant={selectedCategory === null ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => handleCategoryClick(null)}
+            className={selectedCategory === null ? 'bg-[#FF7A35] hover:bg-[#FF7A35]/90' : ''}
+          >
+            Alle
+          </Button>
+        </motion.div>
       )}
 
       {variant === 'links' && (
-        <Link
-          href="/blog"
-          className={cn(
-            'px-3 py-1 text-sm',
-            selectedCategory === null
-              ? 'font-medium text-primary'
-              : 'text-primary hover:text-primary/70'
-          )}
-          onClick={e => {
-            e.preventDefault();
-            handleCategoryClick(null);
-          }}
-        >
-          Alle
-        </Link>
+        <motion.div variants={itemVariants} whileHover={{ y: -2 }}>
+          <Link
+            href="/blog"
+            className={cn(
+              'px-3 py-1 text-sm',
+              selectedCategory === null
+                ? 'font-medium text-[#FF7A35]'
+                : 'text-white hover:text-[#FF7A35]'
+            )}
+            onClick={e => {
+              e.preventDefault();
+              handleCategoryClick(null);
+            }}
+          >
+            Alle
+          </Link>
+        </motion.div>
       )}
 
       {/* Kategorie-Buttons */}
@@ -87,58 +124,72 @@ export const Categories: React.FC<CategoriesProps> = ({
 
         if (variant === 'pills') {
           return (
-            <Button
+            <motion.div
               key={category.id}
-              variant={isActive ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => handleCategoryClick(category.slug)}
-              className={cn(
-                'rounded-full',
-                isActive
-                  ? 'bg-primary text-white hover:bg-primary/90'
-                  : 'border-white/40 bg-white/20 text-white hover:bg-white/30'
-              )}
+              variants={itemVariants}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {category.name}
-            </Button>
+              <Button
+                variant={isActive ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => handleCategoryClick(category.slug)}
+                className={cn(
+                  'rounded-full',
+                  isActive
+                    ? 'bg-white text-[#1A2027] hover:bg-white/90'
+                    : 'border-white/40 bg-white/20 text-white hover:bg-white/30'
+                )}
+              >
+                {category.name}
+              </Button>
+            </motion.div>
           );
         }
 
         if (variant === 'buttons') {
           return (
-            <Button
+            <motion.div
               key={category.id}
-              variant={isActive ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => handleCategoryClick(category.slug)}
+              variants={itemVariants}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {category.name}
-            </Button>
+              <Button
+                variant={isActive ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => handleCategoryClick(category.slug)}
+                className={isActive ? 'bg-[#FF7A35] hover:bg-[#FF7A35]/90' : ''}
+              >
+                {category.name}
+              </Button>
+            </motion.div>
           );
         }
 
         if (variant === 'links') {
           return (
-            <Link
-              key={category.id}
-              href={`/blog?category=${category.slug}`}
-              className={cn(
-                'px-3 py-1 text-sm',
-                isActive ? 'font-medium text-primary' : 'text-primary hover:text-primary/70'
-              )}
-              onClick={e => {
-                e.preventDefault();
-                handleCategoryClick(category.slug);
-              }}
-            >
-              {category.name}
-            </Link>
+            <motion.div key={category.id} variants={itemVariants} whileHover={{ y: -2 }}>
+              <Link
+                href={`/blog?category=${category.slug}`}
+                className={cn(
+                  'px-3 py-1 text-sm',
+                  isActive ? 'font-medium text-[#FF7A35]' : 'text-white hover:text-[#FF7A35]'
+                )}
+                onClick={e => {
+                  e.preventDefault();
+                  handleCategoryClick(category.slug);
+                }}
+              >
+                {category.name}
+              </Link>
+            </motion.div>
           );
         }
 
         return null;
       })}
-    </div>
+    </motion.div>
   );
 };
 

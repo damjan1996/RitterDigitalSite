@@ -1,54 +1,24 @@
-// src/pages/karriere/components/ApplicationForm.tsx
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckIcon, PaperclipIcon, AlertCircle } from 'lucide-react';
-import Link from 'next/link'; // Added Link import
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+'use client';
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { motion } from 'framer-motion';
+import { Send, Upload, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-// Validierungsschema für das Bewerbungsformular
-const applicationSchema = z.object({
-  firstName: z.string().min(2, 'Bitte geben Sie Ihren Vornamen ein.'),
-  lastName: z.string().min(2, 'Bitte geben Sie Ihren Nachnamen ein.'),
-  email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
-  phone: z.string().optional(),
-  position: z.string().min(2, 'Bitte geben Sie die gewünschte Position ein.'),
-  message: z.string().min(10, 'Bitte beschreiben Sie kurz Ihre Motivation.'),
-  resume: z
-    .any()
-    .refine(file => file?.[0]?.size <= 5000000, 'Die Datei darf maximal 5MB groß sein.')
-    .refine(
-      file =>
-        !file?.[0] ||
-        [
-          'application/pdf',
-          'application/msword',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        ].includes(file?.[0]?.type),
-      'Bitte laden Sie ein PDF oder Word-Dokument hoch.'
-    ),
-  privacy: z.boolean().refine(val => val === true, {
-    message: 'Bitte stimmen Sie der Datenschutzerklärung zu.',
-  }),
-});
-
-type ApplicationFormValues = z.infer<typeof applicationSchema>;
+// Refined color palette - consistent with other components
+const colors = {
+  primary: '#1A2027', // Darker primary for better contrast
+  secondary: '#3D5A73', // Richer secondary color
+  accent: '#FF7A35', // Warmer accent for better visibility
+  background: '#F8F9FC', // Lighter background for better contrast
+  secondaryAccent: '#2A3F56', // Deeper secondary accent
+};
 
 interface ApplicationFormProps {
   jobTitle?: string;
@@ -57,275 +27,198 @@ interface ApplicationFormProps {
 }
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
-  jobTitle = 'Offene Stelle',
+  jobTitle = 'Diese Stelle',
   jobId,
   className,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
 
-  const form = useForm<ApplicationFormValues>({
-    resolver: zodResolver(applicationSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      position: jobTitle || '',
-      message: '',
-      resume: undefined,
-      privacy: false,
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
     },
-  });
+  };
 
-  const onSubmit = async (data: ApplicationFormValues) => {
-    setIsSubmitting(true);
-    setError(null);
-
-    try {
-      // Hier würde normalerweise die API-Anfrage erfolgen
-      // Beispiel: FormData erstellen und senden
-      const formData = new FormData();
-      formData.append('firstName', data.firstName);
-      formData.append('lastName', data.lastName);
-      formData.append('email', data.email);
-      formData.append('phone', data.phone || '');
-      formData.append('position', data.position);
-      formData.append('message', data.message);
-      if (data.resume?.[0]) {
-        formData.append('resume', data.resume[0]);
-      }
-      formData.append('jobId', jobId || '');
-
-      // Simuliere API-Aufruf
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Wenn erfolgreich, setze Erfolgsstatus
-      setIsSuccess(true);
-      form.reset();
-      setSelectedFileName(null);
-
-      // Scrolle zum Anfang des Formulars
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error('Fehler bei der Bewerbung:', err);
-      setError('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFileName(file.name);
-      form.setValue('resume', e.target.files, { shouldValidate: true });
-    } else {
-      setSelectedFileName(null);
+    if (e.target.files && e.target.files.length > 0) {
+      setFileName(e.target.files[0].name);
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simuliere API-Aufruf
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
   return (
-    <Card className={cn('w-full', className)}>
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          {isSuccess ? 'Bewerbung gesendet!' : `Bewerbung für: ${jobTitle}`}
+    <Card className={cn('overflow-hidden shadow-md', className)}>
+      <CardHeader className="relative bg-[#1A2027] text-white">
+        {/* Decorative elements */}
+        <motion.div
+          className="absolute right-0 top-0 h-20 w-20"
+          style={{
+            clipPath: 'polygon(100% 0, 0 0, 100% 100%)',
+            backgroundColor: '#FF7A35',
+            opacity: 0.2,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        />
+
+        <CardTitle className="text-xl font-medium">
+          Bewerbung für {jobTitle}
+          <span className="text-[#FF7A35]">.</span>
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
-        {isSuccess ? (
-          <div className="py-8 text-center">
-            <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-              <CheckIcon className="h-8 w-8 text-green-600" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold">Vielen Dank für Ihre Bewerbung!</h3>
-            <p className="mb-6 text-secondary">
-              Wir haben Ihre Bewerbung erhalten und werden uns in Kürze bei Ihnen melden.
+      <CardContent className="p-6">
+        {isSubmitted ? (
+          <motion.div
+            className="flex flex-col items-center justify-center py-8 text-center"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            </motion.div>
+            <h3 className="mb-2 text-xl font-medium text-[#1A2027]">Bewerbung gesendet!</h3>
+            <p className="text-[#3D5A73]">
+              Vielen Dank für Ihre Bewerbung. Wir werden uns in Kürze bei Ihnen melden.
             </p>
-            <Button variant="outline" onClick={() => setIsSuccess(false)}>
-              Neue Bewerbung
-            </Button>
-          </div>
+          </motion.div>
         ) : (
-          <Form {...form}>
-            {error && (
-              <Alert variant="error" className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Fehler</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+          <motion.form
+            onSubmit={handleSubmit}
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            <motion.div className="mb-4" variants={itemVariants}>
+              <Label htmlFor="name" className="mb-1 block text-[#1A2027]">
+                Name
+              </Label>
+              <Input
+                id="name"
+                placeholder="Ihr vollständiger Name"
+                required
+                className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+              />
+            </motion.div>
 
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Vorname *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Max" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <motion.div className="mb-4" variants={itemVariants}>
+              <Label htmlFor="email" className="mb-1 block text-[#1A2027]">
+                E-Mail
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="ihre.email@beispiel.de"
+                required
+                className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+              />
+            </motion.div>
 
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nachname *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Mustermann" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+            <motion.div className="mb-4" variants={itemVariants}>
+              <Label htmlFor="phone" className="mb-1 block text-[#1A2027]">
+                Telefon
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="+49 123 4567890"
+                className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+              />
+            </motion.div>
+
+            <motion.div className="mb-6" variants={itemVariants}>
+              <Label htmlFor="message" className="mb-1 block text-[#1A2027]">
+                Anschreiben
+              </Label>
+              <Textarea
+                id="message"
+                placeholder="Warum sind Sie an dieser Position interessiert?"
+                rows={4}
+                className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+              />
+            </motion.div>
+
+            <motion.div className="mb-6" variants={itemVariants}>
+              <Label htmlFor="resume" className="mb-1 block text-[#1A2027]">
+                Lebenslauf hochladen
+              </Label>
+              <div className="relative mt-1">
+                <input
+                  type="file"
+                  id="resume"
+                  className="sr-only"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileChange}
+                  required
                 />
+                <label
+                  htmlFor="resume"
+                  className="group flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[#E5E7EB] bg-white p-4 text-[#3D5A73] transition-all hover:border-[#FF7A35] hover:bg-[#FF7A35]/5"
+                >
+                  <Upload className="h-5 w-5 transition-colors group-hover:text-[#FF7A35]" />
+                  <span className="transition-colors group-hover:text-[#FF7A35]">
+                    {fileName || 'PDF oder Word-Dokument auswählen'}
+                  </span>
+                </label>
               </div>
+              <p className="mt-1 text-xs text-[#3D5A73]">
+                Maximal 5MB. Unterstützte Formate: PDF, DOC, DOCX
+              </p>
+            </motion.div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>E-Mail *</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="max.mustermann@beispiel.de" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Telefon</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+49 123 456789" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name="position"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Position *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Auf welche Stelle bewerben Sie sich?" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Ihre Motivation *</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Beschreiben Sie kurz, warum Sie sich für diese Position interessieren"
-                        rows={5}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="resume"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Lebenslauf / CV</FormLabel>
-                    <FormControl>
-                      <div className="flex items-center gap-3">
-                        <label
-                          htmlFor="resume-upload"
-                          className="flex cursor-pointer items-center gap-2 rounded border border-gray-300 px-4 py-2 hover:bg-gray-50"
-                        >
-                          <PaperclipIcon className="h-4 w-4" />
-                          <span>Datei auswählen</span>
-                        </label>
-
-                        <input
-                          id="resume-upload"
-                          type="file"
-                          className="hidden"
-                          accept=".pdf,.doc,.docx"
-                          onChange={handleFileChange}
-                        />
-
-                        {selectedFileName && (
-                          <span className="max-w-xs truncate text-sm text-secondary">
-                            {selectedFileName}
-                          </span>
-                        )}
-                      </div>
-                    </FormControl>
-                    <p className="mt-1 text-xs text-tertiary">
-                      Akzeptierte Formate: PDF, DOC, DOCX (max. 5MB)
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="privacy"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onChange={e => field.onChange(e.target.checked)}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>
-                        Ich stimme der Verarbeitung meiner Daten gemäß der{' '}
-                        <Link href="/datenschutz" className="text-accent hover:underline">
-                          Datenschutzerklärung
-                        </Link>{' '}
-                        zu. *
-                      </FormLabel>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-
+            <motion.div variants={itemVariants}>
               <Button
                 type="submit"
-                variant="default"
                 disabled={isSubmitting}
-                className="w-full bg-accent text-white hover:bg-accent/90"
+                className="relative w-full overflow-hidden rounded-md bg-[#1A2027] px-6 py-2 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]"
               >
-                {isSubmitting ? 'Wird gesendet...' : 'Bewerbung absenden'}
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {isSubmitting ? 'Wird gesendet...' : 'Bewerbung absenden'}
+                  <Send className="h-4 w-4" />
+                </span>
+                <motion.div
+                  className="absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]"
+                  initial={{ scaleX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
               </Button>
-            </form>
-          </Form>
+            </motion.div>
+          </motion.form>
         )}
       </CardContent>
     </Card>

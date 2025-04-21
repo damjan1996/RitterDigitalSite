@@ -1,7 +1,7 @@
 // src/pages/leistungen/components/index.tsx
 import React from 'react';
 
-import { ServiceCTA } from '../../../components/leistungen/ServiceCTA';
+import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
 import { Hero } from './Hero';
 import { ServiceOverview } from './ServiceOverview';
@@ -20,6 +20,8 @@ export const LeistungenPage: React.FC = () => {
   );
 };
 
-export { Hero, ServiceOverview, ServiceCTA };
+// Export die Komponenten für Verwendung in anderen Dateien
+export { Hero, ServiceOverview };
+export { ServiceCTA };
 
 export default LeistungenPage;

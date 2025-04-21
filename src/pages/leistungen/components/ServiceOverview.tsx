@@ -1,8 +1,11 @@
-// src/pages/leistungen/components/ServiceOverview.tsx
+'use client';
+
+import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
+import { useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -44,18 +47,90 @@ const services = [
 ];
 
 export const ServiceOverview: React.FC = () => {
-  return (
-    <section className="bg-white py-16">
-      <div className="container mx-auto px-4">
-        <h2 className="mb-12 text-center text-3xl font-bold text-primary">
-          Unsere Leistungsbereiche
-        </h2>
+  const containerRef = useRef<HTMLDivElement>(null);
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {services.map(service => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </div>
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#f8fafc] to-white py-24">
+      {/* Decorative elements */}
+      <motion.div
+        className="absolute left-0 top-0 h-1 w-full"
+        style={{
+          background: 'linear-gradient(90deg, transparent 0%, #FF7A35 50%, transparent 100%)',
+        }}
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, ease: 'easeOut' }}
+      />
+
+      <motion.div
+        className="absolute -left-20 top-40 h-64 w-64 rounded-full bg-[#3D5A73]/5"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.5 }}
+      />
+
+      <motion.div
+        className="absolute -right-32 bottom-20 h-80 w-80 rounded-full bg-[#FF7A35]/5"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.7 }}
+      />
+
+      <div className="container relative z-10 mx-auto px-6 md:px-8">
+        <motion.div
+          ref={containerRef}
+          className="mx-auto max-w-6xl"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+        >
+          <motion.div className="mb-16 text-center" variants={titleVariants}>
+            <motion.div
+              className="mx-auto mb-4 h-1 w-16 bg-gradient-to-r from-[#FF7A35] to-[#FF9A65]"
+              initial={{ width: 0 }}
+              whileInView={{ width: 64 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            />
+            <h2 className="bg-gradient-to-r from-[#1A2027] to-[#3D5A73] bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+              Unsere Leistungsbereiche
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            {services.map((service, index) => (
+              <ServiceCard key={service.id} service={service} index={index} />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -69,38 +144,92 @@ interface ServiceCardProps {
     imageUrl: string;
     link: string;
   };
+  index: number;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        delay: index * 0.1,
+      },
+    },
+  };
+
   return (
-    <div
+    <motion.div
+      variants={cardVariants}
       className={cn(
-        'group overflow-hidden rounded-lg bg-background shadow-sm transition-all duration-300 hover:shadow-md',
-        'flex h-full flex-col'
+        'group relative overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-500',
+        'flex h-full flex-col border border-[#3D5A73]/10 hover:shadow-lg hover:shadow-[#FF7A35]/10'
       )}
     >
-      <div className="relative h-56 overflow-hidden">
+      {/* Accent line */}
+      <motion.div
+        className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[#FF7A35] to-[#FF9A65] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
+      />
+
+      <div className="relative h-64 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1A2027]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         <Image
-          src={service.imageUrl}
+          src={service.imageUrl || '/placeholder.svg'}
           alt={service.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
       </div>
 
-      <div className="flex flex-grow flex-col p-6">
-        <h3 className="mb-3 text-xl font-semibold text-primary">{service.title}</h3>
+      <div className="flex flex-grow flex-col p-8">
+        <h3 className="mb-4 text-2xl font-semibold text-[#1A2027]">
+          <span className="relative">
+            {service.title}
+            <motion.span
+              className="absolute -left-4 top-1/2 h-6 w-1 -translate-y-1/2 bg-[#FF7A35] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              initial={{ height: 0 }}
+              whileInView={{ height: 24 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+            />
+          </span>
+        </h3>
 
-        <p className="mb-6 flex-grow text-secondary">{service.description}</p>
+        <p className="mb-8 flex-grow text-[#3D5A73]/80">{service.description}</p>
 
         <Link href={service.link} className="mt-auto">
-          <Button variant="default" className="flex w-full items-center justify-center">
-            <span>Mehr erfahren</span>
-            <ArrowRight className="ml-2 h-4 w-4" />
+          <Button
+            variant="ghost"
+            className="group relative overflow-hidden rounded-full border border-[#1A2027] px-6 py-5 text-[#1A2027] transition-all duration-300 hover:border-transparent hover:text-white"
+          >
+            <span className="relative z-10 flex items-center">
+              <span>Mehr erfahren</span>
+              <motion.div
+                className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                initial={{ x: -5, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <ArrowRight className="h-4 w-4" />
+              </motion.div>
+            </span>
+            <motion.div
+              className="absolute bottom-0 left-0 h-full w-full bg-gradient-to-r from-[#1A2027] to-[#2A3F56] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
           </Button>
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

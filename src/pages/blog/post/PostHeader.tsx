@@ -1,8 +1,10 @@
-// src/pages/blog/post/PostHeader.tsx
+'use client';
+
+import { motion } from 'framer-motion';
 import { Calendar, Clock, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import type React from 'react';
 
 import { formatDate } from '@/lib/utils';
 import { cn } from '@/lib/utils';
@@ -41,41 +43,112 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
   imageUrl,
   imageOverlay = true,
 }) => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
+
   // Wenn ein Bild vorhanden ist, zeige einen Header mit Bild-Hintergrund
   if (imageUrl) {
     return (
-      <div className={cn('relative h-[400px] w-full lg:h-[500px]', className)}>
-        <Image src={imageUrl} alt={title} fill className="object-cover" priority />
+      <motion.div
+        className={cn('relative h-[400px] w-full overflow-hidden lg:h-[500px]', className)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <Image
+          src={imageUrl || '/placeholder.svg'}
+          alt={title}
+          fill
+          className="object-cover"
+          priority
+        />
 
         {/* Overlay für bessere Lesbarkeit des Textes */}
         {imageOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+          />
         )}
 
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-8 lg:p-12">
+        {/* Decorative elements */}
+        <motion.div
+          className="absolute right-[10%] top-[15%] h-24 w-24 rounded-full bg-[#FF7A35]/10"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+        />
+
+        <motion.div
+          className="absolute bottom-[15%] left-[8%] h-32 w-32 rounded-full bg-[#3D5A73]/10"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 1.2, delay: 1 }}
+        />
+
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 p-6 text-white md:p-8 lg:p-12"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
           {category && (
-            <Link
-              href={`/blog?category=${category.slug}`}
-              className="mb-4 inline-block rounded-md bg-accent px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-            >
-              {category.name}
-            </Link>
+            <motion.div variants={itemVariants}>
+              <Link
+                href={`/blog?category=${category.slug}`}
+                className="mb-4 inline-block rounded-md bg-[#FF7A35] px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-[#FF7A35]/90"
+              >
+                {category.name}
+              </Link>
+            </motion.div>
           )}
 
-          <h1 className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl">{title}</h1>
+          <motion.h1
+            className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl"
+            variants={itemVariants}
+          >
+            {title}
+            <span className="text-[#FF7A35]">.</span>
+          </motion.h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-white/90">
+          <motion.div
+            className="flex flex-wrap items-center gap-4 text-sm text-white/90"
+            variants={itemVariants}
+          >
             {author && (
               <div className="flex items-center">
                 {author.profile_image ? (
-                  <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full">
+                  <motion.div
+                    className="relative mr-2 h-8 w-8 overflow-hidden rounded-full border-2 border-[#FF7A35]/30"
+                    whileHover={{ scale: 1.1 }}
+                  >
                     <Image
-                      src={author.profile_image}
+                      src={author.profile_image || '/placeholder.svg'}
                       alt={author.name}
                       fill
                       className="object-cover"
                     />
-                  </div>
+                  </motion.div>
                 ) : (
                   <User className="mr-2 h-4 w-4" />
                 )}
@@ -92,37 +165,61 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
               <Clock className="mr-2 h-4 w-4" />
               <span>{readingTime} Lesezeit</span>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     );
   }
 
   // Standard-Header ohne Bild
   return (
-    <div className={cn('py-8', className)}>
+    <motion.div
+      className={cn('py-8', className)}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       {category && (
-        <Link
-          href={`/blog?category=${category.slug}`}
-          className="mb-4 inline-block rounded-md bg-accent px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-accent/90"
-        >
-          {category.name}
-        </Link>
+        <motion.div variants={itemVariants}>
+          <Link
+            href={`/blog?category=${category.slug}`}
+            className="mb-4 inline-block rounded-md bg-[#FF7A35] px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-[#FF7A35]/90"
+          >
+            {category.name}
+          </Link>
+        </motion.div>
       )}
 
-      <h1 className="mb-4 text-3xl font-bold text-primary md:text-4xl lg:text-5xl">{title}</h1>
+      <motion.h1
+        className="mb-4 text-3xl font-bold text-[#1A2027] md:text-4xl lg:text-5xl"
+        variants={itemVariants}
+      >
+        {title}
+        <span className="text-[#FF7A35]">.</span>
+      </motion.h1>
 
-      <div className="flex flex-wrap items-center gap-4 text-sm text-tertiary">
+      <motion.div
+        className="flex flex-wrap items-center gap-4 text-sm text-[#3D5A73]"
+        variants={itemVariants}
+      >
         {author && (
           <div className="flex items-center">
             {author.profile_image ? (
-              <div className="relative mr-2 h-8 w-8 overflow-hidden rounded-full">
-                <Image src={author.profile_image} alt={author.name} fill className="object-cover" />
-              </div>
+              <motion.div
+                className="relative mr-2 h-8 w-8 overflow-hidden rounded-full border-2 border-[#FF7A35]/20"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Image
+                  src={author.profile_image || '/placeholder.svg'}
+                  alt={author.name}
+                  fill
+                  className="object-cover"
+                />
+              </motion.div>
             ) : (
               <User className="mr-2 h-4 w-4" />
             )}
-            <span className="text-secondary">{author.name}</span>
+            <span className="text-[#3D5A73]">{author.name}</span>
           </div>
         )}
 
@@ -135,8 +232,8 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
           <Clock className="mr-2 h-4 w-4" />
           <span>{readingTime} Lesezeit</span>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

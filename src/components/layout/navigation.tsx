@@ -3,13 +3,13 @@
 // src/components/layout/navigation.tsx
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import type React from 'react';
 import { useState, useEffect, useRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { MegaMenu } from './mega-menu';
+import MegaMenu from './mega-menu';
 
 // Definiere die Menüstruktur direkt in der Komponente
 const mainMenuItems = [
@@ -49,22 +49,15 @@ const mainMenuItems = [
   },
 ];
 
-export const Navigation: React.FC = () => {
-  const router = useRouter();
+const Navigation = () => {
+  const pathname = usePathname();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Schließe Menü bei Route-Wechsel
+  // Schließe Menü bei Änderung des Pfadnamens
   useEffect(() => {
-    const handleRouteChange = () => {
-      setActiveItem(null);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+    setActiveItem(null);
+  }, [pathname]);
 
   // Bereinige Timeout bei Unmount
   useEffect(() => {
@@ -104,7 +97,7 @@ export const Navigation: React.FC = () => {
               href={item.href}
               className={cn(
                 'flex items-center py-2 font-medium transition-colors',
-                router.pathname === item.href || router.pathname.startsWith(`${item.href}/`)
+                pathname === item.href || (pathname && pathname.startsWith(`${item.href}/`))
                   ? 'text-accent'
                   : 'text-primary hover:text-accent'
               )}
@@ -140,7 +133,7 @@ export const Navigation: React.FC = () => {
                       href={subItem.href}
                       className={cn(
                         'block px-4 py-2 text-sm transition-colors',
-                        router.pathname === subItem.href
+                        pathname === subItem.href
                           ? 'bg-gray-50 text-accent'
                           : 'text-primary hover:bg-gray-50 hover:text-accent'
                       )}

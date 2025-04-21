@@ -128,7 +128,7 @@ export const Footer: React.FC = () => {
               >
                 <img
                   src="/images/logos/rd_logo.png"
-                  alt="Ritter Digital Logo"
+                  alt="RITTER Gesellschaft für digitale Geschäftsprozesse mbH Logo"
                   className="h-full w-full object-contain"
                 />
               </motion.div>
@@ -217,10 +217,10 @@ export const Footer: React.FC = () => {
               >
                 <span className="mb-1 text-sm font-medium text-[#3D5A73]">Email</span>
                 <a
-                  href="mailto:kontakt@ritterdigital.de"
+                  href="mailto:team@ritterdigital.de"
                   className="inline-flex items-center text-sm text-[#3D5A73] transition-colors hover:text-[#FF7A35]"
                 >
-                  kontakt@ritterdigital.de
+                  team@ritterdigital.de
                   <motion.div
                     className="ml-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     initial={{ x: -5 }}
@@ -239,10 +239,10 @@ export const Footer: React.FC = () => {
               >
                 <span className="mb-1 text-sm font-medium text-[#3D5A73]">Telefon</span>
                 <a
-                  href="tel:+491234567890"
+                  href="tel:+4902083067485"
                   className="inline-flex items-center text-sm text-[#3D5A73] transition-colors hover:text-[#FF7A35]"
                 >
-                  +49 (0) 123 456 7890
+                  (+49) 0208 306 74 850
                   <motion.div
                     className="ml-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     initial={{ x: -5 }}
@@ -260,11 +260,11 @@ export const Footer: React.FC = () => {
                   whileHover={{ x: 5, color: '#FF7A35' }}
                   transition={{ duration: 0.2 }}
                 >
-                  Ritter Digital GmbH
+                  RITTER Gesellschaft für digitale Geschäftsprozesse mbH
                   <br />
-                  Musterstraße 123
+                  Essener Straße 2-24
                   <br />
-                  12345 Musterstadt
+                  46047 Oberhausen
                 </motion.address>
               </motion.div>
             </div>
@@ -417,7 +417,8 @@ export const Footer: React.FC = () => {
             whileHover={{ x: 5, color: '#1A2027' }}
             transition={{ duration: 0.2 }}
           >
-            © {currentYear} Ritter Digital GmbH. Alle Rechte vorbehalten.
+            © {currentYear} RITTER Gesellschaft für digitale Geschäftsprozesse mbH. Alle Rechte
+            vorbehalten.
           </motion.p>
           <div className="flex space-x-8">
             {['Datenschutz', 'Impressum', 'AGB'].map((item, index) => (

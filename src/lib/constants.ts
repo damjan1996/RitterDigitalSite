@@ -1,23 +1,23 @@
 // src/lib/constants.ts
 
 /**
- * Anwendungskonstanten für die Ritter Digital GmbH Website
+ * Anwendungskonstanten für die RITTER Gesellschaft für digitale Geschäftsprozesse mbH Website
  */
 
 // Allgemeine Informationen
-export const SITE_NAME = 'Ritter Digital GmbH';
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ritterdigital.de';
+export const SITE_NAME = 'RITTER Gesellschaft für digitale Geschäftsprozesse mbH';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ritterdigital.de';
 export const SITE_DESCRIPTION =
   'Experten für digitale Prozessoptimierung, Business Intelligence, Data Warehouse und kundenspezifische Softwareentwicklung.';
 
 // Kontaktinformationen
 export const CONTACT_INFO = {
-  email: 'kontakt@ritterdigital.de',
-  phone: '+49 (0) 123 456 789',
+  email: 'team@ritterdigital.de',
+  phone: '(+49) 0208 306 74 850',
   address: {
-    street: 'Musterstraße 123',
-    zip: '12345',
-    city: 'Musterstadt',
+    street: 'Essener Straße 2-24',
+    zip: '46047',
+    city: 'Oberhausen',
     country: 'Deutschland',
   },
   socialMedia: {

@@ -1,5 +1,4 @@
 // src/pages/karriere/index.tsx
-import Head from 'next/head';
 import React, { useRef } from 'react';
 
 import { SEO } from '@/components/common/seo';
@@ -7,6 +6,34 @@ import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 
 import { Hero, JobListings, Benefits, ApplicationProcess } from './components';
+
+// Mock-Daten für die Stellenangebote
+const mockJobs = [
+  {
+    id: '1',
+    title: 'Full-Stack Entwickler (m/w/d)',
+    location: 'Oberhausen',
+    type: 'Vollzeit',
+    department: 'Entwicklung',
+    postedAt: 'vor 2 Tagen',
+  },
+  {
+    id: '2',
+    title: 'Business Intelligence Analyst (m/w/d)',
+    location: 'Remote',
+    type: 'Vollzeit',
+    department: 'Datenanalyse',
+    postedAt: 'vor 1 Woche',
+  },
+  {
+    id: '3',
+    title: 'IT-Projektmanager (m/w/d)',
+    location: 'Oberhausen',
+    type: 'Vollzeit',
+    department: 'Projektmanagement',
+    postedAt: 'vor 3 Tagen',
+  },
+];
 
 export default function KarrierePage() {
   // Referenz für das Scrollen zu den Stellenangeboten
@@ -32,7 +59,7 @@ export default function KarrierePage() {
 
       {/* Stellenangebote */}
       <div ref={jobListingsRef}>
-        <JobListings />
+        <JobListings jobs={mockJobs} />
       </div>
 
       {/* Bewerbungsprozess */}
@@ -68,7 +95,10 @@ export default function KarrierePage() {
 }
 
 export function getStaticProps() {
+  // In einer realen Anwendung würden hier die Stellenangebote aus einer API oder Datenbank geladen
   return {
-    props: {},
+    props: {
+      // In der tatsächlichen Implementierung würden hier die Jobs an die Seite übergeben
+    },
   };
 }

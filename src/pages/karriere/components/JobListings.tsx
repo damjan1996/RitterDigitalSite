@@ -1,314 +1,288 @@
-// src/pages/karriere/components/JobListings.tsx
-import { ArrowRight, Briefcase, MapPin, Filter, Search as SearchIcon } from 'lucide-react';
-import Link from 'next/link';
-import React, { useState } from 'react';
+'use client';
 
-import { SectionTitle } from '@/components/common/section-title';
+import { motion } from 'framer-motion';
+import { Briefcase, MapPin, ArrowRight, Search, Filter, Clock } from 'lucide-react';
+import Link from 'next/link';
+import type React from 'react';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Container } from '@/components/ui/container';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-import { JobDetail } from './JobDetail';
+// Refined color palette - consistent with other components
+const colors = {
+  primary: '#1A2027', // Darker primary for better contrast
+  secondary: '#3D5A73', // Richer secondary color
+  accent: '#FF7A35', // Warmer accent for better visibility
+  background: '#F8F9FC', // Lighter background for better contrast
+  secondaryAccent: '#2A3F56', // Deeper secondary accent
+};
 
 interface Job {
   id: string;
   title: string;
-  department: string;
   location: string;
-  type: string;
+  type: string; // full-time, part-time, etc.
+  department: string;
   postedAt: string;
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
-  benefits?: string[];
 }
 
 interface JobListingsProps {
-  title?: string;
-  subtitle?: string;
-  jobs?: Job[];
+  jobs: Job[];
   className?: string;
+  onSelectJob?: (jobId: string) => void;
 }
 
-export const JobListings: React.FC<JobListingsProps> = ({
-  title = 'Aktuelle Stellenangebote',
-  subtitle = 'Entdecken Sie Ihre Karrieremöglichkeiten bei Ritter Digital',
-  jobs = [],
-  className,
-}) => {
+export const JobListings: React.FC<JobListingsProps> = ({ jobs = [], className, onSelectJob }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedType, setSelectedType] = useState('');
 
-  // Beispiel-Jobs, falls keine angegeben wurden
-  const defaultJobs: Job[] = [
-    {
-      id: 'dev-001',
-      title: 'Frontend-Entwickler (m/w/d)',
-      department: 'Entwicklung',
-      location: 'Musterstadt',
-      type: 'Vollzeit',
-      postedAt: '15.03.2023',
-      description:
-        '<p>Wir suchen einen erfahrenen Frontend-Entwickler, der unser Team verstärkt und an der Entwicklung moderner, benutzerfreundlicher Weboberflächen mitwirkt.</p>',
-      responsibilities: [
-        'Entwicklung von reaktionsschnellen und intuitiven Benutzeroberflächen mit React',
-        'Zusammenarbeit mit UX/UI-Designern zur Umsetzung von Gestaltungskonzepten',
-        'Integration von Frontend-Komponenten mit Backend-APIs',
-        'Optimierung der Anwendungsleistung und Benutzerfreundlichkeit',
-        'Code-Reviews und Qualitätssicherung',
-      ],
-      requirements: [
-        'Mindestens 3 Jahre Erfahrung in der Frontend-Entwicklung',
-        'Fundierte Kenntnisse in React, TypeScript und modernem JavaScript',
-        'Erfahrung mit CSS-Präprozessoren und Styling-Bibliotheken (Tailwind CSS, SCSS)',
-        'Verständnis für Benutzerfreundlichkeit und Responsive Design',
-        'Teamfähigkeit und eigenverantwortliches Arbeiten',
-      ],
-      benefits: [
-        'Flexible Arbeitszeiten und Home-Office-Möglichkeiten',
-        'Regelmäßige Weiterbildungsmöglichkeiten',
-        '30 Tage Urlaub',
-        'Moderne Arbeitsausstattung',
-        'Teamevents und gemeinsame Aktivitäten',
-      ],
-    },
-    {
-      id: 'dev-002',
-      title: 'Backend-Entwickler (m/w/d)',
-      department: 'Entwicklung',
-      location: 'Remote',
-      type: 'Vollzeit',
-      postedAt: '10.03.2023',
-      description:
-        '<p>Zur Verstärkung unseres Entwicklerteams suchen wir einen erfahrenen Backend-Entwickler. In dieser Rolle sind Sie für die Entwicklung und Optimierung unserer Server-Anwendungen verantwortlich.</p>',
-      responsibilities: [
-        'Entwicklung und Wartung von serverseitigen Anwendungen',
-        'Gestaltung und Implementierung von RESTful APIs',
-        'Datenbank-Design und -Optimierung',
-        'Implementierung von Sicherheitsmaßnahmen und Authentifizierungslösungen',
-        'Zusammenarbeit mit Frontend-Entwicklern zur Integration von Client- und Server-Anwendungen',
-      ],
-      requirements: [
-        'Mindestens 3 Jahre Erfahrung in der Backend-Entwicklung',
-        'Fundierte Kenntnisse in Node.js, Express und TypeScript',
-        'Erfahrung mit SQL- und NoSQL-Datenbanken',
-        'Verständnis für Sicherheit und Authentifizierung',
-        'Gute analytische Fähigkeiten und Problemlösungskompetenz',
-      ],
-    },
-    {
-      id: 'bi-001',
-      title: 'Business Intelligence Analyst (m/w/d)',
-      department: 'Business Intelligence',
-      location: 'Musterstadt',
-      type: 'Vollzeit',
-      postedAt: '05.03.2023',
-      description:
-        '<p>Wir suchen einen Business Intelligence Analyst, der uns dabei hilft, Daten in wertvolle Geschäftseinblicke zu verwandeln. In dieser Rolle werden Sie eng mit verschiedenen Abteilungen zusammenarbeiten, um Datenanalysen durchzuführen und Entscheidungsprozesse zu unterstützen.</p>',
-      responsibilities: [
-        'Entwicklung und Wartung von Dashboards und Berichten',
-        'Durchführung komplexer Datenanalysen zur Unterstützung von Geschäftsentscheidungen',
-        'Identifizierung von Trends und Mustern in großen Datensätzen',
-        'Zusammenarbeit mit Fachabteilungen zur Definition von KPIs',
-        'Optimierung von Datenprozessen und -qualität',
-      ],
-      requirements: [
-        'Abgeschlossenes Studium in Wirtschaftsinformatik, Statistik oder einem verwandten Bereich',
-        'Mindestens 2 Jahre Erfahrung im Bereich Business Intelligence oder Datenanalyse',
-        'Fundierte Kenntnisse in SQL und BI-Tools (z.B. Power BI, Tableau)',
-        'Erfahrung in der Datenmodellierung und ETL-Prozessen',
-        'Ausgeprägte analytische Fähigkeiten und Liebe zum Detail',
-      ],
-    },
-    {
-      id: 'pm-001',
-      title: 'Projektmanager (m/w/d)',
-      department: 'Projektmanagement',
-      location: 'Musterstadt',
-      type: 'Vollzeit',
-      postedAt: '01.03.2023',
-      description:
-        '<p>Zur Verstärkung unseres Teams suchen wir einen erfahrenen Projektmanager. In dieser Rolle sind Sie verantwortlich für die erfolgreiche Planung, Durchführung und Kontrolle unserer Kundenprojekte im Bereich Digitalisierung.</p>',
-      responsibilities: [
-        'Planung, Steuerung und Überwachung von komplexen IT-Projekten',
-        'Führung und Koordination des Projektteams',
-        'Ressourcen- und Budget-Management',
-        'Stakeholder-Management und Kundenkommunikation',
-        'Risikomanagement und Qualitätssicherung',
-      ],
-      requirements: [
-        'Mindestens 3 Jahre Erfahrung im IT-Projektmanagement',
-        'Zertifizierung in Projektmanagement-Methoden (z.B. PRINCE2, PMP, Scrum)',
-        'Erfahrung mit agilen und klassischen Projektmanagement-Methoden',
-        'Ausgeprägte Kommunikations- und Führungsfähigkeiten',
-        'Kundenorientierung und Lösungsorientierung',
-      ],
-    },
-  ];
+  // Get unique departments and job types for filters
+  const departments = [...new Set(jobs.map(job => job.department))];
+  const jobTypes = [...new Set(jobs.map(job => job.type))];
 
-  const jobsToDisplay = jobs.length > 0 ? jobs : defaultJobs;
-
-  // Extrahiere einzigartige Abteilungen und Standorte für Filter
-  const departments = [...new Set(jobsToDisplay.map(job => job.department))];
-  const locations = [...new Set(jobsToDisplay.map(job => job.location))];
-
-  // Filtere Jobs basierend auf Suchbegriff und Filtern
-  const filteredJobs = jobsToDisplay.filter(job => {
+  // Filter jobs based on search and filters
+  const filteredJobs = jobs.filter(job => {
     const matchesSearch =
-      searchTerm === '' ||
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      job.description.toLowerCase().includes(searchTerm.toLowerCase());
+      job.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDepartment = selectedDepartment === '' || job.department === selectedDepartment;
+    const matchesType = selectedType === '' || job.type === selectedType;
 
-    const matchesDepartment = selectedDepartment === null || job.department === selectedDepartment;
-    const matchesLocation = selectedLocation === null || job.location === selectedLocation;
-
-    return matchesSearch && matchesDepartment && matchesLocation;
+    return matchesSearch && matchesDepartment && matchesType;
   });
 
-  // Wenn ein Job ausgewählt ist, zeige die Detailansicht
-  if (selectedJob) {
-    return (
-      <section id="job-listings" className={cn('py-12', className)}>
-        <Container>
-          <JobDetail job={selectedJob} onBack={() => setSelectedJob(null)} />
-        </Container>
-      </section>
-    );
-  }
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
+  };
 
   return (
-    <section id="job-listings" className={cn('py-16 md:py-24', className)}>
-      <Container>
-        <SectionTitle title={title} subtitle={subtitle} align="center" className="mb-12" />
+    <section className={cn('relative overflow-hidden py-16', className)}>
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 h-full w-full">
+        <motion.div
+          className="absolute left-0 top-0 h-full w-1/3"
+          style={{
+            clipPath: 'polygon(0 0, 100% 0, 70% 100%, 0 100%)',
+            backgroundColor: colors.background,
+            opacity: 0.7,
+          }}
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 0.7 }}
+          transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
+        />
 
-        {/* Suchleiste und Filter */}
-        <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="relative md:col-span-2">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <SearchIcon className="h-5 w-5 text-gray-400" />
+        <motion.div
+          className="absolute left-[10%] top-[15%] h-24 w-24 rounded-full"
+          style={{ backgroundColor: `${colors.accent}10` }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.8 }}
+        />
+
+        <motion.div
+          className="absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full"
+          style={{ backgroundColor: `${colors.secondaryAccent}10` }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2, delay: 1 }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-4">
+        {/* Search and filters */}
+        <motion.div
+          className="mb-8 space-y-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex flex-col gap-4 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#3D5A73]" />
+              <Input
+                placeholder="Suche nach Stellenbezeichnung oder Ort..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="border-[#E5E7EB] pl-10 focus:border-[#FF7A35] focus:ring-[#FF7A35]/20"
+              />
             </div>
-            <Input
-              type="text"
-              placeholder="Suche nach Stellenbezeichnung oder Schlüsselwörtern"
-              className="pl-10"
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-            />
-          </div>
 
-          <div className="flex gap-2">
-            <select
-              className="h-10 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
-              value={selectedDepartment || ''}
-              onChange={e => setSelectedDepartment(e.target.value || null)}
-            >
-              <option value="">Alle Abteilungen</option>
-              {departments.map(dept => (
-                <option key={dept} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
+            <div className="flex gap-2">
+              <div className="w-full md:w-48">
+                <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
+                  <SelectTrigger className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20">
+                    <div className="flex items-center gap-2">
+                      <Filter className="h-4 w-4 text-[#3D5A73]" />
+                      <SelectValue placeholder="Abteilung" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Alle Abteilungen</SelectItem>
+                    {departments.map(dept => (
+                      <SelectItem key={dept} value={dept}>
+                        {dept}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <select
-              className="h-10 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
-              value={selectedLocation || ''}
-              onChange={e => setSelectedLocation(e.target.value || null)}
-            >
-              <option value="">Alle Standorte</option>
-              {locations.map(loc => (
-                <option key={loc} value={loc}>
-                  {loc}
-                </option>
-              ))}
-            </select>
+              <div className="w-full md:w-48">
+                <Select value={selectedType} onValueChange={setSelectedType}>
+                  <SelectTrigger className="border-[#E5E7EB] focus:border-[#FF7A35] focus:ring-[#FF7A35]/20">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-[#3D5A73]" />
+                      <SelectValue placeholder="Anstellungsart" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Alle Arten</SelectItem>
+                    {jobTypes.map(type => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Stellenangebote */}
-        {filteredJobs.length === 0 ? (
-          <div className="py-16 text-center">
-            <h3 className="mb-2 text-xl font-semibold">Keine passenden Stellenangebote gefunden</h3>
-            <p className="mb-6 text-secondary">
-              Versuchen Sie, andere Suchbegriffe zu verwenden oder die Filter anzupassen.
-            </p>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedDepartment(null);
-                setSelectedLocation(null);
-              }}
-            >
-              Filter zurücksetzen
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredJobs.map(job => (
-              <Card
+        {/* Job listings */}
+        <motion.div
+          className="space-y-4"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map(job => (
+              <motion.div
                 key={job.id}
-                className="cursor-pointer transition-shadow duration-300 hover:shadow-md"
-                onClick={() => setSelectedJob(job)}
+                variants={itemVariants}
+                whileHover={{
+                  y: -5,
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
+                  transition: { duration: 0.3 },
+                }}
               >
-                <CardContent className="p-6">
-                  <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-                    <div>
-                      <h3 className="mb-2 text-xl font-semibold text-primary">{job.title}</h3>
-                      <div className="flex flex-wrap gap-4 text-sm text-secondary">
-                        <div className="flex items-center gap-1">
-                          <Briefcase className="h-4 w-4 text-primary" />
-                          <span>{job.department}</span>
+                <Card className="overflow-hidden border border-[#E5E7EB] transition-all duration-300 hover:border-[#1A2027]/20 hover:shadow-lg">
+                  <CardContent className="p-0">
+                    <div className="flex flex-col md:flex-row md:items-center">
+                      <div className="flex-1 p-6">
+                        <h3 className="mb-2 text-xl font-medium text-[#1A2027]">{job.title}</h3>
+
+                        <div className="mb-4 flex flex-wrap gap-4">
+                          <div className="flex items-center gap-2 text-sm text-[#3D5A73]">
+                            <MapPin className="h-4 w-4 text-[#FF7A35]" />
+                            {job.location}
+                          </div>
+
+                          <div className="flex items-center gap-2 text-sm text-[#3D5A73]">
+                            <Briefcase className="h-4 w-4 text-[#3D5A73]" />
+                            {job.type}
+                          </div>
+
+                          <div className="flex items-center gap-2 text-sm text-[#3D5A73]">
+                            <Clock className="h-4 w-4 text-[#FF7A35]" />
+                            {job.postedAt}
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <MapPin className="h-4 w-4 text-primary" />
-                          <span>{job.location}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Filter className="h-4 w-4 text-primary" />
-                          <span>{job.type}</span>
+
+                        <div className="inline-block rounded-full bg-[#F8F9FC] px-3 py-1 text-xs font-medium text-[#3D5A73]">
+                          {job.department}
                         </div>
                       </div>
+
+                      <div className="border-t border-[#E5E7EB] p-4 md:border-l md:border-t-0">
+                        {onSelectJob ? (
+                          <Button
+                            onClick={() => onSelectJob(job.id)}
+                            className="group relative overflow-hidden rounded-md bg-[#1A2027] px-6 py-2 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]"
+                          >
+                            <span className="relative z-10 flex items-center gap-2">
+                              Details
+                              <motion.div className="transition-transform duration-300 group-hover:translate-x-1">
+                                <ArrowRight className="h-4 w-4" />
+                              </motion.div>
+                            </span>
+                            <motion.div
+                              className="absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]"
+                              initial={{ scaleX: 0 }}
+                              whileHover={{ scaleX: 1 }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          </Button>
+                        ) : (
+                          <Link href={`/karriere/${job.id}`} className="group">
+                            <Button className="relative overflow-hidden rounded-md bg-[#1A2027] px-6 py-2 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]">
+                              <span className="relative z-10 flex items-center gap-2">
+                                Details
+                                <motion.div className="transition-transform duration-300 group-hover:translate-x-1">
+                                  <ArrowRight className="h-4 w-4" />
+                                </motion.div>
+                              </span>
+                              <motion.div
+                                className="absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]"
+                                initial={{ scaleX: 0 }}
+                                whileHover={{ scaleX: 1 }}
+                                transition={{ duration: 0.3 }}
+                              />
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
                     </div>
-
-                    <Button
-                      variant="ghost"
-                      className="group flex items-center gap-2 text-primary"
-                      onClick={e => {
-                        e.stopPropagation();
-                        setSelectedJob(job);
-                      }}
-                    >
-                      Details ansehen
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-
-        {/* Weitere Informationen */}
-        <div className="mt-12 rounded-lg bg-primary/5 p-6 text-center">
-          <h3 className="mb-3 text-xl font-semibold text-primary">
-            Keine passende Stelle gefunden?
-          </h3>
-          <p className="mb-6 text-secondary">
-            Wir freuen uns auch über Ihre Initiativbewerbung. Teilen Sie uns mit, welche Rolle Sie
-            bei uns übernehmen möchten.
-          </p>
-          <Link href="/kontakt">
-            <Button variant="default" className="bg-primary text-white hover:bg-primary/90">
-              Initiativbewerbung senden
-            </Button>
-          </Link>
-        </div>
-      </Container>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))
+          ) : (
+            <motion.div
+              className="rounded-lg border border-[#E5E7EB] bg-white p-8 text-center"
+              variants={itemVariants}
+            >
+              <h3 className="mb-2 text-xl font-medium text-[#1A2027]">
+                Keine Stellen gefunden
+                <span className="text-[#FF7A35]">.</span>
+              </h3>
+              <p className="text-[#3D5A73]">
+                Bitte versuchen Sie es mit anderen Suchkriterien oder schauen Sie später wieder
+                vorbei.
+              </p>
+            </motion.div>
+          )}
+        </motion.div>
+      </div>
     </section>
   );
 };

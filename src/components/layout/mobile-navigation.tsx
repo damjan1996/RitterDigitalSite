@@ -3,7 +3,7 @@
 // src/components/layout/mobile-navigation.tsx
 import { ChevronDown, Mail, Menu, Phone, X } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'; // Ersetzt useRouter aus next/router
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -49,20 +49,18 @@ const mainMenuItems = [
 
 interface MobileNavigationProps {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen?: (isOpen: boolean) => void;
   isDark?: boolean;
 }
 
-export const MobileNavigation: React.FC<MobileNavigationProps> = ({
-  isOpen,
-  setIsOpen,
-  isDark = false,
-}) => {
-  const router = useRouter();
+const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigationProps) => {
+  const pathname = usePathname(); // usePathname aus next/navigation anstatt useRouter
   const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    if (setIsOpen) {
+      setIsOpen(!isOpen);
+    }
     if (openSubmenu) setOpenSubmenu(null);
   };
 
@@ -71,7 +69,9 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   };
 
   const handleLinkClick = () => {
-    setIsOpen(false);
+    if (setIsOpen) {
+      setIsOpen(false);
+    }
     setOpenSubmenu(null);
   };
 
@@ -130,7 +130,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                       <button
                         className={cn(
                           'flex w-full items-center justify-between py-2 text-left font-medium',
-                          router.pathname.startsWith(item.href)
+                          pathname.startsWith(item.href)
                             ? 'text-accent'
                             : 'text-primary hover:text-accent'
                         )}
@@ -159,7 +159,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                                 href={subItem.href}
                                 className={cn(
                                   'block py-1.5 text-sm',
-                                  router.pathname === subItem.href
+                                  pathname === subItem.href
                                     ? 'font-medium text-accent'
                                     : 'text-secondary hover:text-accent'
                                 )}
@@ -177,9 +177,7 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
                       href={item.href}
                       className={cn(
                         'block py-2 font-medium',
-                        router.pathname === item.href
-                          ? 'text-accent'
-                          : 'text-primary hover:text-accent'
+                        pathname === item.href ? 'text-accent' : 'text-primary hover:text-accent'
                       )}
                       onClick={handleLinkClick}
                     >
@@ -209,16 +207,11 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({
 
           {/* CTA Button */}
           <div className="mt-8">
-            <Button
-              variant="default"
-              className="w-full bg-blue-600 text-white hover:bg-blue-700"
-              onClick={() => {
-                handleLinkClick();
-                router.push('/kontakt');
-              }}
-            >
-              Kontakt aufnehmen
-            </Button>
+            <Link href="/kontakt" onClick={handleLinkClick}>
+              <Button variant="default" className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                Kontakt aufnehmen
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
