@@ -127,7 +127,7 @@ export const Footer: React.FC = () => {
                 transition={{ duration: 0.2 }}
               >
                 <img
-                  src="/images/logos/rd_logo.png"
+                  src="/images/logos/logo_ritterdigital.png"
                   alt="RITTER Gesellschaft für digitale Geschäftsprozesse mbH Logo"
                   className="h-full w-full object-contain"
                 />

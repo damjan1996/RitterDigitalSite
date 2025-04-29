@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
             <Link href="/" className="relative z-50 flex items-center">
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
                 <img
-                  src="/images/logos/rd_logo.png"
+                  src="/images/logos/logo_ritterdigital.png"
                   alt="Ritter Digital Logo"
                   className="h-12 w-auto"
                 />
