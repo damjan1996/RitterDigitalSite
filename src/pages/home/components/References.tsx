@@ -7,13 +7,14 @@ import type React from 'react';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
 
-// Refined color palette - consistent with other components
+// Define colors locally to avoid import issues
 const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#FFFFFF', // White background
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
+  primary: '#23282D',
+  secondary: '#50697D',
+  accent: '#FF7A35',
+  background: '#FFFFFF',
+  backgroundAlt: '#F8F9FC',
+  muted: '#F8F9FC',
 };
 
 interface Reference {
@@ -47,7 +48,7 @@ export const References: React.FC<ReferencesProps> = ({
   },
   className,
 }) => {
-  // Default-References verwenden, wenn keine angegeben wurden
+  // Default references if none provided
   const displayReferences =
     references.length > 0
       ? references
@@ -118,8 +119,9 @@ export const References: React.FC<ReferencesProps> = ({
                 key={index}
                 className="flex h-12 items-center justify-center opacity-70 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
                 variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
               >
-                {/* Placeholder for logo - in a real implementation, you would use actual logo images */}
+                {/* Logo placeholder */}
                 <div className="h-8 w-32 text-center text-[#6B7280]">{reference.name}</div>
               </motion.div>
             ))}
@@ -140,18 +142,17 @@ export const References: React.FC<ReferencesProps> = ({
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div className="relative overflow-hidden rounded-sm border border-gray-200">
-              {/* Dotted overlay */}
-              <div className="absolute inset-0 z-10 bg-[url('/dots-pattern.png')] bg-repeat opacity-30" />
-
               {/* Image */}
               <div className="aspect-[4/3] w-full">
-                <Image
-                  src="/meeting-image.jpg"
-                  alt="Team meeting"
-                  width={600}
-                  height={450}
-                  className="h-full w-full object-cover grayscale"
-                />
+                <motion.div whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}>
+                  <Image
+                    src="/meeting-image.jpg"
+                    alt="Team meeting"
+                    width={600}
+                    height={450}
+                    className="h-full w-full object-cover"
+                  />
+                </motion.div>
               </div>
             </div>
           </motion.div>
@@ -171,14 +172,16 @@ export const References: React.FC<ReferencesProps> = ({
             </motion.p>
 
             <motion.h2
-              className="mb-6 text-3xl font-medium text-[#1A2027] md:text-4xl"
+              className="mb-6 text-3xl font-medium md:text-4xl"
+              style={{ color: colors.primary }}
               variants={titleVariants}
             >
               {caseStudy.title}
             </motion.h2>
 
             <motion.p
-              className="text-base leading-relaxed text-[#3D5A73] md:text-lg"
+              className="text-base leading-relaxed md:text-lg"
+              style={{ color: colors.secondary }}
               variants={itemVariants}
             >
               {caseStudy.description}

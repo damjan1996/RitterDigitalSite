@@ -1,23 +1,24 @@
-// src/pages/home/components/LatestBlogPosts.tsx
+'use client';
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 
-import { LoadingSpinner } from '@/components/common/loading-spinner';
-import { SectionTitle } from '@/components/common/section-title';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { supabase } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { PostCard } from '@/pages/blog/components/PostCard';
 
-// Farbdefinitionen aus dem Farbschema - konsistent mit anderen Komponenten
+// Define colors locally to avoid import issues
 const colors = {
-  primary: '#23282D', // Primarna boja za strukturiranje
-  secondary: '#50697D', // Glavna boja za pozadinske
-  accent: '#FF8A4C', // Akcentna boja za isticanje
-  background: '#F4F5F8', // Osnovna boja za pozadinu
-  secondaryAccent: '#3A4F66', // Sekundarna akcentna boja
+  primary: '#23282D',
+  secondary: '#50697D',
+  accent: '#FF7A35',
+  background: '#FFFFFF',
+  backgroundAlt: '#F8F9FC',
+  muted: '#F8F9FC',
 };
 
 interface LatestBlogPostsProps {
@@ -42,15 +43,15 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
           .from('blog_posts')
           .select(
             `
-                        id,
-                        title,
-                        slug,
-                        excerpt,
-                        featured_image,
-                        published_at,
-                        author:authors(name, profile_image),
-                        categories(name, slug)
-                    `
+              id,
+              title,
+              slug,
+              excerpt,
+              featured_image,
+              published_at,
+              author:authors(name, profile_image),
+              categories(name, slug)
+            `
           )
           .eq('published', true)
           .order('published_at', { ascending: false })
@@ -58,7 +59,7 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
 
         if (error) throw new Error(error.message);
 
-        // Daten für die PostCard-Komponente formatieren
+        // Format data for the PostCard component
         const formattedPosts = data.map(post => ({
           id: post.id,
           title: post.title,
@@ -121,7 +122,7 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
     },
   };
 
-  // Animierte Ladekomponente
+  // Loading component
   const LoadingComponent = () => (
     <motion.div
       className="flex justify-center py-12"
@@ -130,30 +131,35 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
       transition={{ duration: 0.4 }}
     >
       <div className="flex flex-col items-center">
-        <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-[#F4F5F8] border-t-[#FF8A4C]"></div>
-        <span className="text-[#50697D]">Blog-Beiträge werden geladen...</span>
+        <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-[#F8F9FC] border-t-[#FF7A35]"></div>
+        <span style={{ color: colors.secondary }}>Blog-Beiträge werden geladen...</span>
       </div>
     </motion.div>
   );
 
-  // Animierte Fehlerkomponente
+  // Error component
   const ErrorComponent = ({ message }: { message: string }) => (
     <motion.div
-      className="py-12 text-center text-[#FF8A4C]/90"
+      className="py-12 text-center"
+      style={{ color: `${colors.accent}90` }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="inline-block rounded-none border border-[#FF8A4C]/20 bg-[#FF8A4C]/5 p-4">
+      <div
+        className="inline-block rounded-none border bg-[#FF7A35]/5 p-4"
+        style={{ borderColor: `${colors.accent}20` }}
+      >
         {message}
       </div>
     </motion.div>
   );
 
-  // Animierte "Keine Beiträge" Komponente
+  // Empty component
   const EmptyComponent = () => (
     <motion.div
-      className="py-12 text-center text-[#50697D]"
+      className="py-12 text-center"
+      style={{ color: colors.secondary }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -164,9 +170,11 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
 
   return (
     <section className={cn('relative bg-white py-16 md:py-24', className)}>
-      {/* Subtile Hintergrundakzente */}
-      <div className="absolute right-0 top-0 h-1 w-full bg-[#F4F5F8]"></div>
-      <div className="absolute bottom-0 left-0 h-40 w-40 rounded-tr-full bg-[#FF8A4C]/5"></div>
+      {/* Subtle background accents */}
+      <div
+        className="absolute right-0 top-0 h-1 w-full"
+        style={{ backgroundColor: colors.backgroundAlt }}
+      ></div>
 
       <Container className="relative z-10">
         <motion.div
@@ -175,7 +183,17 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
           viewport={{ once: true, amount: 0.2 }}
           variants={titleVariants}
         >
-          <SectionTitle title={title} subtitle={subtitle} align="center" className="mb-12" />
+          <div className="mb-12 text-center">
+            <h2 className="mb-3 text-3xl font-medium md:text-4xl" style={{ color: colors.primary }}>
+              {title}
+            </h2>
+            <p
+              className="mx-auto max-w-2xl text-base md:text-lg"
+              style={{ color: colors.secondary }}
+            >
+              {subtitle}
+            </p>
+          </div>
         </motion.div>
 
         {isLoading ? (
@@ -195,12 +213,12 @@ export const LatestBlogPosts: React.FC<LatestBlogPostsProps> = ({
             {posts.map((post, index) => (
               <motion.div key={post.id} variants={itemVariants}>
                 <div className="relative">
-                  {/* Subtiler Farbakzent an der Oberseite jeder Karte */}
+                  {/* Subtle color accent at the top of each card */}
                   <div
-                    className={`absolute left-0 top-0 h-1 w-12 ${index % 2 === 0 ? 'bg-[#FF8A4C]' : 'bg-[#3A4F66]'}`}
+                    className={`absolute left-0 top-0 h-1 w-12 ${index % 2 === 0 ? 'bg-[#FF7A35]' : 'bg-[#3A4F66]'}`}
                   ></div>
 
-                  {/* Die ursprüngliche PostCard mit Hover-Effekten */}
+                  {/* PostCard with hover effects */}
                   <motion.div
                     whileHover={{
                       y: -5,

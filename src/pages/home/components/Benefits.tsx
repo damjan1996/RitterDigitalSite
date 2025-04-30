@@ -8,13 +8,14 @@ import type React from 'react';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
 
-// Refined color palette - consistent with other components
+// Define colors locally to avoid import issues
 const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#FFFFFF', // White background
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
+  primary: '#23282D',
+  secondary: '#50697D',
+  accent: '#FF7A35',
+  background: '#FFFFFF',
+  backgroundAlt: '#F8F9FC',
+  muted: '#F8F9FC',
 };
 
 interface BenefitItem {
@@ -34,7 +35,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
   benefits = [],
   className,
 }) => {
-  // Default-Benefits verwenden, wenn keine angegeben wurden
+  // Default benefits if none provided
   const displayBenefits =
     benefits.length > 0
       ? benefits
@@ -83,7 +84,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
     },
   };
 
-  // New hover variants for benefit items
+  // Hover variants for benefit items
   const benefitItemVariants = {
     initial: { scale: 1, x: 0 },
     hover: {
@@ -117,28 +118,20 @@ export const Benefits: React.FC<BenefitsProps> = ({
     },
   };
 
-  // Background gradient animation
-  const sectionVariants = {
-    initial: {
-      backgroundPosition: '0% 0%',
-    },
-    hover: {
-      backgroundPosition: '100% 100%',
-      transition: { duration: 3, ease: 'linear' },
-    },
-  };
-
   return (
     <motion.section
       className={cn('relative overflow-hidden py-16 md:py-24', className)}
       style={{
         backgroundColor: colors.background,
-        background: `linear-gradient(120deg, ${colors.background} 0%, #f8f9fa 50%, ${colors.background} 100%)`,
+        background: `linear-gradient(120deg, ${colors.background} 0%, ${colors.backgroundAlt} 50%, ${colors.background} 100%)`,
         backgroundSize: '200% 200%',
       }}
       initial="initial"
       whileHover="hover"
-      variants={sectionVariants}
+      animate={{
+        backgroundPosition: ['0% 0%', '100% 100%'],
+        transition: { duration: 20, repeat: Number.POSITIVE_INFINITY, repeatType: 'reverse' },
+      }}
     >
       <Container className="relative z-10 max-w-6xl">
         <div className="flex flex-col items-start gap-16 lg:flex-row lg:gap-24">
@@ -150,13 +143,18 @@ export const Benefits: React.FC<BenefitsProps> = ({
             viewport={{ once: true, amount: 0.2 }}
           >
             <motion.h2
-              className="mb-6 text-3xl font-medium text-[#1A2027] md:text-4xl"
+              className="mb-6 text-3xl font-medium md:text-4xl"
+              style={{ color: colors.primary }}
               variants={titleVariants}
             >
               {title}
             </motion.h2>
 
-            <motion.p className="mb-10 text-base text-[#3D5A73] md:text-lg" variants={itemVariants}>
+            <motion.p
+              className="mb-10 text-base md:text-lg"
+              style={{ color: colors.secondary }}
+              variants={itemVariants}
+            >
               {description}
             </motion.p>
 
@@ -179,15 +177,18 @@ export const Benefits: React.FC<BenefitsProps> = ({
                   custom={index}
                 >
                   <motion.div
-                    className="mt-0.5 flex h-5 w-5 items-center justify-center text-[#FF7A35]"
+                    className="mt-0.5 flex h-5 w-5 items-center justify-center"
+                    style={{ color: colors.accent }}
                     variants={checkIconVariants}
                     initial="initial"
                     animate="animate"
                   >
                     <Check className="h-5 w-5" />
                   </motion.div>
+
                   <motion.p
-                    className="text-base text-[#3D5A73] transition-colors"
+                    className="text-base transition-colors"
+                    style={{ color: colors.secondary }}
                     variants={benefitItemVariants}
                   >
                     {benefit.title}
@@ -212,11 +213,11 @@ export const Benefits: React.FC<BenefitsProps> = ({
               whileHover="hover"
             >
               <Image
-                src="/circuit-illustration.png"
+                src="/images/firmenzentrale.png"
                 alt="Digital Circuit Illustration"
                 width={600}
                 height={500}
-                className="w-full opacity-20 transition-all duration-300"
+                className="w-full transition-all duration-300"
               />
               <motion.div
                 className="absolute inset-0 bg-gradient-to-br from-transparent to-[#FF7A35]/10"
@@ -229,9 +230,10 @@ export const Benefits: React.FC<BenefitsProps> = ({
         </div>
       </Container>
 
-      {/* Animated background elements */}
+      {/* Subtle background elements */}
       <motion.div
-        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5"
+        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full"
+        style={{ backgroundColor: `${colors.accent}05` }}
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -242,8 +244,10 @@ export const Benefits: React.FC<BenefitsProps> = ({
           repeatType: 'reverse',
         }}
       />
+
       <motion.div
-        className="absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5"
+        className="absolute -top-20 right-20 h-40 w-40 rounded-full"
+        style={{ backgroundColor: `${colors.secondary}05` }}
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.4, 0.2],

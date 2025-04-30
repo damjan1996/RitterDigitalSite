@@ -30,7 +30,7 @@ interface CTAFormProps {
 }
 
 export const CTAForm: React.FC<CTAFormProps> = ({
-  title = 'Wir sind bereit für Ihren nächsten Schritt',
+  title = 'Der nächste Schritt',
   subtitle = 'Beginnen Sie noch heute mit der Transformation Ihres Unternehmens',
   features = [
     'Unverbindlich & kostenlos',

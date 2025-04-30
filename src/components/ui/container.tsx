@@ -1,30 +1,39 @@
 // src/components/ui/container.tsx
 import React from 'react';
+import type { ReactNode, ElementType } from 'react';
 
 import { cn } from '@/lib/utils';
 
-interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  paddingY?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  paddingX?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  as?: React.ElementType;
+// Definiere die Container-Größen, Paddings und andere Optionen
+type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+type PaddingSize = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+
+// Basisprops für den Container
+interface ContainerProps {
+  size?: ContainerSize;
+  paddingY?: PaddingSize;
+  paddingX?: PaddingSize;
+  children?: ReactNode;
+  className?: string;
+  as?: ElementType;
+  [key: string]: any; // Ermöglicht zusätzliche Props
 }
 
 /**
  * Container-Komponente für konsistentes Layout
  * Steuert die maximale Breite sowie den horizontalen und vertikalen Abstand
  */
-export const Container: React.FC<ContainerProps> = ({
+export const Container = ({
   children,
   className,
   size = 'xl',
   paddingY = 'md',
   paddingX = 'md',
-  as: Component = 'div',
+  as = 'div',
   ...props
-}) => {
+}: ContainerProps): JSX.Element => {
   // Container-Größen
-  const sizeClasses = {
+  const sizeClasses: Record<ContainerSize, string> = {
     sm: 'max-w-screen-sm',
     md: 'max-w-screen-md',
     lg: 'max-w-screen-lg',
@@ -33,7 +42,7 @@ export const Container: React.FC<ContainerProps> = ({
   };
 
   // Vertikaler Abstand
-  const paddingYClasses = {
+  const paddingYClasses: Record<PaddingSize, string> = {
     none: 'py-0',
     sm: 'py-4',
     md: 'py-8',
@@ -42,7 +51,7 @@ export const Container: React.FC<ContainerProps> = ({
   };
 
   // Horizontaler Abstand
-  const paddingXClasses = {
+  const paddingXClasses: Record<PaddingSize, string> = {
     none: 'px-0',
     sm: 'px-4',
     md: 'px-4 sm:px-6',
@@ -50,20 +59,17 @@ export const Container: React.FC<ContainerProps> = ({
     xl: 'px-4 sm:px-10',
   };
 
-  return (
-    <Component
-      className={cn(
-        'mx-auto w-full',
-        sizeClasses[size],
-        paddingYClasses[paddingY],
-        paddingXClasses[paddingX],
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </Component>
+  // Kombinierte Klassen
+  const containerClasses = cn(
+    'mx-auto w-full',
+    sizeClasses[size],
+    paddingYClasses[paddingY],
+    paddingXClasses[paddingX],
+    className
   );
+
+  // Verwende React.createElement anstelle von JSX für bessere TypeScript-Kompatibilität
+  return React.createElement(as, { className: containerClasses, ...props }, children);
 };
 
 export default Container;

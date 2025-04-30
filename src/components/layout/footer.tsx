@@ -142,8 +142,7 @@ export const Footer: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.8 }}
               />
               <h3 className="text-lg font-medium text-[#1A2027]">
-                FUTURISTIC TECH & <br />
-                DIGITAL SOLUTIONS
+                DIGITALE LÖSUNGEN
                 <span className="text-[#FF7A35]">.</span>
               </h3>
             </motion.div>

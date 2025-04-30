@@ -29,7 +29,7 @@ const Logo = () => (
     className="relative z-10"
   >
     <Image
-      src="/images/logos/rd_logo.png"
+      src="/images/logos/logo_ritterdigital.png"
       alt="Ritter Digital"
       width={280}
       height={90}
