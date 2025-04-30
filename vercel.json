@@ -1,6 +1,6 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "installCommand": "npm install --legacy-peer-deps --network-timeout 300000",
+  "installCommand": "npm install --legacy-peer-deps --network-timeout=300000",
   "framework": "nextjs"
 }
