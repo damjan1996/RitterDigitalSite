@@ -15,7 +15,8 @@
         "prepare": "husky install",
         "test": "jest",
         "test:watch": "jest --watch",
-        "analyze": "ANALYZE=true next build"
+        "analyze": "ANALYZE=true next build",
+        "install": "npm install --legacy-peer-deps"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.10.0",
@@ -30,7 +31,7 @@
         "@radix-ui/react-tabs": "^1.1.7",
         "@radix-ui/react-toast": "^1.2.10",
         "@react-three/drei": "^10.0.7",
-        "@react-three/fiber": "^9.1.2",
+        "@react-three/fiber": "^8.15.0",
         "@supabase/supabase-js": "^2.49.4",
         "@types/three": "^0.176.0",
         "class-variance-authority": "^0.7.1",
@@ -95,7 +96,6 @@
         ]
     },
     "engines": {
-        "node": ">=18.0.0",
-        "pnpm": ">=8.0.0"
+        "node": ">=18.0.0"
     }
 }
