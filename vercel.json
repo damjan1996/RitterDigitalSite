@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm run build",
-  "installCommand": "npm i -g pnpm@latest && pnpm install --no-frozen-lockfile",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install --legacy-peer-deps --network-timeout 300000",
   "framework": "nextjs"
 }
