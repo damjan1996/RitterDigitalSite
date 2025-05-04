@@ -54,7 +54,7 @@ const defaultServices: Service[] = [
     color: colors.secondary,
     href: '/leistungen/data-warehouse',
     video: '/videos/datawarehouse.mp4',
-    keywords: ['Architektur', 'Integration', 'Skalierung', 'Optimierung'],
+    keywords: ['Struktur', 'Integration', 'Skalierung', 'Optimierung'],
   },
   {
     id: 3,
@@ -64,7 +64,7 @@ const defaultServices: Service[] = [
     color: colors.accent,
     href: '/leistungen/softwareentwicklung',
     video: '/videos/softwaredevelopment.mp4',
-    keywords: ['Python / React', 'Programme', 'Webanwendungen', 'Scripts'],
+    keywords: ['Python/React', 'Programme', 'Webapps', 'Scripts'],
   },
   {
     id: 4,
@@ -348,8 +348,8 @@ export function ServiceTeaser({
 
     // Position camera - better for mobile viewing
     if (currentIsMobile) {
-      // Centered and pulled back for better mobile view
-      camera.position.set(0, 20, 450);
+      // Zentrierte Position für Mobile
+      camera.position.set(0, 30, 400); // Y-Position etwas erhöht, Z-Position näher
     } else {
       camera.position.set(150, 50, 400);
     }
@@ -406,9 +406,9 @@ export function ServiceTeaser({
 
     // Create carousel - centered on mobile
     const carousel = new THREE.Object3D();
-    carousel.position.x = currentIsMobile ? 0 : 170;
-    carousel.position.y = currentIsMobile ? -30 : 0; // Lower position on mobile for better framing
-    carousel.position.z = currentIsMobile ? 0 : 100;
+    carousel.position.x = currentIsMobile ? 0 : 170; // X bleibt bei 0 für Mobile
+    carousel.position.y = currentIsMobile ? 0 : 0; // Y-Position etwas höher gesetzt
+    carousel.position.z = currentIsMobile ? 225 : 100; // Z-Position nach vorne verschoben für Mobile
     carouselRef.current = carousel;
     scene.add(carousel);
 
@@ -688,19 +688,15 @@ export function ServiceTeaser({
 
   return (
     <section
-      className={cn(
-        'relative flex min-h-screen cursor-grab flex-col justify-center overflow-hidden active:cursor-grabbing',
-        className
-      )}
+      className={cn('relative cursor-grab overflow-hidden active:cursor-grabbing', className)}
       style={{
         paddingTop: `${headerHeight}px`,
         background: '#0A0A1A',
+        height: isMobile ? '100vh' : 'auto',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       ref={dragAreaRef as React.RefObject<HTMLElement>}
-      onPointerDown={onPointerDown}
-      onTouchStart={isMobile ? onTouchStart : undefined}
-      onTouchMove={isMobile ? onTouchMove : undefined}
-      onTouchEnd={isMobile ? onTouchEnd : undefined}
       id="carousel-section"
     >
       {/* Apply styles using className approach instead of jsx global */}
@@ -722,13 +718,13 @@ export function ServiceTeaser({
         .mobile-indicator {
           display: flex;
           justify-content: center;
-          gap: 4px;
-          margin-top: 12px;
+          gap: 10px;
+          margin-top: 25px;
         }
 
         .mobile-indicator-dot {
-          width: 8px;
-          height: 8px;
+          width: 12px;
+          height: 12px;
           border-radius: 50%;
           background-color: rgba(255, 255, 255, 0.3);
           transition: all 0.3s ease;
@@ -736,7 +732,7 @@ export function ServiceTeaser({
 
         .mobile-indicator-dot.active {
           background-color: white;
-          width: 20px;
+          width: 25px;
           border-radius: 4px;
         }
 
@@ -763,101 +759,30 @@ export function ServiceTeaser({
         }}
       />
 
-      {/* Three.js Container with touch events */}
-      <div
-        ref={containerRef}
-        className="absolute inset-0 h-full w-full cursor-grab active:cursor-grabbing"
-        onPointerDown={isMobile ? undefined : onPointerDown}
-        onTouchStart={isMobile ? onTouchStart : undefined}
-        onTouchMove={isMobile ? onTouchMove : undefined}
-        onTouchEnd={isMobile ? onTouchEnd : undefined}
-        style={{ touchAction: 'none', zIndex: 5 }}
-      >
-        <canvas ref={canvasRef} className="block h-full w-full transition-all duration-300" />
-
-        {/* Mobile swipe hint - only shown initially */}
-        {isMobile && isReady && activeIndex === 0 && (
-          <div className="pointer-events-none absolute bottom-1/4 left-0 right-0 flex items-center justify-center">
-            <div className="swipe-hint rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm">
-              <span className="text-sm text-white">Zum Wischen</span>
-              <span className="ml-2 text-white">{'\u2192'}</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Content Overlay - Mobile optimized positioning */}
-      <Container className="relative z-10 flex flex-1 flex-col justify-center px-4 py-8 md:px-6 lg:py-0">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-16">
-          {/* Text content - moved higher on mobile */}
-          <div className={cn('flex flex-col justify-center', isMobile ? 'mt-0 pt-0' : '')}>
-            {/* Section title */}
-            <h2 className="mb-6 text-center text-xl font-medium text-white/70 md:text-left md:text-2xl">
-              {title}
-            </h2>
-
-            {/* Top categories navigation - desktop only */}
-            <div className="mb-6 hidden gap-4 text-white/60 md:flex">
-              {services.map((service, idx) => (
-                <button
-                  key={idx}
-                  className={cn(
-                    'text-sm transition-colors',
-                    activeIndex === idx ? 'text-white' : 'hover:text-white/80'
-                  )}
-                  onClick={() => goToPanel(idx)}
-                >
-                  {service.title}
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile-specific service icon */}
-            {isMobile && services[activeIndex] && (
-              <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-white/10 p-3">
-                  <div className="text-white">{services[activeIndex].icon}</div>
-                </div>
+      <Container className="relative z-10 flex flex-shrink-0 flex-col px-4 py-2 md:px-6">
+        {/* MOBILE: Text content first - RESTRUCTURED FOR MOBILE */}
+        {isMobile && (
+          <div className="mb-6">
+            {' '}
+            {/* Von mb-2 zu mb-6 geändert für mehr Abstand */}
+            <h2 className="mb-4 text-center text-xl font-medium text-white/70">{title}</h2>
+            <div className="mb-4 flex justify-center">
+              <div className="rounded-full bg-white/10 p-3">
+                <div className="text-white">{services[activeIndex].icon}</div>
               </div>
-            )}
-
-            {/* Title container - centered on mobile */}
-            <div className={cn('relative', isMobile ? 'mb-4 mt-2 text-center' : 'mb-2')}>
-              {/* Title accent bar - hidden on mobile */}
-              {!isMobile && (
-                <div
-                  className="absolute -left-3 top-1/2 h-12 w-1.5 -translate-y-1/2"
-                  style={{
-                    background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
-                  }}
-                />
-              )}
-
-              {/* Main title */}
+            </div>
+            <div className="mb-4 text-center">
               <h1
-                className={cn(
-                  'font-medium leading-tight tracking-tight',
-                  isMobile ? 'text-2xl' : 'text-4xl md:text-5xl lg:text-6xl'
-                )}
+                className="text-2xl font-medium leading-tight tracking-tight"
                 style={{ color: '#fff' }}
               >
                 {services[activeIndex]?.title}
               </h1>
             </div>
-
-            {/* Service description - centered and shorter on mobile */}
-            <p
-              className={cn(
-                'max-w-xl md:text-xl',
-                isMobile ? 'mx-auto mb-6 text-center text-sm' : 'mb-10 text-lg'
-              )}
-              style={{ color: '#ccd' }}
-            >
+            <p className="mx-auto mb-6 text-center text-sm" style={{ color: '#ccd' }}>
               {services[activeIndex]?.description}
             </p>
-
-            {/* Service keywords */}
-            <div className="mb-6 flex flex-wrap justify-center gap-2 md:justify-start">
+            <div className="mb-8 flex flex-wrap justify-center gap-2">
               {services[activeIndex]?.keywords.map((keyword, kidx) => (
                 <span
                   key={kidx}
@@ -867,70 +792,103 @@ export function ServiceTeaser({
                 </span>
               ))}
             </div>
+          </div>
+        )}
 
-            {/* CTA buttons - centered on mobile */}
-            <div
-              className={cn(
-                'flex gap-4',
-                isMobile ? 'mb-6 flex-col items-center justify-center' : 'mt-8 flex-wrap'
-              )}
-            >
-              <Button
-                className={cn(
-                  'relative overflow-hidden rounded-full font-medium text-white transition-all duration-300',
-                  isMobile ? 'w-full max-w-xs px-6 py-3' : 'px-6 py-3 md:px-8 md:py-6'
-                )}
-                size={isMobile ? 'default' : 'lg'}
-                style={{ backgroundColor: colors.accent }}
-                onClick={() => {
-                  if (services[activeIndex]) {
-                    window.location.href = services[activeIndex].href || '#';
-                  }
-                }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Mehr erfahren
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Button>
+        {/* DESKTOP: Regular layout */}
+        {!isMobile && (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-16">
+            <div className="flex flex-col justify-center">
+              {/* Section title */}
+              <h2 className="mb-6 text-center text-xl font-medium text-white/70 md:text-left md:text-2xl">
+                {title}
+              </h2>
 
-              {/* Secondary CTA - shown on mobile as well but with different styling */}
-              <Link
-                href={services[activeIndex]?.href || '#'}
-                className={cn('group', isMobile ? 'w-full max-w-xs' : '')}
-              >
-                <Button
-                  variant="outline"
-                  className={cn(
-                    'relative rounded-full font-medium transition-all duration-300',
-                    isMobile ? 'w-full px-6 py-3' : 'px-8 py-6'
-                  )}
-                  size={isMobile ? 'default' : 'lg'}
-                  style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
-                >
-                  <span className="relative z-10">Kontakt</span>
-                  <div
-                    className="absolute bottom-0 left-0 h-0.5 w-full origin-left"
-                    style={{ backgroundColor: colors.accent }}
-                  />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Mobile-specific indicators - more prominent on mobile */}
-            {isMobile ? (
-              <div className="mobile-indicator">
-                {services.map((_, idx) => (
+              {/* Top categories navigation - desktop only */}
+              <div className="mb-6 hidden gap-4 text-white/60 md:flex">
+                {services.map((service, idx) => (
                   <button
                     key={idx}
-                    className={cn('mobile-indicator-dot', activeIndex === idx ? 'active' : '')}
+                    className={cn(
+                      'text-sm transition-colors',
+                      activeIndex === idx ? 'text-white' : 'hover:text-white/80'
+                    )}
                     onClick={() => goToPanel(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
+                  >
+                    {service.title}
+                  </button>
                 ))}
               </div>
-            ) : (
-              // Desktop indicators
+
+              {/* Title container */}
+              <div className="relative mb-2">
+                <div
+                  className="absolute -left-3 top-1/2 h-12 w-1.5 -translate-y-1/2"
+                  style={{
+                    background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
+                  }}
+                />
+
+                <h1
+                  className="text-4xl font-medium leading-tight tracking-tight md:text-5xl lg:text-6xl"
+                  style={{ color: '#fff' }}
+                >
+                  {services[activeIndex]?.title}
+                </h1>
+              </div>
+
+              {/* Service description */}
+              <p className="mb-10 max-w-xl text-lg md:text-xl" style={{ color: '#ccd' }}>
+                {services[activeIndex]?.description}
+              </p>
+
+              {/* Service keywords */}
+              <div className="mb-6 flex flex-wrap gap-2 md:justify-start">
+                {services[activeIndex]?.keywords.map((keyword, kidx) => (
+                  <span
+                    key={kidx}
+                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm text-white/80"
+                  >
+                    {keyword}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA buttons */}
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Button
+                  className="relative overflow-hidden rounded-full px-6 py-3 font-medium text-white transition-all duration-300 md:px-8 md:py-6"
+                  size="lg"
+                  style={{ backgroundColor: colors.accent }}
+                  onClick={() => {
+                    if (services[activeIndex]) {
+                      window.location.href = services[activeIndex].href || '#';
+                    }
+                  }}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Mehr erfahren
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Button>
+
+                <Link href={services[activeIndex]?.href || '#'} className="group">
+                  <Button
+                    variant="outline"
+                    className="relative rounded-full px-8 py-6 font-medium transition-all duration-300"
+                    size="lg"
+                    style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
+                  >
+                    <span className="relative z-10">Kontakt</span>
+                    <div
+                      className="absolute bottom-0 left-0 h-0.5 w-full origin-left"
+                      style={{ backgroundColor: colors.accent }}
+                    />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Desktop indicators */}
               <div className="mt-16 flex items-center gap-3">
                 {services.map((_, idx) => (
                   <button
@@ -944,13 +902,29 @@ export function ServiceTeaser({
                   />
                 ))}
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Right column - spacer for Three.js canvas */}
-          <div className="hidden lg:block"></div>
-        </div>
+            {/* Right column - spacer for Three.js canvas */}
+            <div className="hidden lg:block"></div>
+          </div>
+        )}
       </Container>
+
+      {/* Three.js Container with touch events - MOVED BELOW TAGS ON MOBILE */}
+      <div
+        ref={containerRef}
+        className={cn(
+          'w-full cursor-grab active:cursor-grabbing',
+          isMobile ? 'h-[300px]' : 'absolute inset-0 h-full' // Höhe leicht reduziert für mehr Balance
+        )}
+        onPointerDown={isMobile ? undefined : onPointerDown}
+        onTouchStart={isMobile ? onTouchStart : undefined}
+        onTouchMove={isMobile ? onTouchMove : undefined}
+        onTouchEnd={isMobile ? onTouchEnd : undefined}
+        style={{ touchAction: 'none', zIndex: 5, marginTop: '-100px' }} // Moderater Überlappung
+      >
+        <canvas ref={canvasRef} className="block h-full w-full transition-all duration-300" />
+      </div>
 
       {/* Loading indicator - centered better on mobile */}
       {!isReady && (
@@ -962,23 +936,50 @@ export function ServiceTeaser({
         </div>
       )}
 
-      {/* Mobile-specific swipe buttons - for users who prefer tapping */}
-      {isMobile && isReady && (
-        <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center space-x-12">
-          <button
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm"
-            onClick={() => handleSwipe(-1)}
-            aria-label="Previous"
+      {/* CTA buttons - moved to bottom on mobile */}
+      {isMobile && (
+        <div className="mb-6 mt-auto flex flex-col items-center justify-center gap-4">
+          {/* Mobile indicators - über den Buttons */}
+          {isReady && (
+            <div className="mobile-indicator mb-8 mt-4">
+              {services.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={cn('mobile-indicator-dot', activeIndex === idx ? 'active' : '')}
+                  onClick={() => goToPanel(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Buttons */}
+          <Button
+            className="w-full max-w-xs overflow-hidden rounded-full px-6 py-3 font-medium text-white transition-all duration-300"
+            size="default"
+            style={{ backgroundColor: colors.accent }}
+            onClick={() => {
+              if (services[activeIndex]) {
+                window.location.href = services[activeIndex].href || '#';
+              }
+            }}
           >
-            <span className="text-white">{'\u2190'}</span>
-          </button>
-          <button
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm"
-            onClick={() => handleSwipe(1)}
-            aria-label="Next"
-          >
-            <span className="text-white">{'\u2192'}</span>
-          </button>
+            <span className="relative z-10 flex items-center gap-2">
+              Mehr erfahren
+              <ArrowRight className="h-4 w-4" />
+            </span>
+          </Button>
+
+          <Link href={services[activeIndex]?.href || '#'} className="w-full max-w-xs">
+            <Button
+              variant="outline"
+              className="w-full rounded-full px-6 py-3 font-medium transition-all duration-300"
+              size="default"
+              style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
+            >
+              <span className="relative z-10">Kontakt</span>
+            </Button>
+          </Link>
         </div>
       )}
     </section>

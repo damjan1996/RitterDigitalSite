@@ -302,23 +302,113 @@ export function Hero({
               </motion.p>
             )}
 
-            {/* Mobile video */}
+            {/* Mobile services showcase - MOVED UP */}
             {isMobile && (
-              <motion.div variants={itemVariants} className="mb-8 mt-4 overflow-hidden rounded-lg">
-                <div className="relative aspect-video">
-                  <video
-                    className="h-auto w-full rounded-lg object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    src={services[0].video}
-                  />
+              <motion.div
+                variants={itemVariants}
+                className="mb-8"
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+              >
+                <div className="relative w-full overflow-hidden rounded-lg bg-white py-6 pl-0 pr-6 shadow-md">
+                  <div className="relative w-full">
+                    {ready &&
+                      services.map((service, index) => (
+                        <div
+                          key={index}
+                          className={cn(
+                            'transition-opacity duration-300',
+                            index === activeService
+                              ? 'relative z-10 opacity-100'
+                              : 'absolute inset-0 z-0 opacity-0'
+                          )}
+                        >
+                          {/* Horizontal layout for mobile */}
+                          <div className="flex items-start gap-4 pl-4">
+                            {/* Icon and text */}
+                            <div className="flex-1">
+                              <div className="mb-2 flex items-center gap-3">
+                                <div
+                                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg"
+                                  style={{
+                                    backgroundColor: `${service.color}10`,
+                                    color: service.color,
+                                  }}
+                                >
+                                  {service.icon}
+                                </div>
+                                <h3
+                                  className="text-xl font-medium"
+                                  style={{ color: colors.primary }}
+                                >
+                                  {service.title}
+                                  <span style={{ color: colors.accent }}>.</span>
+                                </h3>
+                              </div>
+                              <p className="mb-4 text-sm" style={{ color: colors.secondary }}>
+                                {service.description}
+                              </p>
+                            </div>
+
+                            {/* Video for mobile */}
+                            <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg shadow-sm">
+                              <video
+                                id={`mobile-display-video-${index}`}
+                                className="h-full w-full rounded-lg object-cover"
+                                muted
+                                autoPlay
+                                playsInline
+                                loop
+                                src={service.video}
+                              >
+                                <source src={service.video} type="video/mp4" />
+                              </video>
+                            </div>
+                          </div>
+
+                          {/* Mobile learn more link */}
+                          <Link
+                            href={service.href}
+                            className="mt-4 inline-flex items-center gap-2 pl-4 font-medium transition-colors"
+                            style={{ color: colors.primary }}
+                          >
+                            <span>Mehr erfahren</span>
+                            <motion.div
+                              className="flex items-center justify-center rounded-full p-1"
+                              style={{ backgroundColor: colors.muted }}
+                              whileHover={{ x: 5 }}
+                            >
+                              <ArrowRight className="h-4 w-4" />
+                            </motion.div>
+                          </Link>
+                        </div>
+                      ))}
+                  </div>
+
+                  <div className="mt-6 flex gap-3 px-4">
+                    {services.map((service, index) => (
+                      <button
+                        key={index}
+                        className="group relative h-2 flex-1 overflow-hidden rounded-full"
+                        style={{ backgroundColor: colors.muted }}
+                        onClick={() => setActiveService(index)}
+                        aria-label={`Wechseln zu ${service.title}`}
+                      >
+                        <motion.div
+                          className="absolute inset-0 rounded-full"
+                          style={{ backgroundColor: service.color }}
+                          initial={{ scaleX: index === activeService ? 1 : 0 }}
+                          animate={{ scaleX: index === activeService ? 1 : 0 }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             )}
 
-            {/* CTA buttons */}
+            {/* CTA buttons - MOVED BELOW CAROUSEL */}
             <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-4">
               <Link href={ctaPrimary.href} className="group">
                 <Button
@@ -367,7 +457,7 @@ export function Hero({
             </motion.div>
           </motion.div>
 
-          {/* Services Showcase */}
+          {/* Services Showcase for desktop */}
           <motion.div variants={itemVariants} className="hidden lg:block">
             <div className="relative h-full w-full">
               <motion.div
@@ -497,107 +587,6 @@ export function Hero({
               </motion.div>
             </div>
           </motion.div>
-        </motion.div>
-
-        {/* Mobile services showcase */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-8 block lg:hidden"
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          <div className="relative w-full overflow-hidden rounded-lg bg-white p-6 shadow-md">
-            <div className="relative w-full">
-              {ready &&
-                services.map((service, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      'transition-opacity duration-300',
-                      index === activeService
-                        ? 'relative z-10 opacity-100'
-                        : 'absolute inset-0 z-0 opacity-0'
-                    )}
-                  >
-                    {/* Horizontal layout for mobile */}
-                    <div className="flex items-start gap-4">
-                      {/* Icon and text */}
-                      <div className="flex-1">
-                        <div className="mb-2 flex items-center gap-3">
-                          <div
-                            className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg"
-                            style={{
-                              backgroundColor: `${service.color}10`,
-                              color: service.color,
-                            }}
-                          >
-                            {service.icon}
-                          </div>
-                          <h3 className="text-xl font-medium" style={{ color: colors.primary }}>
-                            {service.title}
-                            <span style={{ color: colors.accent }}>.</span>
-                          </h3>
-                        </div>
-                        <p className="mb-4 text-sm" style={{ color: colors.secondary }}>
-                          {service.description}
-                        </p>
-                      </div>
-
-                      {/* Video for mobile */}
-                      <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg shadow-sm">
-                        <video
-                          id={`mobile-display-video-${index}`}
-                          className="h-full w-full rounded-lg object-cover"
-                          muted
-                          autoPlay
-                          playsInline
-                          loop
-                          src={service.video}
-                        >
-                          <source src={service.video} type="video/mp4" />
-                        </video>
-                      </div>
-                    </div>
-
-                    {/* Mobile learn more link */}
-                    <Link
-                      href={service.href}
-                      className="mt-4 inline-flex items-center gap-2 font-medium transition-colors"
-                      style={{ color: colors.primary }}
-                    >
-                      <span>Mehr erfahren</span>
-                      <motion.div
-                        className="flex items-center justify-center rounded-full p-1"
-                        style={{ backgroundColor: colors.muted }}
-                        whileHover={{ x: 5 }}
-                      >
-                        <ArrowRight className="h-4 w-4" />
-                      </motion.div>
-                    </Link>
-                  </div>
-                ))}
-            </div>
-
-            <div className="mt-6 flex gap-3">
-              {services.map((service, index) => (
-                <button
-                  key={index}
-                  className="group relative h-2 flex-1 overflow-hidden rounded-full"
-                  style={{ backgroundColor: colors.muted }}
-                  onClick={() => setActiveService(index)}
-                  aria-label={`Wechseln zu ${service.title}`}
-                >
-                  <motion.div
-                    className="absolute inset-0 rounded-full"
-                    style={{ backgroundColor: service.color }}
-                    initial={{ scaleX: index === activeService ? 1 : 0 }}
-                    animate={{ scaleX: index === activeService ? 1 : 0 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
         </motion.div>
 
         {/* Stats section */}
