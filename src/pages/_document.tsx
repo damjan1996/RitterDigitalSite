@@ -45,13 +45,13 @@ class MyDocument extends Document {
                   s.async=1;
                   d.getElementsByTagName("head")[0].appendChild(s);
                 })();
-              `
+              `,
             }}
           />
         </Head>
         <body className="bg-background font-sans text-primary antialiased">
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );
