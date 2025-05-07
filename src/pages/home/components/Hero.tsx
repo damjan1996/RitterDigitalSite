@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, BarChart3, Brain, ChevronRight, Code2, Database } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import { useSwipeable } from 'react-swipeable'; // Add this import for swipe gestures
 
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
@@ -19,7 +20,7 @@ const colors = {
   background: '#FFFFFF',
 };
 
-// Service definitions with videos
+// Service definitions with images
 const services = [
   {
     id: 1,
@@ -28,7 +29,7 @@ const services = [
     icon: <BarChart3 className="h-6 w-6" />,
     color: colors.secondary,
     href: '/leistungen/business-intelligence',
-    video: '/videos/businessintelligence.mp4',
+    image: '/business-intelligence-dashboard.png',
   },
   {
     id: 2,
@@ -37,7 +38,7 @@ const services = [
     icon: <Database className="h-6 w-6" />,
     color: colors.secondary,
     href: '/leistungen/data-warehouse',
-    video: '/videos/datawarehouse.mp4',
+    image: '/placeholder.svg?key=1vwne',
   },
   {
     id: 3,
@@ -46,7 +47,7 @@ const services = [
     icon: <Code2 className="h-6 w-6" />,
     color: colors.accent,
     href: '/leistungen/softwareentwicklung',
-    video: '/videos/softwaredevelopment.mp4',
+    image: '/software-development-code.png',
   },
   {
     id: 4,
@@ -55,7 +56,25 @@ const services = [
     icon: <Brain className="h-6 w-6" />,
     color: colors.primary,
     href: '/leistungen/kuenstliche-intelligenz',
-    video: '/videos/artificialintelligence.mp4',
+    image: '/placeholder.svg?key=40avc',
+  },
+  {
+    id: 5,
+    title: 'Digitalisierung',
+    description: 'Digitale Transformation für zukunftsfähige Unternehmen.',
+    icon: <Code2 className="h-6 w-6" />,
+    color: colors.secondary,
+    href: '/leistungen/digitalisierung',
+    image: '/digital-transformation-concept.png',
+  },
+  {
+    id: 6,
+    title: 'JTL',
+    description: 'Professionelle JTL-Lösungen und Integrationen.',
+    icon: <Database className="h-6 w-6" />,
+    color: colors.primary,
+    href: '/leistungen/jtl',
+    image: '/placeholder.svg?key=9iv9g',
   },
 ];
 
@@ -93,6 +112,17 @@ export function Hero({
   const sectionRef = useRef<HTMLElement | null>(null);
   const isMobile = useMobile();
 
+  // Auto-rotate services
+  useEffect(() => {
+    if (!isMobile) return; // Only auto-rotate on mobile
+
+    const interval = setInterval(() => {
+      setActiveService(prev => (prev + 1) % services.length);
+    }, 5000); // Change service every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [isMobile]);
+
   // Get header height for proper spacing
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -107,48 +137,15 @@ export function Hero({
     return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
 
-  // Preload videos
+  // Set ready state after component mounts
   useEffect(() => {
-    setReady(false);
-    const preloadDiv = document.createElement('div');
-    preloadDiv.style.position = 'absolute';
-    preloadDiv.style.width = '0';
-    preloadDiv.style.height = '0';
-    preloadDiv.style.overflow = 'hidden';
-    preloadDiv.style.opacity = '0';
-    preloadDiv.style.pointerEvents = 'none';
-
-    services.forEach((service, index) => {
-      const video = document.createElement('video');
-      video.muted = true;
-      video.autoplay = true;
-      video.preload = 'auto';
-      video.loop = true;
-      video.id = `preload-video-${index}`;
-      video.src = service.video;
-      video.load();
-
-      const playPromise = video.play();
-      if (playPromise) {
-        playPromise.catch(() => {
-          // Silent error handling
-        });
-      }
-
-      preloadDiv.appendChild(video);
-    });
-
-    document.body.appendChild(preloadDiv);
-
+    // Simplified - no video preloading to avoid errors
     const timer = setTimeout(() => {
       setReady(true);
     }, 100);
 
     return () => {
       clearTimeout(timer);
-      if (preloadDiv && preloadDiv.parentNode) {
-        preloadDiv.parentNode.removeChild(preloadDiv);
-      }
     };
   }, []);
 
@@ -173,40 +170,21 @@ export function Hero({
     };
   }, []);
 
-  // Play current video
-  const playCurrentVideo = (index: number) => {
-    try {
-      const cachedVideo = document.getElementById(`preload-video-${index}`) as HTMLVideoElement;
-      const displayVideo = document.getElementById(`display-video-${index}`) as HTMLVideoElement;
-
-      [cachedVideo, displayVideo].forEach(video => {
-        if (video) {
-          video.currentTime = 0;
-          video.muted = true;
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              if (video) {
-                video.muted = true;
-                video.play();
-              }
-            });
-          }
-        }
-      });
-    } catch (e) {
-      // Silent error handling
-    }
-  };
-
-  // Effect for switching between services
-  useEffect(() => {
-    if (ready) {
-      setTimeout(() => {
-        playCurrentVideo(activeService);
-      }, 50);
-    }
-  }, [activeService, ready]);
+  // Swipe handlers for mobile
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (isMobile) {
+        setActiveService(prev => (prev + 1) % services.length);
+      }
+    },
+    onSwipedRight: () => {
+      if (isMobile) {
+        setActiveService(prev => (prev - 1 + services.length) % services.length);
+      }
+    },
+    preventScrollOnSwipe: true,
+    trackMouse: false,
+  });
 
   // Animation variants
   const containerVariants = {
@@ -225,11 +203,20 @@ export function Hero({
     visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
   };
 
+  // Handle previous and next service transitions
+  const goToPrevService = () => {
+    setActiveService(prev => (prev - 1 + services.length) % services.length);
+  };
+
+  const goToNextService = () => {
+    setActiveService(prev => (prev + 1) % services.length);
+  };
+
   return (
     <section
       ref={sectionRef}
       className={cn(
-        'relative flex min-h-screen flex-col justify-center overflow-hidden bg-white',
+        'relative flex min-h-[calc(100svh)] flex-col justify-center overflow-hidden bg-white',
         className
       )}
       style={{ paddingTop: `${headerHeight}px` }}
@@ -263,9 +250,9 @@ export function Hero({
         />
       </div>
 
-      <Container className="relative z-10 flex flex-1 flex-col justify-center px-4 py-8 md:px-6 md:py-16 lg:py-24">
+      <Container className="relative z-10 flex flex-1 flex-col justify-center px-4 py-6 md:px-6 md:py-16 lg:py-24">
         <motion.div
-          className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16"
+          className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
@@ -274,7 +261,7 @@ export function Hero({
             {/* Title with accent */}
             <div className="relative mb-2">
               <motion.div
-                className="absolute -left-3 top-1/2 h-12 w-1.5 -translate-y-1/2"
+                className="absolute -left-2 top-1/2 h-12 w-1.5 -translate-y-1/2 sm:-left-3"
                 style={{
                   background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
                 }}
@@ -283,7 +270,7 @@ export function Hero({
                 transition={{ duration: 0.6, delay: 0.8 }}
               />
               <h1
-                className="text-4xl font-medium leading-tight tracking-tight md:text-5xl lg:text-6xl"
+                className="text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl lg:text-6xl"
                 style={{ color: colors.primary }}
               >
                 {title}
@@ -295,41 +282,74 @@ export function Hero({
             {subtitle && (
               <motion.p
                 variants={itemVariants}
-                className="mb-10 max-w-xl text-lg md:text-xl"
+                className="mb-6 max-w-xl text-base sm:text-lg md:mb-10 md:text-xl"
                 style={{ color: colors.secondary }}
               >
                 {subtitle}
               </motion.p>
             )}
 
-            {/* Mobile services showcase - MOVED UP */}
+            {/* Mobile services showcase - Improved for touch */}
             {isMobile && (
               <motion.div
                 variants={itemVariants}
-                className="mb-8"
+                className="mb-6 md:mb-8"
                 initial="hidden"
                 animate={isInView ? 'visible' : 'hidden'}
+                {...swipeHandlers}
               >
-                <div className="relative w-full overflow-hidden rounded-lg bg-white py-6 pl-0 pr-6 shadow-md">
-                  <div className="relative w-full">
+                <div className="relative w-full overflow-hidden rounded-lg bg-white py-5 shadow-md">
+                  {/* Navigation controls - New for mobile */}
+                  <div className="absolute left-2 top-1/2 z-20 -translate-y-1/2">
+                    <button
+                      onClick={goToPrevService}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md"
+                      aria-label="Vorheriger Service"
+                    >
+                      <ChevronRight
+                        className="h-4 w-4 rotate-180"
+                        style={{ color: colors.primary }}
+                      />
+                    </button>
+                  </div>
+                  <div className="absolute right-2 top-1/2 z-20 -translate-y-1/2">
+                    <button
+                      onClick={goToNextService}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md"
+                      aria-label="Nächster Service"
+                    >
+                      <ChevronRight className="h-4 w-4" style={{ color: colors.primary }} />
+                    </button>
+                  </div>
+
+                  <div className="relative w-full px-4">
                     {ready &&
                       services.map((service, index) => (
                         <div
                           key={index}
                           className={cn(
-                            'transition-opacity duration-300',
+                            'transition-all duration-300',
                             index === activeService
                               ? 'relative z-10 opacity-100'
                               : 'absolute inset-0 z-0 opacity-0'
                           )}
                         >
-                          {/* Horizontal layout for mobile */}
-                          <div className="flex items-start gap-4 pl-4">
-                            {/* Icon and text */}
-                            <div className="flex-1">
-                              <div className="mb-2 flex items-center gap-3">
+                          {/* Service content - Improved layout */}
+                          <div className="flex flex-col items-center sm:flex-row sm:items-start sm:gap-4">
+                            {/* Image with larger size for better visibility */}
+                            <div className="mb-4 h-32 w-full overflow-hidden rounded-lg shadow-sm sm:mb-0 sm:h-28 sm:w-28 sm:flex-shrink-0">
+                              <img
+                                src={service.image || '/placeholder.svg'}
+                                alt={service.title}
+                                className="h-full w-full rounded-lg object-cover"
+                              />
+                            </div>
+
+                            {/* Icon and text - Moved right of image on SM */}
+                            <div className="flex flex-col sm:flex-1">
+                              <div className="mb-2 flex items-center justify-center gap-3 sm:justify-start">
                                 <div
-                                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg"
+                                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg sm:h-12 sm:w-12"
                                   style={{
                                     backgroundColor: `${service.color}10`,
                                     color: service.color,
@@ -345,51 +365,40 @@ export function Hero({
                                   <span style={{ color: colors.accent }}>.</span>
                                 </h3>
                               </div>
-                              <p className="mb-4 text-sm" style={{ color: colors.secondary }}>
+                              <p
+                                className="mb-4 text-center text-sm sm:text-left"
+                                style={{ color: colors.secondary }}
+                              >
                                 {service.description}
                               </p>
-                            </div>
 
-                            {/* Video for mobile */}
-                            <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg shadow-sm">
-                              <video
-                                id={`mobile-display-video-${index}`}
-                                className="h-full w-full rounded-lg object-cover"
-                                muted
-                                autoPlay
-                                playsInline
-                                loop
-                                src={service.video}
+                              {/* Mobile learn more link */}
+                              <Link
+                                href={service.href}
+                                className="mx-auto mt-1 inline-flex items-center gap-2 font-medium transition-colors sm:mx-0"
+                                style={{ color: colors.primary }}
                               >
-                                <source src={service.video} type="video/mp4" />
-                              </video>
+                                <span>Mehr erfahren</span>
+                                <motion.div
+                                  className="flex items-center justify-center rounded-full p-1"
+                                  style={{ backgroundColor: colors.muted }}
+                                  whileHover={{ x: 5 }}
+                                >
+                                  <ArrowRight className="h-4 w-4" />
+                                </motion.div>
+                              </Link>
                             </div>
                           </div>
-
-                          {/* Mobile learn more link */}
-                          <Link
-                            href={service.href}
-                            className="mt-4 inline-flex items-center gap-2 pl-4 font-medium transition-colors"
-                            style={{ color: colors.primary }}
-                          >
-                            <span>Mehr erfahren</span>
-                            <motion.div
-                              className="flex items-center justify-center rounded-full p-1"
-                              style={{ backgroundColor: colors.muted }}
-                              whileHover={{ x: 5 }}
-                            >
-                              <ArrowRight className="h-4 w-4" />
-                            </motion.div>
-                          </Link>
                         </div>
                       ))}
                   </div>
 
-                  <div className="mt-6 flex gap-3 px-4">
+                  {/* Pagination indicators - Improved styling */}
+                  <div className="mt-5 flex justify-center gap-2 px-4">
                     {services.map((service, index) => (
                       <button
                         key={index}
-                        className="group relative h-2 flex-1 overflow-hidden rounded-full"
+                        className="group relative h-2 w-6 overflow-hidden rounded-full"
                         style={{ backgroundColor: colors.muted }}
                         onClick={() => setActiveService(index)}
                         aria-label={`Wechseln zu ${service.title}`}
@@ -408,11 +417,14 @@ export function Hero({
               </motion.div>
             )}
 
-            {/* CTA buttons - MOVED BELOW CAROUSEL */}
-            <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-4">
-              <Link href={ctaPrimary.href} className="group">
+            {/* CTA buttons - Made touch-friendly */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-6 flex flex-wrap gap-3 md:mt-8 md:gap-4"
+            >
+              <Link href={ctaPrimary.href} className="group w-full sm:w-auto">
                 <Button
-                  className="relative overflow-hidden rounded-md px-8 py-6 font-medium text-white transition-all duration-300"
+                  className="relative h-auto w-full overflow-hidden rounded-md px-6 py-4 font-medium text-white transition-all duration-300 sm:px-8 sm:py-6"
                   size="lg"
                   style={{ backgroundColor: colors.primary }}
                 >
@@ -437,10 +449,10 @@ export function Hero({
                 </Button>
               </Link>
 
-              <Link href={ctaSecondary.href} className="group">
+              <Link href={ctaSecondary.href} className="group w-full sm:w-auto">
                 <Button
                   variant="outline"
-                  className="relative rounded-md px-8 py-6 font-medium transition-all duration-300"
+                  className="relative h-auto w-full rounded-md px-6 py-4 font-medium transition-all duration-300 sm:px-8 sm:py-6"
                   size="lg"
                   style={{ borderColor: `${colors.secondary}30`, color: colors.secondary }}
                 >
@@ -471,117 +483,101 @@ export function Hero({
                   transition: { duration: 0.3 },
                 }}
               >
-                {/* Service navigation */}
-                <div className="mb-8 flex gap-3">
-                  {services.map((service, index) => (
-                    <motion.button
-                      key={index}
-                      className="group relative h-2 w-16 overflow-hidden rounded-full"
-                      style={{ backgroundColor: colors.muted }}
-                      onClick={() => setActiveService(index)}
-                      whileHover={{ scale: 1.05 }}
-                      aria-label={`Wechseln zu ${service.title}`}
-                    >
-                      <motion.div
-                        className="absolute inset-0 rounded-full"
-                        style={{ backgroundColor: service.color }}
-                        initial={{ scaleX: index === activeService ? 1 : 0 }}
-                        animate={{ scaleX: index === activeService ? 1 : 0 }}
-                        transition={{ duration: 0.5 }}
-                      />
-                      <motion.div
-                        className="absolute inset-0 origin-left rounded-full"
-                        style={{ backgroundColor: `${colors.secondary}20` }}
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </motion.button>
-                  ))}
-                </div>
-
-                {/* Service Content */}
-                <div className="h-72">
-                  <div className="relative h-full w-full">
-                    {ready &&
-                      services.map((service, index) => (
+                {/* Service navigation - CHANGED TO VERTICAL */}
+                <div className="flex h-full">
+                  {/* Vertical navigation sidebar */}
+                  <div className="mr-6 flex flex-col gap-4 border-r pr-4">
+                    {services.map((service, index) => (
+                      <button
+                        key={index}
+                        className={cn(
+                          'group flex items-center gap-3 rounded-md px-3 py-2 text-left transition-colors',
+                          index === activeService
+                            ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                            : 'hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground'
+                        )}
+                        onClick={() => setActiveService(index)}
+                        aria-label={`Wechseln zu ${service.title}`}
+                      >
                         <div
-                          key={index}
-                          className={cn(
-                            'absolute inset-0 h-full w-full transition-opacity duration-300',
-                            index === activeService ? 'z-10 opacity-100' : 'z-0 opacity-0'
-                          )}
+                          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md"
+                          style={{
+                            backgroundColor: `${service.color}10`,
+                            color: service.color,
+                          }}
                         >
-                          <div className="flex h-full flex-col justify-between">
-                            {/* Main content */}
-                            <div className="flex flex-1 gap-6">
-                              {/* Left side: Icon and Text */}
-                              <div className="flex flex-1 flex-col justify-center">
-                                <div className="mb-4 flex items-start gap-4">
-                                  <div
-                                    className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg"
-                                    style={{
-                                      backgroundColor: `${service.color}10`,
-                                      color: service.color,
-                                    }}
+                          {service.icon}
+                        </div>
+                        <span className="text-sm font-medium">{service.title}</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Service Content */}
+                  <div className="flex-1">
+                    <div className="relative h-full w-full">
+                      {ready &&
+                        services.map((service, index) => (
+                          <div
+                            key={index}
+                            className={cn(
+                              'transition-opacity duration-300',
+                              index === activeService
+                                ? 'relative z-10 opacity-100'
+                                : 'absolute inset-0 z-0 opacity-0'
+                            )}
+                          >
+                            <div className="flex h-full flex-col justify-between">
+                              {/* Main content */}
+                              <div className="flex flex-1 flex-col">
+                                {/* Service details */}
+                                <div className="mb-4">
+                                  <h3
+                                    className="mb-2 text-2xl font-medium"
+                                    style={{ color: colors.primary }}
                                   >
-                                    {service.icon}
-                                  </div>
+                                    {service.title}
+                                    <span style={{ color: colors.accent }}>.</span>
+                                  </h3>
 
-                                  <div>
-                                    <h3
-                                      className="mb-2 text-2xl font-medium"
-                                      style={{ color: colors.primary }}
-                                    >
-                                      {service.title}
-                                      <span style={{ color: colors.accent }}>.</span>
-                                    </h3>
+                                  <p style={{ color: colors.secondary }}>{service.description}</p>
+                                </div>
 
-                                    <p style={{ color: colors.secondary }}>{service.description}</p>
-                                  </div>
+                                {/* Image (replacing video) */}
+                                <div className="relative mt-4 h-40 w-full overflow-hidden rounded-lg shadow-md">
+                                  <img
+                                    src={service.image || '/placeholder.svg'}
+                                    alt={service.title}
+                                    className="h-full w-full rounded-lg object-cover"
+                                  />
                                 </div>
                               </div>
 
-                              {/* Video */}
-                              <div className="relative h-40 w-40 flex-shrink-0 overflow-hidden rounded-lg shadow-md">
-                                <video
-                                  id={`display-video-${index}`}
-                                  className="h-full w-full rounded-lg object-cover"
-                                  muted
-                                  autoPlay
-                                  playsInline
-                                  loop
-                                  src={service.video}
+                              {/* Learn more link */}
+                              <div className="mt-6">
+                                <Link
+                                  href={service.href}
+                                  className="group inline-flex items-center gap-2 font-medium transition-colors"
+                                  style={{ color: colors.primary }}
                                 >
-                                  <source src={service.video} type="video/mp4" />
-                                </video>
+                                  <span>Mehr erfahren</span>
+                                  <motion.div
+                                    className="flex items-center justify-center rounded-full p-1"
+                                    style={{ backgroundColor: colors.muted }}
+                                    whileHover={{
+                                      x: 5,
+                                      backgroundColor: `${colors.accent}20`,
+                                      transition: { duration: 0.2 },
+                                    }}
+                                  >
+                                    <ArrowRight className="h-4 w-4" />
+                                  </motion.div>
+                                </Link>
                               </div>
                             </div>
-
-                            {/* Learn more link */}
-                            <div className="mt-6">
-                              <Link
-                                href={service.href}
-                                className="group inline-flex items-center gap-2 font-medium transition-colors"
-                                style={{ color: colors.primary }}
-                              >
-                                <span>Mehr erfahren</span>
-                                <motion.div
-                                  className="flex items-center justify-center rounded-full p-1"
-                                  style={{ backgroundColor: colors.muted }}
-                                  whileHover={{
-                                    x: 5,
-                                    backgroundColor: `${colors.accent}20`,
-                                    transition: { duration: 0.2 },
-                                  }}
-                                >
-                                  <ArrowRight className="h-4 w-4" />
-                                </motion.div>
-                              </Link>
-                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -589,9 +585,9 @@ export function Hero({
           </motion.div>
         </motion.div>
 
-        {/* Stats section */}
+        {/* Stats section - Made responsive */}
         <motion.div
-          className="relative mt-12 md:mt-20 lg:mt-24"
+          className="relative mt-8 md:mt-16 lg:mt-24"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
@@ -599,17 +595,17 @@ export function Hero({
         >
           <motion.div variants={itemVariants} className="flex flex-col items-start gap-6">
             <div className="flex items-center gap-3">
-              <div className="h-px w-12" style={{ backgroundColor: colors.accent }}></div>
+              <div className="h-px w-8 sm:w-12" style={{ backgroundColor: colors.accent }}></div>
               <span
-                className="text-sm font-medium uppercase tracking-wider"
+                className="text-xs font-medium uppercase tracking-wider sm:text-sm"
                 style={{ color: colors.secondary }}
               >
                 Unsere Expertise
               </span>
             </div>
 
-            {/* Statistics */}
-            <div className="flex flex-wrap items-center gap-4 md:gap-8">
+            {/* Statistics - Improved for mobile */}
+            <div className="grid w-full grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center sm:gap-4 md:gap-8">
               <motion.div
                 className="flex items-center gap-3 rounded-lg border bg-white px-4 py-2 shadow-sm"
                 style={{ borderColor: `${colors.accent}20` }}
@@ -619,10 +615,13 @@ export function Hero({
                   boxShadow: '0 10px 25px rgba(255,122,53,0.1)',
                 }}
               >
-                <span className="text-3xl font-medium" style={{ color: colors.primary }}>
+                <span
+                  className="text-2xl font-medium sm:text-3xl"
+                  style={{ color: colors.primary }}
+                >
                   20<span style={{ color: colors.accent }}>+</span>
                 </span>
-                <span className="text-sm" style={{ color: colors.secondary }}>
+                <span className="text-xs sm:text-sm" style={{ color: colors.secondary }}>
                   Jahre Erfahrung
                 </span>
               </motion.div>
@@ -636,10 +635,13 @@ export function Hero({
                   boxShadow: '0 10px 25px rgba(80,105,125,0.1)',
                 }}
               >
-                <span className="text-3xl font-medium" style={{ color: colors.primary }}>
+                <span
+                  className="text-2xl font-medium sm:text-3xl"
+                  style={{ color: colors.primary }}
+                >
                   90<span style={{ color: colors.accent }}>+</span>
                 </span>
-                <span className="text-sm" style={{ color: colors.secondary }}>
+                <span className="text-xs sm:text-sm" style={{ color: colors.secondary }}>
                   Zufriedene Kunden
                 </span>
               </motion.div>
@@ -653,10 +655,13 @@ export function Hero({
                   boxShadow: '0 10px 25px rgba(58,79,102,0.1)',
                 }}
               >
-                <span className="text-3xl font-medium" style={{ color: colors.primary }}>
+                <span
+                  className="text-2xl font-medium sm:text-3xl"
+                  style={{ color: colors.primary }}
+                >
                   250<span style={{ color: colors.accent }}>+</span>
                 </span>
-                <span className="text-sm" style={{ color: colors.secondary }}>
+                <span className="text-xs sm:text-sm" style={{ color: colors.secondary }}>
                   Erfolgreiche Projekte
                 </span>
               </motion.div>

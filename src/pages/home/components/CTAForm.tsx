@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ChevronRight } from 'lucide-react';
+import { Check, ChevronRight, ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 
@@ -27,6 +27,7 @@ interface CTAFormProps {
   referenceText?: string;
   projectsText?: string;
   className?: string;
+  subjectOptions?: string[];
 }
 
 export const CTAForm: React.FC<CTAFormProps> = ({
@@ -40,20 +41,37 @@ export const CTAForm: React.FC<CTAFormProps> = ({
   referenceText = 'Vertrauen durch Referenz',
   projectsText = 'Wir präsentieren Ihnen gerne unsere neuesten Projekte, damit Sie ein besseres Verständnis für unsere Leistung entwickeln.',
   className,
+  subjectOptions = [
+    'Business Intelligence',
+    'Data Warehouse',
+    'Softwareentwicklung',
+    'Künstliche Intelligenz',
+    'Digitalisierung',
+    'JTL',
+  ],
 }) => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
+    subject: '',
     message: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormState(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubjectSelect = (subject: string) => {
+    setFormState(prev => ({ ...prev, subject }));
+    setIsSubjectDropdownOpen(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,11 +82,11 @@ export const CTAForm: React.FC<CTAFormProps> = ({
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // In a real application, you would send the form data to your backend here
-    console.log('Form submitted:', formState);
+    // Removed console.log to fix the ESLint warning
 
     setIsSubmitting(false);
     setIsSubmitted(true);
-    setFormState({ name: '', email: '', message: '' });
+    setFormState({ name: '', email: '', subject: '', message: '' });
 
     // Reset success message after 5 seconds
     setTimeout(() => {
@@ -108,6 +126,22 @@ export const CTAForm: React.FC<CTAFormProps> = ({
         ease: 'easeOut',
       },
     }),
+  };
+
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: -10, height: 0 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      height: 'auto',
+      transition: { duration: 0.3 },
+    },
+    exit: {
+      opacity: 0,
+      y: -10,
+      height: 0,
+      transition: { duration: 0.2 },
+    },
   };
 
   return (
@@ -329,6 +363,113 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                   </div>
                 </motion.div>
 
+                {/* Subject Dropdown - New Addition */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                >
+                  <label htmlFor="subject" className="mb-2 block text-[#3D5A73]">
+                    Betreff
+                  </label>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      aria-haspopup="listbox"
+                      aria-expanded={isSubjectDropdownOpen}
+                      aria-labelledby="subject-label"
+                      id="subject-button"
+                      className={cn(
+                        'flex h-12 w-full cursor-pointer items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-[#1A2027] transition-all duration-300',
+                        focusedField === 'subject'
+                          ? 'border-[#FF7A35] ring-1 ring-[#FF7A35]/20'
+                          : 'hover:border-[#3D5A73]',
+                        !formState.subject && 'text-gray-500'
+                      )}
+                      onClick={() => {
+                        setIsSubjectDropdownOpen(!isSubjectDropdownOpen);
+                        setFocusedField('subject');
+                      }}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setIsSubjectDropdownOpen(!isSubjectDropdownOpen);
+                          setFocusedField('subject');
+                        }
+                        if (e.key === 'Escape') {
+                          setIsSubjectDropdownOpen(false);
+                          setFocusedField(null);
+                        }
+                      }}
+                      onBlur={() => {
+                        setTimeout(() => {
+                          setIsSubjectDropdownOpen(false);
+                          setFocusedField(null);
+                        }, 200);
+                      }}
+                    >
+                      <span>{formState.subject || 'Bitte wählen Sie einen Betreff'}</span>
+                      <ChevronDown
+                        className={cn(
+                          'h-4 w-4 transition-transform',
+                          isSubjectDropdownOpen ? 'rotate-180 transform' : ''
+                        )}
+                        aria-hidden="true"
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isSubjectDropdownOpen && (
+                        <motion.div
+                          className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg"
+                          variants={dropdownVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          role="listbox"
+                          aria-labelledby="subject-label"
+                          id="subject-listbox"
+                        >
+                          {subjectOptions.map((option, index) => (
+                            <div
+                              key={index}
+                              id={`subject-option-${index}`}
+                              role="option"
+                              aria-selected={formState.subject === option}
+                              className="cursor-pointer px-4 py-2 text-[#1A2027] hover:bg-[#F8F9FC]"
+                              onClick={() => handleSubjectSelect(option)}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  handleSubjectSelect(option);
+                                }
+                              }}
+                              tabIndex={isSubjectDropdownOpen ? 0 : -1}
+                            >
+                              {option}
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    <AnimatePresence>
+                      {focusedField === 'subject' && (
+                        <motion.div
+                          className="absolute bottom-0 left-0 h-0.5 w-full bg-[#FF7A35]"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          exit={{ scaleX: 0 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    {/* Hidden input for form submission */}
+                    <input type="hidden" name="subject" value={formState.subject} required />
+                  </div>
+                </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -374,8 +515,8 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                 >
                   <Button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="group relative h-12 overflow-hidden rounded-md bg-[#1A2027] px-8 py-2 text-white transition-all duration-300 hover:bg-[#2A3F56]"
+                    disabled={isSubmitting || !formState.subject}
+                    className="group relative h-12 overflow-hidden rounded-md bg-[#1A2027] px-8 py-2 text-white transition-all duration-300 hover:bg-[#2A3F56] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       {isSubmitting ? 'Senden...' : isSubmitted ? 'Gesendet' : 'Senden'}
