@@ -30,24 +30,6 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="32x32" href="/images/logos/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/images/logos/favicon-16x16.png" />
           <link rel="manifest" href="/site.webmanifest" />
-
-          {/* Crisp Chat Script */}
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.$crisp=[];
-                window.CRISP_WEBSITE_ID="6d0e489c-221a-4675-bfc8-9f10bb1d7942";
-                (function(){
-                  d=document;
-                  s=d.createElement("script");
-                  s.src="https://client.crisp.chat/l.js";
-                  s.async=1;
-                  d.getElementsByTagName("head")[0].appendChild(s);
-                })();
-              `,
-            }}
-          />
         </Head>
         <body className="bg-background font-sans text-primary antialiased">
           <Main />
