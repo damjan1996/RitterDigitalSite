@@ -13,9 +13,8 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
-      <ServiceTeaser />
-      <Clients />
       <Benefits />
+      <Clients />
       <CTAForm />
     </>
   );

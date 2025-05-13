@@ -110,9 +110,13 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
       {/* Mobile Menu Panel */}
       <div
         className={cn(
-          'fixed bottom-0 right-0 top-0 z-50 w-full max-w-sm transform overflow-y-auto bg-white transition-transform duration-300',
+          'fixed bottom-0 right-0 top-0 z-50 w-full max-w-sm transform overflow-y-auto bg-white transition-transform duration-300 ease-in-out',
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
+        aria-hidden={!isOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation"
       >
         <div className="flex justify-end p-4">
           <button onClick={toggleMenu} aria-label="Menü schließen" className="p-2">
@@ -129,17 +133,19 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
                     <div>
                       <button
                         className={cn(
-                          'flex w-full items-center justify-between py-2 text-left font-medium',
+                          'flex w-full items-center justify-between py-3 text-left text-base font-medium', // Increased padding and font size
                           pathname.startsWith(item.href)
                             ? 'text-accent'
                             : 'text-primary hover:text-accent'
                         )}
                         onClick={() => toggleSubmenu(item.title)}
+                        aria-expanded={openSubmenu === item.title}
+                        aria-controls={`submenu-${item.title}`}
                       >
                         {item.title}
                         <ChevronDown
                           className={cn(
-                            'h-5 w-5 transition-transform',
+                            'h-5 w-5 transition-transform duration-200',
                             openSubmenu === item.title && 'rotate-180'
                           )}
                         />
@@ -148,9 +154,11 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
                       {/* Submenu */}
                       <div
                         className={cn(
-                          'mt-1 overflow-hidden transition-all duration-300',
+                          'mt-1 overflow-hidden transition-all duration-200 ease-in-out',
                           openSubmenu === item.title ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         )}
+                        aria-hidden={openSubmenu !== item.title}
+                        id={`submenu-${item.title}`}
                       >
                         <ul className="space-y-2 py-2 pl-4">
                           {item.submenu.map(subItem => (
@@ -176,7 +184,7 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
                     <Link
                       href={item.href}
                       className={cn(
-                        'block py-2 font-medium',
+                        'block py-3 text-base font-medium', // Increased padding and font size
                         pathname === item.href ? 'text-accent' : 'text-primary hover:text-accent'
                       )}
                       onClick={handleLinkClick}
@@ -190,25 +198,30 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
           </nav>
 
           {/* Kontakt */}
-          <div className="mt-8 space-y-4">
-            <div className="flex items-center">
+          <div className="mt-8 space-y-5">
+            <a
+              href="tel:+491234567890"
+              className="flex items-center py-2 text-primary hover:text-accent"
+            >
               <Phone className="mr-3 h-5 w-5 text-accent" />
-              <a href="tel:+491234567890" className="text-primary hover:text-accent">
-                +49 (0) 123 456 7890
-              </a>
-            </div>
-            <div className="flex items-center">
+              <span className="text-base">+49 (0) 123 456 7890</span>
+            </a>
+            <a
+              href="mailto:kontakt@ritterdigital.de"
+              className="flex items-center py-2 text-primary hover:text-accent"
+            >
               <Mail className="mr-3 h-5 w-5 text-accent" />
-              <a href="mailto:kontakt@ritterdigital.de" className="text-primary hover:text-accent">
-                kontakt@ritterdigital.de
-              </a>
-            </div>
+              <span className="text-base">kontakt@ritterdigital.de</span>
+            </a>
           </div>
 
           {/* CTA Button */}
-          <div className="mt-8">
+          <div className="mt-10 px-2">
             <Link href="/kontakt" onClick={handleLinkClick}>
-              <Button variant="default" className="w-full bg-blue-600 text-white hover:bg-blue-700">
+              <Button
+                variant="default"
+                className="w-full bg-blue-600 py-6 text-base text-white hover:bg-blue-700"
+              >
                 Kontakt aufnehmen
               </Button>
             </Link>

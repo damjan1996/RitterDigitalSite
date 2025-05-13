@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Phone, X } from 'lucide-react';
 import Link from 'next/link';
 import type React from 'react';
@@ -83,16 +83,16 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
         className
       )}
     >
-      <Container className="py-4">
+      <Container className="px-4 py-4 sm:px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div>
-            <Link href="/" className="relative z-50 flex items-center">
+            <Link href="/" className="relative flex items-center">
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
                 <img
                   src="/images/logos/logo_ritterdigital.png"
                   alt="Ritter Digital Logo"
-                  className="h-12 w-auto"
+                  className="h-10 w-auto sm:h-12"
                 />
               </motion.div>
             </Link>
@@ -178,12 +178,13 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={cn(
-                'flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200',
+                'flex h-12 w-12 items-center justify-center rounded-full transition-all duration-200',
                 transparent && !isScrolled
-                  ? 'text-white hover:text-gray-200'
-                  : 'text-[#1A2027] hover:text-[#3D5A73]'
+                  ? 'text-white hover:bg-white/10'
+                  : 'text-[#1A2027] hover:bg-gray-100',
+                isMenuOpen && 'bg-gray-100'
               )}
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -191,47 +192,73 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
         </div>
       </Container>
 
-      {/* Mobile Menu */}
-      <motion.div
-        className={cn(
-          'fixed inset-0 z-30 flex flex-col bg-white p-6 pt-24',
-          isMenuOpen ? 'block' : 'hidden'
-        )}
-        initial={{ opacity: 0, y: -20 }}
-        animate={isMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-        transition={{ duration: 0.3 }}
-      >
-        <nav className="flex flex-col space-y-6">
-          {navItems.map(item => (
-            <Link
-              key={item.name}
-              href={item.path}
-              className="text-lg font-normal text-[#1A2027] transition-colors duration-200 hover:text-[#FF7A35]"
+      {/* Mobile Menu with AnimatePresence for clean exit animations */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 z-30 bg-black/10 backdrop-blur-[2px]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setIsMenuOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-          <Link
-            href="/kontakt"
-            className="text-lg font-normal text-[#1A2027] transition-colors duration-200 hover:text-[#FF7A35]"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Kontakt
-          </Link>
-        </nav>
+            />
 
-        <div className="mt-auto">
-          <a
-            href="tel:+4912345678"
-            className="flex items-center gap-2 text-[#3D5A73] transition-colors duration-200 hover:text-[#1A2027]"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <Phone className="h-4 w-4" />
-            +49 123 456 78
-          </a>
-        </div>
-      </motion.div>
+            {/* Menu Panel */}
+            <motion.div
+              className="fixed inset-y-0 right-0 z-40 flex w-[280px] flex-col bg-white shadow-lg"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+            >
+              <div className="flex h-[72px] items-center justify-between border-b border-gray-100 px-6">
+                <span className="text-sm font-medium text-gray-500">Menü</span>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-gray-100"
+                  aria-label="Menü schließen"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <nav className="mt-6 flex flex-col px-6">
+                {navItems.map(item => (
+                  <Link
+                    key={item.name}
+                    href={item.path}
+                    className="border-b border-gray-100 py-4 text-base font-normal text-[#1A2027] transition-colors hover:text-[#FF7A35]"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                <Link
+                  href="/kontakt"
+                  className="border-b border-gray-100 py-4 text-base font-normal text-[#1A2027] transition-colors hover:text-[#FF7A35]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Kontakt
+                </Link>
+              </nav>
+
+              <div className="mt-auto p-6">
+                <a
+                  href="tel:+4912345678"
+                  className="flex items-center justify-center gap-2 rounded-md border border-gray-200 p-3 text-[#3D5A73] transition-colors hover:border-gray-300 hover:text-[#1A2027]"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Phone className="h-4 w-4" />
+                  <span className="font-medium">+49 123 456 78</span>
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
