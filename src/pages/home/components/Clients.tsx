@@ -44,19 +44,27 @@ export const Clients: React.FC<ClientsProps> = ({
       : [
           {
             name: 'Ritter Technologie',
-            logo: '/images/logos/logo_rittec.png',
+            logo: '/abstract-tech-logo.png',
             href: 'https://www.rittec.de/',
           },
-          { name: 'GIS', logo: '/images/logos/logo_gis.png', href: 'http://gis-net.de/' },
+          {
+            name: 'GIS',
+            logo: '/placeholder.svg?key=avvpn',
+            href: 'http://gis-net.de/',
+          },
           {
             name: 'LINQ IT',
-            logo: '/images/logos/logo_linqit.png',
+            logo: '/abstract-tech-logo.png',
             href: 'https://www.linq-it.de/',
           },
-          { name: 'HOMA', logo: '/images/logos/logo_homa_02.png', href: 'https://www.homa-ob.de/' },
+          {
+            name: 'HOMA',
+            logo: '/placeholder.svg?key=vaz8r',
+            href: 'https://www.homa-ob.de/',
+          },
           {
             name: 'Rudolf Flume',
-            logo: '/images/logos/logo_rudolfflumetechnik.png',
+            logo: '/placeholder.svg?key=cjdb7',
             href: 'https://www.flume.de/',
           },
         ];
@@ -203,7 +211,7 @@ export const Clients: React.FC<ClientsProps> = ({
                   {/* Logo with fallback to company name */}
                   <div className="relative h-full w-full">
                     <Image
-                      src={client.logo}
+                      src={client.logo || '/placeholder.svg'}
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}
@@ -238,7 +246,7 @@ export const Clients: React.FC<ClientsProps> = ({
                 <div className="relative flex h-20 w-full items-center justify-center">
                   <div className="relative h-full w-full">
                     <Image
-                      src={client.logo}
+                      src={client.logo || '/placeholder.svg'}
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}

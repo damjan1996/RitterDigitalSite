@@ -306,7 +306,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
               transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <Image
-                src="/images/firmenzentrale.png"
+                src="/modern-office-building.png"
                 alt="Ritter Digital Firmenzentrale"
                 width={600}
                 height={500}

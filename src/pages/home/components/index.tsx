@@ -13,6 +13,7 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
+      <ServiceTeaser />
       <Benefits />
       <Clients />
       <CTAForm />
