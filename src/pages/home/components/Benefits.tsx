@@ -4,12 +4,10 @@ import { motion } from 'framer-motion';
 import { Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import type React from 'react'; // Fix: Import React
+import { useState, useEffect } from 'react';
+import type React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Container } from '@/components/ui/container';
-import { useMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
 // Define colors locally to match other components
@@ -25,7 +23,7 @@ const colors = {
 interface BenefitItem {
   title: string;
   description?: string;
-  icon?: JSX.Element;
+  icon?: React.JSX.Element;
 }
 
 interface BenefitsProps {
@@ -37,6 +35,31 @@ interface BenefitsProps {
   ctaHref?: string;
 }
 
+// Custom hook for media queries
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    // Default to false for SSR
+    if (typeof window === 'undefined') {
+      setMatches(false);
+      return;
+    }
+
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+
+    const listener = () => setMatches(media.matches);
+    media.addEventListener('change', listener);
+
+    return () => media.removeEventListener('change', listener);
+  }, [matches, query]);
+
+  return matches;
+}
+
 export const Benefits: React.FC<BenefitsProps> = ({
   title = 'Warum Unternehmen sich für Ritter Digital entscheiden',
   description = 'Als Geschäftsführer treffen Sie bessere Entscheidungen. Käufer optimieren den Bestand und automatisieren den Einkauf. Lageristen verbessern die Lieferketten.',
@@ -45,8 +68,14 @@ export const Benefits: React.FC<BenefitsProps> = ({
   ctaText = 'Mehr erfahren',
   ctaHref = '/leistungen',
 }) => {
-  const isMobile = useMobile();
+  const isMobile = useMediaQuery('(max-width: 639px)');
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Set isClient to true on component mount
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Default benefits if none provided
   const displayBenefits =
@@ -115,7 +144,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
       aria-labelledby="benefits-title"
       role="region"
     >
-      <Container className="relative z-10 max-w-6xl">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 md:px-6">
         {/* Section header with accent line - similar to Hero component */}
         <div className="mb-12 flex items-center gap-3">
           <motion.div
@@ -190,13 +219,20 @@ export const Benefits: React.FC<BenefitsProps> = ({
                   key={index}
                   className="group relative rounded-lg p-4 transition-all duration-300"
                   style={{
-                    backgroundColor: hoverIndex === index ? `${colors.accent}08` : 'transparent',
+                    backgroundColor:
+                      isClient && hoverIndex === index ? `${colors.accent}08` : 'transparent',
                     borderLeft:
-                      hoverIndex === index ? `2px solid ${colors.accent}` : '2px solid transparent',
+                      isClient && hoverIndex === index
+                        ? `2px solid ${colors.accent}`
+                        : '2px solid transparent',
                   }}
                   variants={itemVariants}
                   onMouseEnter={() => setHoverIndex(index)}
                   onMouseLeave={() => setHoverIndex(null)}
+                  onFocus={() => setHoverIndex(index)}
+                  onBlur={() => setHoverIndex(null)}
+                  tabIndex={0}
+                  role="button"
                   whileHover={{ x: 5, transition: { duration: 0.2, ease: 'easeOut' } }}
                 >
                   <div className="flex items-start gap-4">
@@ -204,13 +240,13 @@ export const Benefits: React.FC<BenefitsProps> = ({
                       className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full"
                       style={{
                         backgroundColor:
-                          hoverIndex === index ? colors.accent : `${colors.accent}10`,
-                        color: hoverIndex === index ? 'white' : colors.accent,
+                          isClient && hoverIndex === index ? colors.accent : `${colors.accent}10`,
+                        color: isClient && hoverIndex === index ? 'white' : colors.accent,
                       }}
                       animate={{
-                        scale: [1, hoverIndex === index ? 1.1 : 1],
+                        scale: [1, isClient && hoverIndex === index ? 1.1 : 1],
                         backgroundColor:
-                          hoverIndex === index
+                          isClient && hoverIndex === index
                             ? [null, colors.accent]
                             : [null, `${colors.accent}10`],
                       }}
@@ -234,13 +270,13 @@ export const Benefits: React.FC<BenefitsProps> = ({
                             style={{ color: colors.secondary }}
                             initial={{ opacity: 0 }}
                             animate={{
-                              opacity: hoverIndex === index ? 1 : 0,
-                              y: hoverIndex === index ? 0 : -5,
+                              opacity: isClient && hoverIndex === index ? 1 : 0.8,
+                              y: isClient && hoverIndex === index ? 0 : -5,
                             }}
                             transition={{
                               duration: 0.3,
                               ease: [0.25, 0.1, 0.25, 1],
-                              opacity: { delay: hoverIndex === index ? 0.1 : 0 },
+                              opacity: { delay: isClient && hoverIndex === index ? 0.1 : 0 },
                             }}
                           >
                             {benefit.description}
@@ -311,6 +347,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
                 width={600}
                 height={500}
                 className="w-full rounded-lg object-cover transition-all duration-300"
+                priority
               />
               <motion.div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-transparent to-[#FF7A35]/20"
@@ -392,7 +429,7 @@ export const Benefits: React.FC<BenefitsProps> = ({
             </motion.div>
           </motion.div>
         </div>
-      </Container>
+      </div>
 
       {/* Subtle background elements similar to original Benefits */}
       <motion.div
