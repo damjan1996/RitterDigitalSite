@@ -1,0 +1,60 @@
+{
+  "name": "Ritter Digital GmbH",
+  "short_name": "Ritter Digital",
+  "description": "Expertenteam für digitale Prozesse, Business Intelligence, Data Warehouse und Softwareentwicklung.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF7A35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kontakt aufnehmen",
+      "short_name": "Kontakt",
+      "description": "Kontaktieren Sie uns für Ihr Digitalisierungsprojekt",
+      "url": "/kontakt",
+      "icons": [{ "src": "/icons/contact-shortcut.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Leistungen entdecken",
+      "short_name": "Leistungen",
+      "description": "Entdecken Sie unsere digitalen Dienstleistungen",
+      "url": "/leistungen",
+      "icons": [{ "src": "/icons/services-shortcut.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "categories": ["business", "consulting", "digital solutions", "tech"],
+  "lang": "de",
+  "dir": "ltr"
+}

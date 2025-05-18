@@ -1,9 +1,10 @@
+// next.config.js - SEO-Optimierungen
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  // Optimiere die Images
+  // Optimiere die Images - wichtig für Core Web Vitals
   images: {
     domains: ['localhost', 'ritterdigital.de', 'krqoaacidcyghxhdxtce.supabase.co'],
     formats: ['image/avif', 'image/webp'],
@@ -17,7 +18,7 @@ const nextConfig = {
     defaultLocale: 'de',
   },
 
-  // Sicherheitsheader
+  // Sicherheitsheader für SEO und Sicherheit
   async headers() {
     return [
       {
@@ -43,12 +44,50 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          // Zusätzlich für SEO
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
+          },
+        ],
+      },
+      // Spezifische Headers für statische Assets
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Header für Fonts zur Performance-Verbesserung
+      {
+        source: '/fonts/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
       },
     ];
   },
 
-  // Weiterleitung für Legacy-URLs
+  // Weiterleitung für Legacy-URLs und kanonische URLs
   async redirects() {
     return [
       // Beispiel für Weiterleitung von alten WordPress-URLs
@@ -65,6 +104,67 @@ const nextConfig = {
       {
         source: '/business-intelligence',
         destination: '/leistungen/business-intelligence',
+        permanent: true,
+      },
+      // Zusätzliche Weiterleitungen
+      {
+        source: '/it-beratung',
+        destination: '/leistungen',
+        permanent: true,
+      },
+      {
+        source: '/software',
+        destination: '/leistungen/softwareentwicklung',
+        permanent: true,
+      },
+      {
+        source: '/services',
+        destination: '/leistungen',
+        permanent: true,
+      },
+      {
+        source: '/about',
+        destination: '/ueber-uns',
+        permanent: true,
+      },
+      {
+        source: '/about-us',
+        destination: '/ueber-uns',
+        permanent: true,
+      },
+      {
+        source: '/kontaktformular',
+        destination: '/kontakt',
+        permanent: true,
+      },
+      // Entferne trailing slash für kanonische URLs
+      {
+        source: '/:path*/',
+        destination: '/:path*',
+        permanent: true,
+      },
+      // Umleitung von www zu non-www (oder umgekehrt)
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.ritterdigital.de',
+          },
+        ],
+        destination: 'https://ritterdigital.de/:path*',
+        permanent: true,
+      },
+      // Blog-Kategorien-Weiterleitungen
+      {
+        source: '/blog/category/:slug',
+        destination: '/blog/kategorie/:slug',
+        permanent: true,
+      },
+      // Alte Leistungs-URLs
+      {
+        source: '/leistung/:slug',
+        destination: '/leistungen/:slug',
         permanent: true,
       },
     ];
@@ -86,40 +186,24 @@ const nextConfig = {
     // optimieren für statische Export, wenn gewünscht
     // outputStandalone: true,
     // Verbesserte Client-Router-Cache
-    // optimisticClientCache: true,
+    optimisticClientCache: true,
     // Moderne Browserunterstützung für größere Performance
-    // browsersListForSwc: true,
-    // legacyBrowsers: false,
+    browsersListForSwc: true,
+    legacyBrowsers: false,
   },
 
   // Compile-Zeit Umgebungsvariablen für Produktionsumgebung
   env: {
     NEXT_PUBLIC_SITE_NAME: 'Ritter Digital GmbH',
+    NEXT_PUBLIC_SITE_URL: 'https://ritterdigital.de',
   },
-
-  // Statische HTML-Export für Hosting ohne Node.js Server
-  // output: 'standalone',
-
-  // Konfiguriere den Pfad, unter dem die App läuft (für Subpath deployments)
-  // basePath: '',
-
-  // Konfiguriere den Pfad für Assets (z.B. für CDN)
-  // assetPrefix: '',
 
   // Optimiere Baugröße durch Kompressierung
   compress: true,
 
-  // Laufzeit-Konfiguration
-  // serverRuntimeConfig: {
-  //   // Nur auf dem Server verfügbar
-  //   mySecret: process.env.MY_SECRET,
-  // },
-
-  // Geteilte Laufzeit-Konfiguration
-  // publicRuntimeConfig: {
-  //   // Verfügbar auf Server und Client
-  //   staticFolder: '/static',
-  // },
+  // Erweiterte Buildoptimierungen
+  poweredByHeader: false, // Remove X-Powered-By header für Sicherheit
+  productionBrowserSourceMaps: false, // Deaktiviere Sourcemaps in Produktion
 };
 
 module.exports = nextConfig;
