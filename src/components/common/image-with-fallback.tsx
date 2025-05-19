@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import type { ImageProps } from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import React from 'react';
 
 import { cn } from '@/lib/utils';
 
+// Entferne fetchpriority/fetchPriority aus der Schnittstelle ganz
 interface ImageWithFallbackProps extends Omit<ImageProps, 'onError'> {
   fallbackSrc?: string;
   fallbackAlt?: string;
   wrapperClassName?: string;
+  // fetchpriority und fetchPriority entfernt
 }
 
 /**
@@ -21,6 +24,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   fallbackAlt,
   wrapperClassName,
   className,
+  // fetchpriority entfernt
   ...props
 }) => {
   const [imgSrc, setImgSrc] = useState<string | typeof src>(src);
@@ -37,7 +41,14 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
 
   return (
     <div className={cn('relative', wrapperClassName)}>
-      <Image src={imgSrc} alt={imgAlt} className={className} {...props} onError={handleError} />
+      <Image
+        src={imgSrc}
+        alt={imgAlt}
+        className={className}
+        // fetchpriority entfernt - wird nicht mehr weitergegeben
+        {...props}
+        onError={handleError}
+      />
     </div>
   );
 };
