@@ -61,13 +61,13 @@ function useMediaQuery(query: string): boolean {
 }
 
 export const Benefits: React.FC<BenefitsProps> = ({
-                                                    title = 'Warum Unternehmen sich für Ritter Digital entscheiden',
-                                                    description = 'Als Geschäftsführer treffen Sie bessere Entscheidungen. Käufer optimieren den Bestand und automatisieren den Einkauf. Lageristen verbessern die Lieferketten.',
-                                                    benefits = [],
-                                                    className,
-                                                    ctaText = 'Mehr erfahren',
-                                                    ctaHref = '/leistungen',
-                                                  }) => {
+  title = 'Warum Unternehmen sich für Ritter Digital entscheiden',
+  description = 'Als Geschäftsführer treffen Sie bessere Entscheidungen. Käufer optimieren den Bestand und automatisieren den Einkauf. Lageristen verbessern die Lieferketten.',
+  benefits = [],
+  className,
+  ctaText = 'Mehr erfahren',
+  ctaHref = '/leistungen',
+}) => {
   const isMobile = useMediaQuery('(max-width: 639px)');
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [isClient, setIsClient] = useState(false);
@@ -82,23 +82,23 @@ export const Benefits: React.FC<BenefitsProps> = ({
     benefits.length > 0
       ? benefits
       : [
-        {
-          title: 'Fachkenntnisse in digitalen Prozessen',
-          description: 'Wir verfügen über langjährige Expertise in der Digitalisierung.',
-        },
-        {
-          title: 'Angepasste Lösungen',
-          description: 'Unsere Lösungen werden Ihren Anforderungen nach entwickelt.',
-        },
-        {
-          title: 'Langfristige Partnerschaft',
-          description: 'Wir begleiten Sie über den gesamten Prozess und darüber hinaus.',
-        },
-        {
-          title: 'Entscheidungen durch Daten treffen',
-          description: 'Nutzen Sie Ihre Daten für fundierte Geschäftsentscheidungen.',
-        },
-      ];
+          {
+            title: 'Fachkenntnisse in digitalen Prozessen',
+            description: 'Wir verfügen über langjährige Expertise in der Digitalisierung.',
+          },
+          {
+            title: 'Angepasste Lösungen',
+            description: 'Unsere Lösungen werden Ihren Anforderungen nach entwickelt.',
+          },
+          {
+            title: 'Langfristige Partnerschaft',
+            description: 'Wir begleiten Sie über den gesamten Prozess und darüber hinaus.',
+          },
+          {
+            title: 'Entscheidungen durch Daten treffen',
+            description: 'Nutzen Sie Ihre Daten für fundierte Geschäftsentscheidungen.',
+          },
+        ];
 
   // Animation variants
   const containerVariants = {

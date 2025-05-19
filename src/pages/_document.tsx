@@ -58,40 +58,40 @@ class MyDocument extends Document {
           {/* Viewport Meta-Tag ENTFERNT - dieser gehört in _app.tsx */}
         </Head>
         <body className="bg-background font-sans text-primary antialiased">
-        <Main />
-        <NextScript />
+          <Main />
+          <NextScript />
 
-        {/* Strukturiertes Daten-Markup für die Organisation */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Ritter Digital GmbH',
-              alternateName: 'RITTER Gesellschaft für digitale Geschäftsprozesse mbH',
-              url: 'https://ritterdigital.de',
-              logo: 'https://ritterdigital.de/images/logos/logo_ritterdigital.png',
-              sameAs: [
-                'https://www.linkedin.com/company/ritter-digital-gmbh/',
-                'https://www.xing.com/pages/ritterdigitalgmbh',
-              ],
-              address: {
-                '@type': 'PostalAddress',
-                streetAddress: 'Essener Straße 2-24',
-                postalCode: '46047',
-                addressLocality: 'Oberhausen',
-                addressCountry: 'DE',
-              },
-              contactPoint: {
-                '@type': 'ContactPoint',
-                telephone: '+4902083067485',
-                contactType: 'customer service',
-                availableLanguage: ['German', 'English'],
-              },
-            }),
-          }}
-        />
+          {/* Strukturiertes Daten-Markup für die Organisation */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                name: 'Ritter Digital GmbH',
+                alternateName: 'RITTER Gesellschaft für digitale Geschäftsprozesse mbH',
+                url: 'https://ritterdigital.de',
+                logo: 'https://ritterdigital.de/images/logos/logo_ritterdigital.png',
+                sameAs: [
+                  'https://www.linkedin.com/company/ritter-digital-gmbh/',
+                  'https://www.xing.com/pages/ritterdigitalgmbh',
+                ],
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: 'Essener Straße 2-24',
+                  postalCode: '46047',
+                  addressLocality: 'Oberhausen',
+                  addressCountry: 'DE',
+                },
+                contactPoint: {
+                  '@type': 'ContactPoint',
+                  telephone: '+4902083067485',
+                  contactType: 'customer service',
+                  availableLanguage: ['German', 'English'],
+                },
+              }),
+            }}
+          />
         </body>
       </Html>
     );
