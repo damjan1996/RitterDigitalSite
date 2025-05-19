@@ -15,8 +15,8 @@ export const initGA = () => {
 
   // gtag konfigurieren
   (window as any).dataLayer = (window as any).dataLayer || [];
-  (window as any).gtag = function gtag() {
-    (window as any).dataLayer.push(arguments);
+  (window as any).gtag = function gtag(...args: any[]) {
+    (window as any).dataLayer.push(args);
   };
 
   (window as any).gtag('js', new Date());

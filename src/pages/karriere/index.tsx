@@ -48,7 +48,7 @@ export default function KarrierePage() {
       <SEO
         title="Karriere"
         description="Entdecken Sie Karrieremöglichkeiten bei der Ritter Digital GmbH und werden Sie Teil unseres innovativen Teams."
-        pageType="karriere"
+        pageType="ueber-uns"
       />
 
       {/* Hero-Sektion */}

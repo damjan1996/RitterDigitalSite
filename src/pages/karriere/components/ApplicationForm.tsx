@@ -13,11 +13,13 @@ import { cn } from '@/lib/utils';
 
 interface ApplicationFormProps {
   jobTitle?: string;
+  jobId?: string; // Hinzugefügte jobId Prop
   className?: string;
 }
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
   jobTitle = 'Diese Stelle',
+  jobId,
   className,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
