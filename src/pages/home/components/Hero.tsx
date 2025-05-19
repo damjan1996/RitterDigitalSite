@@ -56,7 +56,7 @@ const services = [
   },
   {
     id: 4,
-    title: 'Software Development',
+    title: 'Software Entwicklung',
     description: 'Maßgeschneiderte Lösungen für Ihre Geschäftsprozesse.',
     icon: <Code2 className="h-6 w-6" />,
     color: colors.accent,

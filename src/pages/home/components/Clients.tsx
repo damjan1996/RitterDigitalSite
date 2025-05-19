@@ -37,34 +37,34 @@ export const Clients: React.FC<ClientsProps> = ({
   clients = [],
   className,
 }) => {
-  // Use the provided clients or the default list
+  // Use the provided clients or the default list with korrigierte Logos
   const displayClients =
     clients.length > 0
       ? clients
       : [
           {
             name: 'Ritter Technologie',
-            logo: '/abstract-tech-logo.png',
+            logo: '/images/logos/logo_rittec.png', // Korrigiert
             href: 'https://www.rittec.de/',
           },
           {
             name: 'GIS',
-            logo: '/placeholder.svg?key=avvpn',
+            logo: '/images/logos/logo_gis.png', // Korrigiert
             href: 'http://gis-net.de/',
           },
           {
             name: 'LINQ IT',
-            logo: '/abstract-tech-logo.png',
+            logo: '/images/logos/logo_linqit.png', // Korrigiert
             href: 'https://www.linq-it.de/',
           },
           {
             name: 'HOMA',
-            logo: '/placeholder.svg?key=vaz8r',
+            logo: '/images/logos/logo_homa.png', // Korrigiert
             href: 'https://www.homa-ob.de/',
           },
           {
             name: 'Rudolf Flume',
-            logo: '/placeholder.svg?key=cjdb7',
+            logo: '/images/logos/logo_rudolfflumetechnik.png', // Korrigiert
             href: 'https://www.flume.de/',
           },
         ];
@@ -211,7 +211,7 @@ export const Clients: React.FC<ClientsProps> = ({
                   {/* Logo with fallback to company name */}
                   <div className="relative h-full w-full">
                     <Image
-                      src={client.logo || '/placeholder.svg'}
+                      src={client.logo || '/images/logos/logo_ritterdigital.png'} // Fallback geändert
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}
@@ -246,7 +246,7 @@ export const Clients: React.FC<ClientsProps> = ({
                 <div className="relative flex h-20 w-full items-center justify-center">
                   <div className="relative h-full w-full">
                     <Image
-                      src={client.logo || '/placeholder.svg'}
+                      src={client.logo || '/images/logos/logo_ritterdigital.png'} // Fallback geändert
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}

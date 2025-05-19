@@ -6,7 +6,21 @@ const nextConfig = {
 
   // Optimiere die Images - wichtig für Core Web Vitals
   images: {
-    domains: ['localhost', 'ritterdigital.de', 'krqoaacidcyghxhdxtce.supabase.co'],
+    // 'domains' durch 'remotePatterns' ersetzen
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost'
+      },
+      {
+        protocol: 'https',
+        hostname: 'ritterdigital.de'
+      },
+      {
+        protocol: 'https',
+        hostname: 'krqoaacidcyghxhdxtce.supabase.co'
+      }
+    ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -181,15 +195,13 @@ const nextConfig = {
     return config;
   },
 
-  // Experimentelle Features
+  // Experimentelle Features - problematische Optionen entfernt
   experimental: {
     // optimieren für statische Export, wenn gewünscht
     // outputStandalone: true,
     // Verbesserte Client-Router-Cache
     optimisticClientCache: true,
-    // Moderne Browserunterstützung für größere Performance
-    browsersListForSwc: true,
-    legacyBrowsers: false,
+    // 'browsersListForSwc' und 'legacyBrowsers' wurden entfernt
   },
 
   // Compile-Zeit Umgebungsvariablen für Produktionsumgebung
