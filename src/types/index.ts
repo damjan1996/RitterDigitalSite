@@ -2,7 +2,7 @@
 
 // Exportiere alle Typen aus den spezifischen Dateien
 export * from './common';
-export * from './blog';
+// export * from './blog'; // Blog-Export entfernt
 export * from './services';
 export * from './forms';
 
@@ -68,7 +68,7 @@ export type Position = 'top' | 'right' | 'bottom' | 'left';
 
 export type Direction = 'horizontal' | 'vertical';
 
-export type LayoutType = 'default' | 'blog' | 'landing' | 'admin';
+export type LayoutType = 'default' | 'landing' | 'admin'; // 'blog' entfernt
 
 export type Device = 'mobile' | 'tablet' | 'desktop';
 

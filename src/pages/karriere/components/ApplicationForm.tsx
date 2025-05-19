@@ -11,24 +11,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-// Refined color palette - consistent with other components
-const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#F8F9FC', // Lighter background for better contrast
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
-};
-
 interface ApplicationFormProps {
   jobTitle?: string;
-  jobId?: string;
   className?: string;
 }
 
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
   jobTitle = 'Diese Stelle',
-  jobId,
   className,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

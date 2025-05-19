@@ -16,7 +16,7 @@ interface OrganizationSchema {
   sameAs?: string[];
   address?: AddressSchema;
   contactPoint?: ContactPointSchema[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Schema für eine Adresse
@@ -49,7 +49,7 @@ interface WebsiteSchema {
     name: string;
   };
   inLanguage?: string;
-  potentialAction?: any[];
+  potentialAction?: unknown[];
 }
 
 // Schema für eine Webseite
@@ -116,7 +116,7 @@ interface ServiceSchema {
   url?: string;
   areaServed?: string | string[] | object;
   category?: string;
-  offers?: any;
+  offers?: unknown;
 }
 
 // Schema für Breadcrumbs
@@ -360,7 +360,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
   authorUrl,
   datePublished = new Date().toISOString(),
   dateModified,
-  url = window.location.href,
+  url = typeof window !== 'undefined' ? window.location.href : '',
   section = 'Blog',
   keywords = [],
 }) => {
@@ -408,7 +408,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
   name,
   description,
   serviceType,
-  url = window.location.href,
+  url = typeof window !== 'undefined' ? window.location.href : '',
   areaServed = 'DE',
   category,
 }) => {
@@ -486,11 +486,29 @@ export const FAQPageSchema: React.FC<FAQPageSchemaProps> = ({ questions }) => {
   );
 };
 
-// Kombiniere alle Schema für eine Seite in einer Komponente
-interface SchemaGeneratorProps {
-  type: 'website' | 'webpage' | 'article' | 'service' | 'organization' | 'all';
-  data: any;
+// Verbesserte Typdefinitionen für SchemaGeneratorProps
+interface ArticleData extends ArticleSchemaProps {}
+interface ServiceData extends ServiceSchemaProps {}
+interface OrganizationData extends OrganizationSchemaProps {}
+interface WebsiteData extends WebsiteSchemaProps {}
+interface WebPageData extends WebPageSchemaProps {}
+
+interface AllSchemaData {
+  organization?: Partial<OrganizationSchemaProps>;
+  website?: Partial<WebsiteSchemaProps>;
+  webpage?: Partial<WebPageSchemaProps>;
+  breadcrumb?: Array<{ name: string; url?: string }>;
+  faq?: Array<{ question: string; answer: string }>;
 }
+
+// Kombiniere alle Schema für eine Seite in einer Komponente
+type SchemaGeneratorProps =
+  | { type: 'website'; data: Partial<WebsiteData> }
+  | { type: 'webpage'; data: Partial<WebPageData> }
+  | { type: 'article'; data: ArticleData }
+  | { type: 'service'; data: ServiceData }
+  | { type: 'organization'; data: Partial<OrganizationData> }
+  | { type: 'all'; data: AllSchemaData };
 
 export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({ type, data }) => {
   switch (type) {
@@ -499,8 +517,10 @@ export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({ type, data }) 
     case 'webpage':
       return <WebPageSchema {...data} />;
     case 'article':
+      // Hier ist data vom Typ ArticleData, das den erforderlichen 'title' haben muss
       return <ArticleSchema {...data} />;
     case 'service':
+      // Hier ist data vom Typ ServiceData, das den erforderlichen 'name' haben muss
       return <ServiceSchema {...data} />;
     case 'organization':
       return <OrganizationSchema {...data} />;

@@ -130,7 +130,7 @@ export interface ValidationRules {
     value: RegExp;
     message: string;
   };
-  validate?: (value: any) => boolean | string | Promise<boolean | string>;
+  validate?: (value: unknown) => boolean | string | Promise<boolean | string>;
 }
 
 // Formular-Definition

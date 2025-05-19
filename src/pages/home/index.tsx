@@ -1,6 +1,5 @@
 // src/pages/home/index.tsx
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import React from 'react';
 
 import { SEO } from '@/components/common/seo';

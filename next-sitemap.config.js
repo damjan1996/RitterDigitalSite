@@ -44,14 +44,7 @@ module.exports = {
       // Hohe Priorität für einzelne Leistungsseiten
       priority = 0.8;
       changefreq = 'weekly';
-    } else if (path.startsWith('/blog') && !path.includes('/')) {
-      // Mittlere Priorität für Blog-Hauptseite
-      priority = 0.8;
-      changefreq = 'daily';
-    } else if (path.startsWith('/blog/')) {
-      // Mittlere Priorität für Blog-Artikel
-      priority = 0.7;
-      changefreq = 'weekly';
+      // Blog-Einträge entfernt
     } else if (path.includes('/ueber-uns') || path.includes('/kontakt')) {
       // Mittlere Priorität für Über-uns- und Kontaktseiten
       priority = 0.8;

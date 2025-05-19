@@ -4,12 +4,11 @@ import { z } from 'zod';
 
 import { brevoClient } from '@/lib/brevo/client';
 import type { ContactFormData } from '@/lib/brevo/types';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { contactFormSchema } from '@/lib/validation';
 
 /**
  * API-Handler für Kontaktformulare
- * POST: Sendet Kontaktformulare per E-Mail und speichert sie in der Datenbank
+ * POST: Sendet Kontaktformulare per E-Mail
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // CORS-Header setzen
@@ -58,34 +57,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
-    // Supabase-Client erstellen
-    const supabase = createServerSupabaseClient();
-
-    // Kontaktanfrage in der Datenbank speichern
-    const { error: dbError } = await supabase.from('contact_requests').insert([
-      {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        phone: formData.phone || null,
-        company: formData.company || null,
-        message: formData.message,
-        status: 'new',
-        created_at: new Date().toISOString(),
-      },
-    ]);
-
-    if (dbError) {
-      console.error('Error saving contact request to database:', dbError);
-      // Wir setzen fort, da das Senden der E-Mail wichtiger ist
-    }
+    // Anstelle der Datenbankspeicherung können wir hier eine Log-Ausgabe machen
+    // console.log removed
 
     // E-Mail an das Unternehmen senden
-    const { success: emailSuccess, error: emailError } =
-      await brevoClient.sendContactForm(formData);
+    const { success: emailSuccess } = await brevoClient.sendContactForm(formData);
 
     if (!emailSuccess) {
-      console.error('Error sending contact email:', emailError);
+      // Error is not used, so we don't capture it
       return res.status(500).json({
         success: false,
         error: 'Fehler beim Senden der E-Mail',
@@ -99,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!confirmationResult.success) {
-      console.warn('Error sending confirmation email:', confirmationResult.error);
+      // console.warn removed
       // Wir setzen fort, da die Hauptfunktionalität bereits erfolgreich war
     }
 
@@ -109,7 +88,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       message: 'Kontaktanfrage erfolgreich gesendet',
     });
   } catch (error) {
-    console.error('API error:', error);
+    // console.error removed
     return res.status(500).json({
       success: false,
       error: 'Ein serverseitiger Fehler ist aufgetreten',

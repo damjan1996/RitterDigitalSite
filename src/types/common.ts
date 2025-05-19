@@ -32,7 +32,7 @@ export interface SEOMetadata {
   og_image?: string;
   twitter_image?: string;
   keywords?: string[];
-  schema_markup?: Record<string, any>;
+  schema_markup?: Record<string, unknown>;
 }
 
 // Allgemeiner Media-Typ für Bilder, Videos, etc.
@@ -131,7 +131,7 @@ export interface ExternalReference {
   id: string;
   url?: string;
   source: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // Status für verschiedene Entitäten

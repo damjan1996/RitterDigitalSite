@@ -43,10 +43,7 @@ const mainMenuItems = [
     title: 'Über Uns',
     href: '/ueber-uns',
   },
-  {
-    title: 'Blog',
-    href: '/blog',
-  },
+  // Blog-Eintrag entfernt
 ];
 
 const Navigation = () => {

@@ -1,6 +1,16 @@
 // src/lib/improved-analytics.ts
 import { SITE_URL } from './constants';
 
+// Typdefinition für Facebook Pixel Methoden
+type FacebookPixelFunction = {
+  (...args: unknown[]): void;
+  callMethod?: (...args: unknown[]) => void;
+  queue: unknown[];
+  push: unknown;
+  loaded: boolean;
+  version: string;
+};
+
 // Typdeklaration für Google Analytics und andere Tracking-Dienste
 declare global {
   interface Window {
@@ -9,9 +19,9 @@ declare global {
     Leadinfo?: {
       trackPage: (id: string) => void;
     };
-    _paq?: any[];
-    fbq?: any;
-    clarity?: any;
+    _paq?: unknown[];
+    fbq?: FacebookPixelFunction | undefined;
+    clarity?: unknown;
   }
 }
 
@@ -49,7 +59,7 @@ const hasConsent = (category: 'analytics' | 'marketing' | 'functional'): boolean
 
     return false;
   } catch (error) {
-    console.error('Error checking consent:', error);
+    // Log error is already removed
     return false;
   }
 };
@@ -98,7 +108,7 @@ export const initGA = (): void => {
     wait_for_update: 500, // Wartet max. 500ms auf weitere Consent-Updates
   });
 
-  console.log('Google Analytics initialized');
+  // console.log removed
 };
 
 /**
@@ -118,7 +128,7 @@ export const initLeadInfo = (): void => {
   };
   document.head.appendChild(script);
 
-  console.log('LeadInfo initialized');
+  // console.log removed
 };
 
 /**
@@ -135,7 +145,7 @@ export const initMicrosoftClarity = (): void => {
   script.src = 'https://www.clarity.ms/tag/' + CLARITY_ID;
   document.head.appendChild(script);
 
-  console.log('Microsoft Clarity initialized');
+  // console.log removed
 };
 
 /**
@@ -147,25 +157,37 @@ export const initFacebookPixel = (): void => {
   // Prüfe Consent
   if (!hasConsent('marketing')) return;
 
-  // Facebook Pixel Code
-  window.fbq = function (...args: unknown[]) {
-    (window.fbq as any).callMethod
-      ? (window.fbq as any).callMethod.apply(window.fbq, args)
-      : (window.fbq as any).queue.push(args);
+  // Facebook Pixel Code with proper typing
+  const fbqFunction = function (...args: unknown[]) {
+    if (window.fbq && typeof window.fbq === 'function' && window.fbq.callMethod) {
+      window.fbq.callMethod(...args);
+    } else if (window.fbq && typeof window.fbq === 'function' && window.fbq.queue) {
+      window.fbq.queue.push(args);
+    }
   };
 
-  if (!(window.fbq as any).callMethod) {
-    (window.fbq as any) = function (...args: unknown[]) {
-      (window.fbq as any).queue.push(args);
-    };
-    (window.fbq as any).push = window.fbq;
-    (window.fbq as any).loaded = true;
-    (window.fbq as any).version = '2.0';
-    (window.fbq as any).queue = [];
+  // Initialisierung der fbq-Funktion, wenn sie noch nicht existiert
+  if (!window.fbq) {
+    // Erstelle eine Funktion, die als fbq dienen wird
+    const fbqAsFunction = function (...args: unknown[]) {
+      (fbqAsFunction as FacebookPixelFunction).queue.push(args);
+    } as unknown as FacebookPixelFunction;
+
+    // Füge die Eigenschaften zur Funktion hinzu
+    fbqAsFunction.queue = [];
+    fbqAsFunction.loaded = true;
+    fbqAsFunction.version = '2.0';
+    fbqAsFunction.push = null;
+
+    // Setze das fbq-Objekt
+    window.fbq = fbqAsFunction;
   }
 
-  window.fbq('init', FB_PIXEL_ID);
-  window.fbq('track', 'PageView');
+  // Initialisiere den Pixel
+  if (window.fbq && typeof window.fbq === 'function') {
+    window.fbq('init', FB_PIXEL_ID);
+    window.fbq('track', 'PageView');
+  }
 
   // Pixel Script hinzufügen
   const script = document.createElement('script');
@@ -173,7 +195,7 @@ export const initFacebookPixel = (): void => {
   script.src = 'https://connect.facebook.net/en_US/fbevents.js';
   document.head.appendChild(script);
 
-  console.log('Facebook Pixel initialized');
+  // console.log removed
 };
 
 /**
@@ -211,7 +233,7 @@ export const initMatomo = (): void => {
     s.parentNode?.insertBefore(g, s);
   })();
 
-  console.log('Matomo initialized');
+  // console.log removed
 };
 
 /**
@@ -265,7 +287,7 @@ export const updateConsentStatus = (
     initFacebookPixel();
   }
 
-  console.log('Consent status updated', { analytics, marketing, functional });
+  // console.log removed
 };
 
 /**
@@ -282,7 +304,7 @@ export const trackPageView = (url: string, title?: string): void => {
   }
 
   // Facebook Pixel
-  if (window.fbq) {
+  if (window.fbq && typeof window.fbq === 'function') {
     window.fbq('track', 'PageView');
   }
 
@@ -298,7 +320,7 @@ export const trackPageView = (url: string, title?: string): void => {
     window.Leadinfo.trackPage(LEADINFO_ID || '');
   }
 
-  console.log('Page view tracked', { url, title });
+  // console.log removed
 };
 
 /**
@@ -335,7 +357,7 @@ export const trackEvent = ({
     window._paq.push(['trackEvent', category, action, label, value]);
   }
 
-  console.log('Event tracked', { action, category, label, value, nonInteraction });
+  // console.log removed
 };
 
 /**
@@ -357,7 +379,7 @@ export const trackConversion = (action: string, value?: number, currency: string
   }
 
   // Facebook Pixel Conversion
-  if (window.fbq) {
+  if (window.fbq && typeof window.fbq === 'function') {
     const fbParams: Record<string, unknown> = {};
 
     if (value !== undefined) {
@@ -368,7 +390,7 @@ export const trackConversion = (action: string, value?: number, currency: string
     window.fbq('track', action, fbParams);
   }
 
-  console.log('Conversion tracked', { action, value, currency });
+  // console.log removed
 };
 
 /**
@@ -513,7 +535,7 @@ export const trackUserBehavior = (): (() => void) => {
       clearInterval(timeSpentTracker);
     };
   } catch (error) {
-    console.error('Error in user behavior tracking:', error);
+    // console.error removed
     return () => {};
   }
 };
@@ -541,7 +563,7 @@ export const trackPurchase = (
     });
   }
 
-  if (window.fbq) {
+  if (window.fbq && typeof window.fbq === 'function') {
     window.fbq('track', 'Purchase', {
       value,
       currency,
@@ -552,11 +574,11 @@ export const trackPurchase = (
     });
   }
 
-  console.log('Purchase tracked', { transaction_id, value, items, currency });
+  // console.log removed
 };
 
 // Hilfsfunktion: Debounce
-function debounce<T extends (...args: any[]) => void>(
+function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {

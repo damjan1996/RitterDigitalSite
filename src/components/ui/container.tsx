@@ -16,7 +16,7 @@ interface ContainerProps {
   children?: ReactNode;
   className?: string;
   as?: ElementType;
-  [key: string]: any; // Ermöglicht zusätzliche Props
+  [key: string]: unknown; // Ermöglicht zusätzliche Props
 }
 
 /**

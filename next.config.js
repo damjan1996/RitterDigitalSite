@@ -16,10 +16,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ritterdigital.de',
       },
-      {
-        protocol: 'https',
-        hostname: 'krqoaacidcyghxhdxtce.supabase.co',
-      },
+      // Supabase-Hostname entfernt
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -151,6 +148,7 @@ const nextConfig = {
         destination: '/kontakt',
         permanent: true,
       },
+      // Blog-Kategorien-Weiterleitungen entfernt
       // Entferne trailing slash für kanonische URLs
       {
         source: '/:path*/',
@@ -167,12 +165,6 @@ const nextConfig = {
           },
         ],
         destination: 'https://ritterdigital.de/:path*',
-        permanent: true,
-      },
-      // Blog-Kategorien-Weiterleitungen
-      {
-        source: '/blog/category/:slug',
-        destination: '/blog/kategorie/:slug',
         permanent: true,
       },
       // Alte Leistungs-URLs

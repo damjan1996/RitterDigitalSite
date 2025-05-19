@@ -1,7 +1,9 @@
 'use client';
 
+// src/components/layout/header.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Phone, X } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { useEffect, useState } from 'react';
@@ -57,20 +59,19 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
     if (path === '/') {
       setActiveLink('Startseite');
     } else if (path.includes('ueber-uns')) {
-      setActiveLink('Über Uns');
+      setActiveLink('Über uns');
     } else if (path.includes('leistungen')) {
       setActiveLink('Leistungen');
-    } else if (path.includes('blog')) {
-      setActiveLink('Blog');
     } else if (path.includes('kontakt')) {
       setActiveLink('Kontakt');
     }
+    // Blog-Bedingung entfernt
   }, []);
 
   const navItems = [
     { name: 'Leistungen', path: '/leistungen' },
-    { name: 'Über Uns', path: '/ueber-uns' },
-    { name: 'Blog', path: '/blog' },
+    { name: 'Über uns', path: '/ueber-uns' },
+    // Blog-Eintrag entfernt
   ];
 
   return (
@@ -89,9 +90,11 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
           <div>
             <Link href="/" className="relative flex items-center">
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <img
+                <Image
                   src="/images/logos/logo_ritterdigital.png"
                   alt="Ritter Digital Logo"
+                  width={120}
+                  height={48}
                   className="h-10 w-auto sm:h-12"
                 />
               </motion.div>
@@ -117,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
                         const path = window.location.pathname;
                         if (path.includes('ueber-uns') && item.name === 'Über Uns') return;
                         if (path.includes('leistungen') && item.name === 'Leistungen') return;
-                        if (path.includes('blog') && item.name === 'Blog') return;
+                        // Blog-Zeile entfernt
                         if (path.includes('kontakt') && item.name === 'Kontakt') return;
                         setActiveLink('');
                       }}

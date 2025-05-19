@@ -12,8 +12,8 @@ const Home: NextPage = () => {
   const combinedSchema = {
     ...schemaData.organization,
     // Typgerechte Überprüfung und Hinzufügen der optionalen Schema-Daten
-    ...((schemaData as any).professionalService || {}),
-    ...((schemaData as any).website || {}),
+    ...((schemaData as Record<string, unknown>).professionalService || {}),
+    ...((schemaData as Record<string, unknown>).website || {}),
   };
 
   return (

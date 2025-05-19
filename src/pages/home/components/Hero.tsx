@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, BarChart3, Brain, ChevronRight, Code2, Database, Server } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useSwipeable } from 'react-swipeable';
@@ -121,7 +122,6 @@ export function Hero({
   const [isInView, setIsInView] = useState(false);
   const [ready, setReady] = useState(false);
   const [pauseRotation, setPauseRotation] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -168,7 +168,7 @@ export function Hero({
     }, 5000); // Change service every 5 seconds
 
     return () => clearInterval(interval);
-  }, [isInView, services.length, pauseRotation]);
+  }, [isInView, pauseRotation]);
 
   // Get header height for proper spacing
   useEffect(() => {
@@ -211,7 +211,7 @@ export function Hero({
         videoRefs.current[nextIndex]?.load();
       }
     }
-  }, [activeService, ready, services.length]);
+  }, [activeService, ready]);
 
   // Intersection Observer to trigger animations when in view
   useEffect(() => {
@@ -259,11 +259,6 @@ export function Hero({
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
-  };
-
-  // Handle video load event
-  const handleVideoLoad = () => {
-    setVideoLoaded(true);
   };
 
   return (
@@ -506,12 +501,12 @@ export function Hero({
                           muted
                           loop
                           playsInline
-                          onCanPlay={handleVideoLoad}
                         />
                       ) : (
-                        <img
+                        <Image
                           src={service.image || '/placeholder.svg'}
                           alt=""
+                          fill
                           className="h-full w-full object-cover"
                         />
                       )}

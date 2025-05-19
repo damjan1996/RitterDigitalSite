@@ -80,7 +80,6 @@ const SoftwareentwicklungPage: NextPage = () => {
     { name: 'Node.js', icon: '/images/services/tech/nodejs.svg' },
     { name: 'TypeScript', icon: '/images/services/tech/typescript.svg' },
     { name: 'PostgreSQL', icon: '/images/services/tech/postgresql.svg' },
-    { name: 'Supabase', icon: '/images/services/tech/supabase.svg' },
     { name: '.NET', icon: '/images/services/tech/dotnet.svg' },
     { name: 'Java', icon: '/images/services/tech/java.svg' },
   ];

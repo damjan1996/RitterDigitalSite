@@ -10,15 +10,6 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 
-// Refined color palette - consistent with other components
-const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#F8F9FC', // Lighter background for better contrast
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
-};
-
 interface ServiceHeroProps {
   title: string;
   subtitle: string;

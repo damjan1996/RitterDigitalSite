@@ -84,7 +84,7 @@ export async function fetchApi<T = unknown>(
 export const API_ENDPOINTS = {
   CONTACT: '/contact',
   NEWSLETTER: '/newsletter',
-  BLOG: '/blog',
+  // Blog-Endpunkt entfernt
 };
 
 /**
@@ -107,39 +107,14 @@ export async function subscribeToNewsletter(email: string, consent: boolean): Pr
   });
 }
 
-/**
- * Ruft Blog-Beiträge ab
- */
-export async function getBlogPosts(
-  page: number = 1,
-  limit: number = 10,
-  category?: string
-): Promise<ApiResponse> {
-  // Parameter an die URL anhängen
-  const params = new URLSearchParams();
-  params.append('page', page.toString());
-  params.append('limit', limit.toString());
-  if (category) {
-    params.append('category', category);
-  }
-
-  return fetchApi(`${API_ENDPOINTS.BLOG}?${params.toString()}`);
-}
-
-/**
- * Ruft einen einzelnen Blog-Beitrag anhand des Slugs ab
- */
-export async function getBlogPostBySlug(slug: string): Promise<ApiResponse> {
-  return fetchApi(`${API_ENDPOINTS.BLOG}/${slug}`);
-}
+// Blog-bezogene Funktionen entfernt
 
 // Exportiere die API-Funktionen als benanntes Objekt
 export const api = {
   fetchApi,
   submitContactForm,
   subscribeToNewsletter,
-  getBlogPosts,
-  getBlogPostBySlug,
+  // Blog-Funktionen entfernt
 };
 
 export default api;

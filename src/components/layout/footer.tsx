@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Instagram, Linkedin, Twitter, X, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { useState } from 'react';
@@ -29,7 +30,6 @@ export const Footer: React.FC = () => {
         return <Twitter className="h-5 w-5" />;
       case 'Github':
         return <Github className="h-5 w-5" />;
-      // Dribbble is deprecated, using Github as fallback
       case 'Dribbble':
         return <Github className="h-5 w-5" />;
       default:
@@ -126,9 +126,11 @@ export const Footer: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <img
+                <Image
                   src="/images/logos/logo_ritterdigital.png"
                   alt="RITTER Gesellschaft für digitale Geschäftsprozesse mbH Logo"
+                  width={176}
+                  height={56}
                   className="h-full w-full object-contain"
                 />
               </motion.div>
@@ -287,7 +289,7 @@ export const Footer: React.FC = () => {
             </motion.h3>
 
             <ul className="space-y-3">
-              {['Home', 'About Us', 'Services', 'Blog'].map((item, index) => (
+              {['Home', 'About Us', 'Services'].map((item, index) => (
                 <motion.li
                   key={item}
                   custom={index}

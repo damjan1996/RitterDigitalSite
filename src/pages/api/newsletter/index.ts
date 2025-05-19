@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { brevoClient } from '@/lib/brevo/client';
 import type { NewsletterSubscriptionData } from '@/lib/brevo/types';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { newsletterSchema } from '@/lib/validation';
 
 // API response types
@@ -21,15 +20,6 @@ type ErrorResponse = {
 };
 
 type ApiResponse = SuccessResponse | ErrorResponse;
-
-// Database insertion type
-type NewsletterSubscriberInsert = {
-  email: string;
-  first_name: string | null;
-  last_name: string | null;
-  subscribed_at: string;
-  active: boolean;
-};
 
 /**
  * API-Handler für Newsletter-Anmeldungen
@@ -82,58 +72,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       });
     }
 
-    // Supabase-Client erstellen
-    const supabase = createServerSupabaseClient();
-
-    // Überprüfen, ob die E-Mail-Adresse bereits für den Newsletter angemeldet ist
-    const { data: existingSubscriber, error: queryError } = await supabase
-      .from('newsletter_subscribers' as any)
-      .select('id, email')
-      .eq('email', subscriptionData.email)
-      .maybeSingle();
-
-    if (queryError) {
-      console.error('Error checking existing subscriber:', queryError);
-      // Wir setzen fort und vertrauen auf die Brevo-API für die Deduplizierung
-    }
-
-    // Wenn der Benutzer bereits angemeldet ist, senden wir eine entsprechende Antwort
-    if (existingSubscriber) {
-      return res.status(200).json({
-        success: true,
-        message: 'Diese E-Mail-Adresse ist bereits für den Newsletter angemeldet',
-        alreadySubscribed: true,
-      });
-    }
+    // Wir können hier einen Cache oder eine alternative Datenbank verwenden, um
+    // zu überprüfen, ob die E-Mail bereits registriert ist
+    // Für jetzt überspringen wir diese Prüfung und vertrauen auf Brevo
 
     // Newsletter-Anmeldung in Brevo durchführen
     const brevoResult = await brevoClient.subscribeToNewsletter(subscriptionData);
 
     if (!brevoResult.success) {
-      console.error('Error subscribing to newsletter via Brevo:', brevoResult.error);
+      // console.error removed
       return res.status(500).json({
         success: false,
         error: 'Fehler bei der Newsletter-Anmeldung',
       });
     }
 
-    // Anmeldung in der Datenbank speichern
-    const newSubscriber: NewsletterSubscriberInsert = {
-      email: subscriptionData.email,
-      first_name: subscriptionData.firstName || null,
-      last_name: subscriptionData.lastName || null,
-      subscribed_at: new Date().toISOString(),
-      active: true,
-    };
-
-    const { error: insertError } = await supabase
-      .from('newsletter_subscribers' as any)
-      .insert(newSubscriber as any);
-
-    if (insertError) {
-      console.error('Error saving newsletter subscription to database:', insertError);
-      // Wir setzen fort, da die Anmeldung in Brevo bereits erfolgreich war
-    }
+    // Log der Anmeldung für interne Nachverfolgung
+    // console.log removed
 
     // Bestätigungs-E-Mail senden (über Brevo-Template)
     const recipient = {
@@ -156,7 +111,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     );
 
     if (!confirmationResult.success) {
-      console.warn('Error sending newsletter confirmation email:', confirmationResult.error);
+      // console.warn removed
       // Wir setzen fort, da die Hauptfunktionalität bereits erfolgreich war
     }
 
@@ -172,7 +127,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       message: 'Newsletter-Anmeldung erfolgreich',
     });
   } catch (err) {
-    console.error('API error:', err);
+    // console.error removed
     return res.status(500).json({
       success: false,
       error: 'Ein serverseitiger Fehler ist aufgetreten',

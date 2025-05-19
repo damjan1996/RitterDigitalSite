@@ -11,15 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
 
-// Refined color palette matching the homepage
-const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#F8F9FC', // Lighter background for better contrast
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
-};
-
 interface HeroProps {
   title?: string;
   subtitle?: string;

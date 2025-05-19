@@ -74,15 +74,6 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
-  };
-
   const titleVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {

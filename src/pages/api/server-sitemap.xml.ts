@@ -4,57 +4,23 @@ import type { ISitemapField } from 'next-sitemap';
 import { getServerSideSitemap } from 'next-sitemap';
 
 // Typedefinitionen für unsere Datenmodelle
-interface BlogPost {
-  slug: string;
-  updated_at?: string;
-  published_at?: string;
-}
-
 interface ServiceCategory {
   id: string;
 }
 
 // API-Route-Handler für Next.js
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(_req: NextApiRequest, _res: NextApiResponse) {
   try {
-    // Abrufen aller veröffentlichten Blog-Posts
-    const blogPostsResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/blog_posts?select=slug,updated_at,published_at&published=true`,
-      {
-        headers: {
-          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    const blogPosts: BlogPost[] = await blogPostsResponse.json();
-
-    // Abrufen aller Dienstleistungen
-    const servicesResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/categories?select=id`,
-      {
-        headers: {
-          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    const services: ServiceCategory[] = await servicesResponse.json();
+    // Abrufen aller Dienstleistungen (statisch definiert, da keine Supabase-Abfrage mehr)
+    const services: ServiceCategory[] = [
+      { id: 'business-intelligence' },
+      { id: 'data-warehouse' },
+      { id: 'softwareentwicklung' },
+      { id: 'kuenstliche-intelligenz' },
+    ];
 
     // Erstellen der Sitemap-Felder
     const fields: ISitemapField[] = [];
-
-    // Blog Post Sitemap Felder
-    if (blogPosts && blogPosts.length > 0) {
-      blogPosts.forEach(post => {
-        fields.push({
-          loc: `https://ritterdigital.de/blog/${post.slug}`,
-          lastmod: post.updated_at || post.published_at || new Date().toISOString(),
-          changefreq: 'weekly',
-          priority: 0.7,
-        });
-      });
-    }
 
     // Services Sitemap Felder
     if (services && services.length > 0) {
@@ -105,12 +71,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           loc: 'https://ritterdigital.de/leistungen/kuenstliche-intelligenz',
           lastmod: new Date().toISOString(),
           changefreq: 'monthly',
-          priority: 0.8,
-        },
-        {
-          loc: 'https://ritterdigital.de/blog',
-          lastmod: new Date().toISOString(),
-          changefreq: 'daily',
           priority: 0.8,
         },
         {

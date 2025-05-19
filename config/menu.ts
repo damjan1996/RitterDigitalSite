@@ -19,7 +19,7 @@ export const mainMenuItems: MenuItem[] = [
     ],
   },
   { title: 'Über Uns', href: '/ueber-uns' },
-  { title: 'Blog', href: '/blog' },
+  // Blog-Eintrag entfernt
 ];
 
 // Menüpunkte für den Footer
@@ -32,7 +32,7 @@ export const footerMenuItems = {
   ],
   company: [
     { title: 'Über Uns', href: '/ueber-uns' },
-    { title: 'Blog', href: '/blog' },
+    // Blog-Eintrag entfernt
     { title: 'Karriere', href: '/karriere' },
   ],
   legal: [

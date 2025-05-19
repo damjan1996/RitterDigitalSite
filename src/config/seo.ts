@@ -83,11 +83,7 @@ export const pageSeo = {
     description:
       'Lernen Sie Ritter Digital kennen – Ihr Partner für digitale Transformation mit über 20 Jahren Erfahrung und mehr als 90 zufriedenen Kunden.',
   },
-  blog: {
-    title: 'Blog | Ritter Digital GmbH',
-    description:
-      'Aktuelle Insights, Trends und Know-how zu den Themen Digitalisierung, Business Intelligence, Data Warehouse und Softwareentwicklung.',
-  },
+  // Blog-Eintrag entfernt
   kontakt: {
     title: 'Kontakt | Ritter Digital GmbH',
     description:
@@ -263,34 +259,7 @@ export const schemaData = {
     },
   },
 
-  // Schema für Blog-Artikel
-  blogPosting: (post: any) => {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: post.title,
-      description: post.description || post.excerpt,
-      image: post.featured_image,
-      author: {
-        '@type': 'Person',
-        name: post.author?.name,
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: SITE_NAME,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
-        },
-      },
-      datePublished: post.published_at,
-      dateModified: post.updated_at || post.published_at,
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': `${SITE_URL}/blog/${post.slug}`,
-      },
-    };
-  },
+  // Blog-Schema entfernt
 
   // Schema für Dienstleistungen
   service: (service: any) => {

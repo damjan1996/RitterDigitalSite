@@ -79,13 +79,7 @@ export const BENEFITS = [
   },
 ];
 
-// Blog-Kategorien
-export const BLOG_CATEGORIES = [
-  { id: 1, name: 'Business Intelligence', slug: 'business-intelligence' },
-  { id: 2, name: 'Data Warehouse', slug: 'data-warehouse' },
-  { id: 3, name: 'Softwareentwicklung', slug: 'softwareentwicklung' },
-  { id: 4, name: 'Künstliche Intelligenz', slug: 'kuenstliche-intelligenz' },
-];
+// Blog-Kategorien entfernt
 
 // Standardwerte für Paginierung
 export const PAGINATION = {
@@ -127,7 +121,7 @@ export const constants = {
   CONTACT_INFO,
   SERVICES,
   BENEFITS,
-  BLOG_CATEGORIES,
+  // BLOG_CATEGORIES entfernt
   PAGINATION,
   LOCALES,
   COOKIE_CONSENT_KEY,
