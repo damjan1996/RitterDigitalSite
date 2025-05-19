@@ -137,7 +137,8 @@ export function ServiceTeaser({
 
   // Replace useMobile with our own implementation using useMediaQuery
   const isMobile = useMediaQuery('(max-width: 639px)');
-  const isTablet = useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
+  // Removing unused variable
+  // const isTablet = useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
 
   // Get header height
   useEffect(() => {
@@ -262,8 +263,10 @@ export function ServiceTeaser({
       }}
       id="carousel-section"
     >
-      {/* Custom CSS styles */}
-      <style jsx global>{`
+      {/* Fix for ESLint "unknown property" warnings */}
+      {/* eslint-disable-next-line react/no-unknown-property */}
+      <style jsx>{`
+        /* Core carousel styles */
         .carousel-container {
           position: relative;
           overflow: hidden;
@@ -302,6 +305,7 @@ export function ServiceTeaser({
           pointer-events: auto;
         }
 
+        /* Navigation buttons */
         .carousel-nav-button {
           position: absolute;
           top: 50%;
@@ -339,6 +343,7 @@ export function ServiceTeaser({
           right: 10px;
         }
 
+        /* Indicator dots */
         .indicator-dot {
           width: 12px;
           height: 12px;
@@ -353,6 +358,7 @@ export function ServiceTeaser({
           border-radius: 4px;
         }
 
+        /* Video styles */
         .video-container {
           position: relative;
           width: 100%;
@@ -368,6 +374,7 @@ export function ServiceTeaser({
           object-fit: cover;
         }
 
+        /* Hover effects */
         @media (hover: hover) {
           .carousel-nav-button {
             opacity: 0;
@@ -383,6 +390,7 @@ export function ServiceTeaser({
           }
         }
 
+        /* Service grid and cards */
         .service-info-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -463,41 +471,6 @@ export function ServiceTeaser({
 
         .service-card.active .service-card-keyword {
           background: rgba(255, 122, 53, 0.2);
-        }
-
-        .service-detail-section {
-          margin-top: 2rem;
-          padding-top: 2rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .service-detail-content {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-          .service-detail-content {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-
-        .service-detail-text {
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
-        }
-
-        .service-detail-cta {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        @media (min-width: 640px) {
-          .service-detail-cta {
-            flex-direction: row;
-          }
         }
       `}</style>
 
@@ -728,7 +701,7 @@ function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    // Default to true for SSR
+    // Default to false for SSR
     if (typeof window === 'undefined') {
       setMatches(false);
       return;

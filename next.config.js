@@ -10,16 +10,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'localhost'
+        hostname: 'localhost',
       },
       {
         protocol: 'https',
-        hostname: 'ritterdigital.de'
+        hostname: 'ritterdigital.de',
       },
       {
         protocol: 'https',
-        hostname: 'krqoaacidcyghxhdxtce.supabase.co'
-      }
+        hostname: 'krqoaacidcyghxhdxtce.supabase.co',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
