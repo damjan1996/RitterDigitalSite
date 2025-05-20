@@ -119,7 +119,7 @@ export const Mission: React.FC<MissionProps> = ({ className }) => {
 
               <div className="relative aspect-[4/3] overflow-hidden rounded-md">
                 <Image
-                  src="/images/about/mission.jpg"
+                  src="/images/artificialintelligence.jpg"
                   alt="Unsere Mission"
                   fill
                   className="object-cover transition-transform duration-700 hover:scale-105"

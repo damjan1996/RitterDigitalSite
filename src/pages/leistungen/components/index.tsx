@@ -4,13 +4,13 @@ import React from 'react';
 import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
 import { Hero } from './Hero';
-import { ServiceOverview } from './ServiceOverview';
+import { ServiceList } from './ServiceList';
 
 export const LeistungenPage: React.FC = () => {
   return (
     <>
       <Hero />
-      <ServiceOverview />
+      <ServiceList />
       <ServiceCTA
         text="Bereit, Ihr Digitalprojekt zu starten? Wir beraten Sie gerne unverbindlich zu Ihren Möglichkeiten."
         buttonText="Jetzt Kontakt aufnehmen"
@@ -21,7 +21,7 @@ export const LeistungenPage: React.FC = () => {
 };
 
 // Export die Komponenten für Verwendung in anderen Dateien
-export { Hero, ServiceOverview };
+export { Hero };
 export { ServiceCTA };
 
 export default LeistungenPage;

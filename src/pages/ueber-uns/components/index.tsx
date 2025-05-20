@@ -14,7 +14,6 @@ export const UeberUnsPage: React.FC = () => {
       <Mission />
       <Values />
       <CompanyHistory />
-      <TeamMembers />
     </>
   );
 };

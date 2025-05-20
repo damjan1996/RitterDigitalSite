@@ -199,7 +199,7 @@ export const Hero: React.FC = () => {
                 />
                 <div className="relative h-full w-full overflow-hidden rounded-lg shadow-lg">
                   <Image
-                    src="/images/about/team-collage.jpg"
+                    src="/images/office.jpg"
                     alt="Das Team von Ritter Digital"
                     fill
                     className="object-cover"

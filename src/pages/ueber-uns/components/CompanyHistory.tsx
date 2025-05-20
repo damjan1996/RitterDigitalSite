@@ -23,42 +23,42 @@ const milestones = [
     title: 'Gründung der Ritter Digital GmbH',
     description:
       'Die Ritter Digital GmbH wurde von Hans Ritter mit der Vision gegründet, kleinen und mittelständischen Unternehmen bei der Digitalisierung zu unterstützen.',
-    image: '/images/about/founding.jpg',
+    image: '/images/founding.jpg',
   },
   {
     year: 2008,
     title: 'Spezialisierung auf E-Commerce',
     description:
       'Mit dem Aufkommen neuer E-Commerce-Plattformen begann unsere Spezialisierung auf digitale Handelslösungen und Prozessoptimierung.',
-    image: '/images/about/ecommerce.jpg',
+    image: '/images/onlineretail.jpg',
   },
   {
     year: 2012,
     title: 'Expansion des Dienstleistungsportfolios',
     description:
       'Wir erweiterten unser Angebot um Business Intelligence und Datenanalyse-Lösungen, um unseren Kunden noch tiefere Einblicke in ihre Geschäftsprozesse zu ermöglichen.',
-    image: '/images/about/expansion.jpg',
+    image: '/images/expansion.jpg',
   },
   {
     year: 2016,
     title: 'Internationalisierung',
     description:
       'Mit der Gewinnung erster internationaler Kunden begann unsere Expansion über den deutschsprachigen Raum hinaus.',
-    image: '/images/about/international.jpg',
+    image: '/images/internationalisation.jpg',
   },
   {
     year: 2020,
     title: 'Entwicklung KI-basierter Lösungen',
     description:
       'Wir begannen mit der Integration künstlicher Intelligenz in unsere Dienstleistungen, um noch innovativere und effizientere Lösungen anzubieten.',
-    image: '/images/about/ai-solutions.jpg',
+    image: '/images/implementingai.jpg',
   },
   {
     year: 2024,
     title: 'Heute',
     description:
       'Heute ist die Ritter Digital GmbH ein etablierter Partner für digitale Transformation mit über 90 zufriedenen Kunden weltweit und einem vielfältigen Portfolio an maßgeschneiderten Lösungen.',
-    image: '/images/about/today.jpg',
+    image: '/images/largeoffice.jpg',
   },
 ];
 
