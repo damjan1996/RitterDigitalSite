@@ -1,5 +1,5 @@
 // src/config/seo.ts
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from '@/lib/constants';
+import { SEO, SITE_URL, COMPANY_INFO } from '@/lib/constants';
 
 /**
  * Standard-SEO-Einstellungen für die gesamte Website
@@ -13,13 +13,13 @@ export const defaultSeo = {
     type: 'website',
     locale: 'de_DE',
     url: SITE_URL,
-    site_name: SITE_NAME,
+    site_name: SEO.SITE_NAME,
     images: [
       {
         url: `${SITE_URL}/images/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: SITE_NAME,
+        alt: SEO.SITE_NAME,
       },
     ],
   },
@@ -31,7 +31,7 @@ export const defaultSeo = {
   additionalMetaTags: [
     {
       name: 'author',
-      content: SITE_NAME,
+      content: SEO.SITE_NAME,
     },
     {
       name: 'viewport',
@@ -107,28 +107,25 @@ export const schemaData = {
   organization: {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Ritter Digital GmbH',
-    alternateName: 'RITTER Gesellschaft für digitale Geschäftsprozesse mbH',
+    name: COMPANY_INFO.NAME,
+    alternateName: COMPANY_INFO.FULL_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
-    sameAs: [
-      'https://www.linkedin.com/company/ritter-digital-gmbh/',
-      'https://www.xing.com/pages/ritterdigitalgmbh',
-    ],
+    sameAs: [COMPANY_INFO.SOCIAL_MEDIA.LINKEDIN, COMPANY_INFO.SOCIAL_MEDIA.XING],
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: '+4902083067485',
+        telephone: COMPANY_INFO.PHONE,
         contactType: 'customer service',
         availableLanguage: ['German', 'English'],
       },
     ],
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Essener Straße 2-24',
-      postalCode: '46047',
-      addressLocality: 'Oberhausen',
-      addressCountry: 'DE',
+      streetAddress: COMPANY_INFO.ADDRESS.STREET,
+      postalCode: COMPANY_INFO.ADDRESS.ZIP,
+      addressLocality: COMPANY_INFO.ADDRESS.CITY,
+      addressCountry: COMPANY_INFO.ADDRESS.COUNTRY,
     },
   },
 
@@ -136,18 +133,18 @@ export const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     '@id': `${SITE_URL}/#LocalBusiness`,
-    name: 'Ritter Digital GmbH',
+    name: COMPANY_INFO.NAME,
     image: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
     url: SITE_URL,
-    telephone: '+4902083067485',
-    email: 'team@ritterdigital.de',
+    telephone: COMPANY_INFO.PHONE,
+    email: COMPANY_INFO.EMAIL,
     priceRange: '€€',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Essener Straße 2-24',
-      postalCode: '46047',
-      addressLocality: 'Oberhausen',
-      addressCountry: 'DE',
+      streetAddress: COMPANY_INFO.ADDRESS.STREET,
+      postalCode: COMPANY_INFO.ADDRESS.ZIP,
+      addressLocality: COMPANY_INFO.ADDRESS.CITY,
+      addressCountry: COMPANY_INFO.ADDRESS.COUNTRY,
     },
     geo: {
       '@type': 'GeoCoordinates',
@@ -169,8 +166,8 @@ export const schemaData = {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
-    name: SITE_NAME,
-    description: SITE_DESCRIPTION,
+    name: SEO.SITE_NAME,
+    description: SEO.DEFAULT_DESCRIPTION,
     potentialAction: [
       {
         '@type': 'SearchAction',
@@ -199,20 +196,20 @@ export const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': `${SITE_URL}/#professionalservice`,
-    name: 'Ritter Digital GmbH',
-    description: SITE_DESCRIPTION,
+    name: COMPANY_INFO.NAME,
+    description: SEO.DEFAULT_DESCRIPTION,
     url: SITE_URL,
     logo: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
     image: `${SITE_URL}/images/og-image.jpg`,
-    telephone: '+4902083067485',
-    email: 'team@ritterdigital.de',
+    telephone: COMPANY_INFO.PHONE,
+    email: COMPANY_INFO.EMAIL,
     priceRange: '€€',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Essener Straße 2-24',
-      postalCode: '46047',
-      addressLocality: 'Oberhausen',
-      addressCountry: 'DE',
+      streetAddress: COMPANY_INFO.ADDRESS.STREET,
+      postalCode: COMPANY_INFO.ADDRESS.ZIP,
+      addressLocality: COMPANY_INFO.ADDRESS.CITY,
+      addressCountry: COMPANY_INFO.ADDRESS.COUNTRY,
     },
     geo: {
       '@type': 'GeoCoordinates',
@@ -270,7 +267,7 @@ export const schemaData = {
       description: service.description,
       provider: {
         '@type': 'Organization',
-        name: SITE_NAME,
+        name: SEO.SITE_NAME,
         url: SITE_URL,
       },
       url: `${SITE_URL}/leistungen/${service.slug}`,
@@ -306,15 +303,15 @@ export const schemaData = {
     description: 'Kontaktieren Sie Ritter Digital für Ihre digitalen Projekte',
     mainEntity: {
       '@type': 'Organization',
-      name: SITE_NAME,
-      telephone: '+4902083067485',
-      email: 'team@ritterdigital.de',
+      name: SEO.SITE_NAME,
+      telephone: COMPANY_INFO.PHONE,
+      email: COMPANY_INFO.EMAIL,
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Essener Straße 2-24',
-        postalCode: '46047',
-        addressLocality: 'Oberhausen',
-        addressCountry: 'DE',
+        streetAddress: COMPANY_INFO.ADDRESS.STREET,
+        postalCode: COMPANY_INFO.ADDRESS.ZIP,
+        addressLocality: COMPANY_INFO.ADDRESS.CITY,
+        addressCountry: COMPANY_INFO.ADDRESS.COUNTRY,
       },
     },
   },

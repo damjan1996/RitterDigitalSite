@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/layout/cookie-banner.tsx
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';

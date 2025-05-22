@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import React from 'react';
 
-import { SITE_NAME, SITE_URL } from '@/lib/constants';
+import { SEO, COMPANY_INFO, SITE_URL } from '@/lib/constants';
 
 // Typdefinitionen für Schema-Objekte
 
@@ -222,15 +222,15 @@ interface FAQPageSchemaProps extends BaseSchemaProps {
 
 // Organisationsschema
 export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
-  name = SITE_NAME,
+  name = SEO.SITE_NAME,
   url = SITE_URL,
   logo = `${SITE_URL}/images/logos/logo_ritterdigital.png`,
   socialLinks = [],
-  streetAddress = 'Essener Straße 2-24',
-  city = 'Oberhausen',
-  postalCode = '46047',
+  streetAddress = COMPANY_INFO.ADDRESS.STREET,
+  city = COMPANY_INFO.ADDRESS.CITY,
+  postalCode = COMPANY_INFO.ADDRESS.ZIP,
   countryCode = 'DE',
-  phoneNumber = '+4902083067485',
+  phoneNumber = COMPANY_INFO.PHONE,
   contactType = 'customer service',
   areaServed = 'DE',
   availableLanguage = ['German', 'English'],
@@ -272,9 +272,9 @@ export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
 
 // Website-Schema
 export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
-  name = SITE_NAME,
+  name = SEO.SITE_NAME,
   url = SITE_URL,
-  description = 'Ritter Digital GmbH ist Ihr Partner für digitale Optimierung von Prozessen und maßgeschneiderte Softwarelösungen.',
+  description = SEO.DEFAULT_DESCRIPTION,
   inLanguage = 'de-DE',
 }) => {
   const schema: WebsiteSchema = {
@@ -313,7 +313,7 @@ export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
 // Webseiten-Schema
 export const WebPageSchema: React.FC<WebPageSchemaProps> = ({
   url = SITE_URL,
-  title = SITE_NAME,
+  title = SEO.SITE_NAME,
   description,
   imageUrl,
   datePublished,
@@ -356,7 +356,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
   title,
   description,
   imageUrl,
-  authorName = 'Ritter Digital GmbH',
+  authorName = COMPANY_INFO.NAME,
   authorUrl,
   datePublished = new Date().toISOString(),
   dateModified,
@@ -377,7 +377,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
     },
     publisher: {
       '@type': 'Organization',
-      name: SITE_NAME,
+      name: SEO.SITE_NAME,
       logo: {
         '@type': 'ImageObject',
         url: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
@@ -419,7 +419,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
     description,
     provider: {
       '@type': 'Organization',
-      name: SITE_NAME,
+      name: SEO.SITE_NAME,
       url: SITE_URL,
     },
     ...(serviceType && { serviceType }),

@@ -1,19 +1,15 @@
-// src/components/pages/home/CTAForm.tsx
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ChevronRight, ChevronDown } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { contactFormSchema, type ContactFormData } from '@/lib/validation';
 
 // Refined color palette - consistent with Hero component
 const colors = {
@@ -51,79 +47,51 @@ export const CTAForm: React.FC<CTAFormProps> = ({
     'Softwareentwicklung',
     'Künstliche Intelligenz',
     'Digitalisierung',
-    'JTL WaWi',
+    'JTL',
   ],
 }) => {
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    },
-  });
-
-  const watchedSubject = watch('subject');
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormState(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubjectSelect = (subject: string) => {
-    setValue('subject', subject);
+    setFormState(prev => ({ ...prev, subject }));
     setIsSubjectDropdownOpen(false);
   };
 
-  const handleDropdownKeyDown = (event: React.KeyboardEvent, subject: string) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleSubjectSelect(subject);
-    } else if (event.key === 'Escape') {
-      setIsSubjectDropdownOpen(false);
-    }
-  };
-
-  const onSubmit = async (data: ContactFormData) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    setSubmitError(null);
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const result = await response.json();
+    // In a real application, you would send the form data to your backend here
+    // Removed console.log to fix the ESLint warning
 
-      if (response.ok && result.success) {
-        setIsSubmitted(true);
-        reset();
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormState({ name: '', email: '', subject: '', message: '' });
 
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-        }, 5000);
-      } else {
-        setSubmitError(result.error || 'Ein Fehler ist aufgetreten');
-      }
-    } catch (error) {
-      setSubmitError('Netzwerkfehler. Bitte versuchen Sie es später erneut.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Reset success message after 5 seconds
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 5000);
   };
 
   // Animation variants - matching Hero component style
@@ -317,32 +285,31 @@ export const CTAForm: React.FC<CTAFormProps> = ({
               <div className="absolute right-0 top-0 h-20 w-20 bg-gradient-to-bl from-[#FF7A35]/10 to-transparent" />
               <div className="absolute bottom-0 left-0 h-16 w-16 bg-gradient-to-tr from-[#3D5A73]/10 to-transparent" />
 
-              <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 space-y-6">
+              <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
                   <label htmlFor="name" className="mb-2 block text-[#3D5A73]">
-                    Name *
+                    Vor - und Nachname
                   </label>
                   <div className="relative">
                     <Input
                       id="name"
-                      {...register('name')}
+                      name="name"
+                      value={formState.name}
+                      onChange={handleChange}
                       onFocus={() => setFocusedField('name')}
                       onBlur={() => setFocusedField(null)}
                       className={cn(
                         'h-12 rounded-md border-gray-300 bg-white px-4 py-2 text-[#1A2027] transition-all duration-300',
                         focusedField === 'name'
                           ? 'border-[#FF7A35] ring-1 ring-[#FF7A35]/20'
-                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]',
-                        errors.name && 'border-red-500'
+                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]'
                       )}
+                      required
                     />
-                    {errors.name && (
-                      <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-                    )}
                     <AnimatePresence>
                       {focusedField === 'name' && (
                         <motion.div
@@ -363,26 +330,25 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                   transition={{ delay: 0.3 }}
                 >
                   <label htmlFor="email" className="mb-2 block text-[#3D5A73]">
-                    E-Mail-Adresse *
+                    E-Mail-Adresse
                   </label>
                   <div className="relative">
                     <Input
                       id="email"
+                      name="email"
                       type="email"
-                      {...register('email')}
+                      value={formState.email}
+                      onChange={handleChange}
                       onFocus={() => setFocusedField('email')}
                       onBlur={() => setFocusedField(null)}
                       className={cn(
                         'h-12 rounded-md border-gray-300 bg-white px-4 py-2 text-[#1A2027] transition-all duration-300',
                         focusedField === 'email'
                           ? 'border-[#FF7A35] ring-1 ring-[#FF7A35]/20'
-                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]',
-                        errors.email && 'border-red-500'
+                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]'
                       )}
+                      required
                     />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                    )}
                     <AnimatePresence>
                       {focusedField === 'email' && (
                         <motion.div
@@ -397,29 +363,43 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                   </div>
                 </motion.div>
 
-                {/* Subject Dropdown */}
+                {/* Subject Dropdown - New Addition */}
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35 }}
                 >
                   <label htmlFor="subject" className="mb-2 block text-[#3D5A73]">
-                    Betreff *
+                    Betreff
                   </label>
                   <div className="relative">
                     <button
                       type="button"
+                      aria-haspopup="listbox"
+                      aria-expanded={isSubjectDropdownOpen}
+                      aria-labelledby="subject-label"
+                      id="subject-button"
                       className={cn(
                         'flex h-12 w-full cursor-pointer items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-[#1A2027] transition-all duration-300',
                         focusedField === 'subject'
                           ? 'border-[#FF7A35] ring-1 ring-[#FF7A35]/20'
                           : 'hover:border-[#3D5A73]',
-                        !watchedSubject && 'text-gray-500',
-                        errors.subject && 'border-red-500'
+                        !formState.subject && 'text-gray-500'
                       )}
                       onClick={() => {
                         setIsSubjectDropdownOpen(!isSubjectDropdownOpen);
                         setFocusedField('subject');
+                      }}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setIsSubjectDropdownOpen(!isSubjectDropdownOpen);
+                          setFocusedField('subject');
+                        }
+                        if (e.key === 'Escape') {
+                          setIsSubjectDropdownOpen(false);
+                          setFocusedField(null);
+                        }
                       }}
                       onBlur={() => {
                         setTimeout(() => {
@@ -427,16 +407,14 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                           setFocusedField(null);
                         }, 200);
                       }}
-                      aria-expanded={isSubjectDropdownOpen}
-                      aria-haspopup="listbox"
-                      aria-label="Betreff auswählen"
                     >
-                      <span>{watchedSubject || 'Bitte wählen Sie einen Betreff'}</span>
+                      <span>{formState.subject || 'Bitte wählen Sie einen Betreff'}</span>
                       <ChevronDown
                         className={cn(
                           'h-4 w-4 transition-transform',
                           isSubjectDropdownOpen ? 'rotate-180 transform' : ''
                         )}
+                        aria-hidden="true"
                       />
                     </button>
 
@@ -449,29 +427,31 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                           animate="visible"
                           exit="exit"
                           role="listbox"
-                          aria-label="Betreff-Optionen"
+                          aria-labelledby="subject-label"
+                          id="subject-listbox"
                         >
                           {subjectOptions.map((option, index) => (
-                            <button
+                            <div
                               key={index}
-                              type="button"
+                              id={`subject-option-${index}`}
                               role="option"
-                              aria-selected={watchedSubject === option}
-                              className="w-full cursor-pointer px-4 py-2 text-left text-[#1A2027] hover:bg-[#F8F9FC] focus:bg-[#F8F9FC] focus:outline-none"
+                              aria-selected={formState.subject === option}
+                              className="cursor-pointer px-4 py-2 text-[#1A2027] hover:bg-[#F8F9FC]"
                               onClick={() => handleSubjectSelect(option)}
-                              onKeyDown={e => handleDropdownKeyDown(e, option)}
-                              tabIndex={0}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  handleSubjectSelect(option);
+                                }
+                              }}
+                              tabIndex={isSubjectDropdownOpen ? 0 : -1}
                             >
                               {option}
-                            </button>
+                            </div>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
-
-                    {errors.subject && (
-                      <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>
-                    )}
 
                     <AnimatePresence>
                       {focusedField === 'subject' && (
@@ -484,6 +464,9 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                         />
                       )}
                     </AnimatePresence>
+
+                    {/* Hidden input for form submission */}
+                    <input type="hidden" name="subject" value={formState.subject} required />
                   </div>
                 </motion.div>
 
@@ -493,25 +476,24 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                   transition={{ delay: 0.4 }}
                 >
                   <label htmlFor="message" className="mb-2 block text-[#3D5A73]">
-                    Ihre Nachricht *
+                    Ihre Nachricht
                   </label>
                   <div className="relative">
                     <Textarea
                       id="message"
-                      {...register('message')}
+                      name="message"
+                      value={formState.message}
+                      onChange={handleChange}
                       onFocus={() => setFocusedField('message')}
                       onBlur={() => setFocusedField(null)}
                       className={cn(
                         'min-h-[150px] rounded-md border-gray-300 bg-white px-4 py-2 text-[#1A2027] transition-all duration-300',
                         focusedField === 'message'
                           ? 'border-[#FF7A35] ring-1 ring-[#FF7A35]/20'
-                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]',
-                        errors.message && 'border-red-500'
+                          : 'focus:border-[#3D5A73] focus:ring-[#3D5A73]'
                       )}
+                      required
                     />
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
-                    )}
                     <AnimatePresence>
                       {focusedField === 'message' && (
                         <motion.div
@@ -533,8 +515,8 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                 >
                   <Button
                     type="submit"
-                    disabled={isSubmitting || !watchedSubject}
-                    className="group relative h-12 w-full overflow-hidden rounded-md bg-[#1A2027] px-8 py-2 text-white transition-all duration-300 hover:bg-[#2A3F56] disabled:cursor-not-allowed disabled:opacity-70"
+                    disabled={isSubmitting || !formState.subject}
+                    className="group relative h-12 overflow-hidden rounded-md bg-[#1A2027] px-8 py-2 text-white transition-all duration-300 hover:bg-[#2A3F56] disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       {isSubmitting ? 'Senden...' : isSubmitted ? 'Gesendet' : 'Senden'}
@@ -572,20 +554,6 @@ export const CTAForm: React.FC<CTAFormProps> = ({
                         <p>
                           Vielen Dank für Ihre Nachricht. Wir werden uns in Kürze bei Ihnen melden.
                         </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {submitError && (
-                      <motion.div
-                        className="mt-4 rounded-md bg-red-50 p-3 text-sm text-red-600"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <p>{submitError}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>

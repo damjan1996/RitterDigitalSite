@@ -59,7 +59,6 @@ const hasConsent = (category: 'analytics' | 'marketing' | 'functional'): boolean
 
     return false;
   } catch (error) {
-    // Log error is already removed
     return false;
   }
 };
@@ -95,9 +94,6 @@ export const initGA = (): void => {
     cookie_expires: 28 * 24 * 60 * 60, // Cookie-Ablauf in Sekunden (28 Tage)
   });
 
-  // Erweiterte E-Commerce-Tracking aktivieren (falls benötigt)
-  // window.gtag('require', 'ec');
-
   // Consent-Mode aktivieren
   window.gtag('consent', 'default', {
     ad_storage: 'denied',
@@ -107,8 +103,6 @@ export const initGA = (): void => {
     security_storage: 'granted',
     wait_for_update: 500, // Wartet max. 500ms auf weitere Consent-Updates
   });
-
-  // console.log removed
 };
 
 /**
@@ -127,8 +121,6 @@ export const initLeadInfo = (): void => {
     window.Leadinfo?.trackPage(LEADINFO_ID);
   };
   document.head.appendChild(script);
-
-  // console.log removed
 };
 
 /**
@@ -144,8 +136,6 @@ export const initMicrosoftClarity = (): void => {
   script.async = true;
   script.src = 'https://www.clarity.ms/tag/' + CLARITY_ID;
   document.head.appendChild(script);
-
-  // console.log removed
 };
 
 /**
@@ -194,8 +184,6 @@ export const initFacebookPixel = (): void => {
   script.async = true;
   script.src = 'https://connect.facebook.net/en_US/fbevents.js';
   document.head.appendChild(script);
-
-  // console.log removed
 };
 
 /**
@@ -232,8 +220,6 @@ export const initMatomo = (): void => {
     g.src = u + 'matomo.js';
     s.parentNode?.insertBefore(g, s);
   })();
-
-  // console.log removed
 };
 
 /**
@@ -286,8 +272,6 @@ export const updateConsentStatus = (
     initLeadInfo();
     initFacebookPixel();
   }
-
-  // console.log removed
 };
 
 /**
@@ -319,8 +303,6 @@ export const trackPageView = (url: string, title?: string): void => {
   if (window.Leadinfo) {
     window.Leadinfo.trackPage(LEADINFO_ID || '');
   }
-
-  // console.log removed
 };
 
 /**
@@ -356,8 +338,6 @@ export const trackEvent = ({
   if (window._paq) {
     window._paq.push(['trackEvent', category, action, label, value]);
   }
-
-  // console.log removed
 };
 
 /**
@@ -389,8 +369,6 @@ export const trackConversion = (action: string, value?: number, currency: string
 
     window.fbq('track', action, fbParams);
   }
-
-  // console.log removed
 };
 
 /**
@@ -535,7 +513,6 @@ export const trackUserBehavior = (): (() => void) => {
       clearInterval(timeSpentTracker);
     };
   } catch (error) {
-    // console.error removed
     return () => {};
   }
 };
@@ -573,8 +550,6 @@ export const trackPurchase = (
       num_items: items.reduce((sum, item) => sum + item.quantity, 0),
     });
   }
-
-  // console.log removed
 };
 
 // Hilfsfunktion: Debounce

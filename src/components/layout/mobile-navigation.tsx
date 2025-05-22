@@ -1,9 +1,9 @@
+// src/components/layout/mobile-navigation.tsx
 'use client';
 
-// src/components/layout/mobile-navigation.tsx
 import { ChevronDown, Mail, Menu, Phone, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // Ersetzt useRouter aus next/router
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -51,7 +51,8 @@ interface MobileNavigationProps {
 }
 
 const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigationProps) => {
-  const pathname = usePathname(); // usePathname aus next/navigation anstatt useRouter
+  const pathnameResult = usePathname();
+  const pathname = pathnameResult || '/'; // Fallback zu '/' falls pathname null ist
   const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null);
 
   const toggleMenu = () => {
@@ -130,7 +131,7 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
                     <div>
                       <button
                         className={cn(
-                          'flex w-full items-center justify-between py-3 text-left text-base font-medium', // Increased padding and font size
+                          'flex w-full items-center justify-between py-3 text-left text-base font-medium',
                           pathname.startsWith(item.href)
                             ? 'text-accent'
                             : 'text-primary hover:text-accent'
@@ -181,7 +182,7 @@ const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigatio
                     <Link
                       href={item.href}
                       className={cn(
-                        'block py-3 text-base font-medium', // Increased padding and font size
+                        'block py-3 text-base font-medium',
                         pathname === item.href ? 'text-accent' : 'text-primary hover:text-accent'
                       )}
                       onClick={handleLinkClick}

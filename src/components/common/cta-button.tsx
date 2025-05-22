@@ -1,3 +1,5 @@
+'use client';
+
 // src/components/common/cta-button.tsx
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
