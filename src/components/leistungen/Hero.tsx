@@ -216,8 +216,8 @@ export function Hero({
       // Autoplay all videos when the component is ready
       videoRefs.current.forEach(videoRef => {
         if (videoRef) {
-          videoRef.play().catch(error => {
-            console.info('Video autoplay prevented:', error);
+          videoRef.play().catch(_error => {
+            console.info('Video autoplay prevented:', _error);
           });
         }
       });

@@ -39,7 +39,9 @@ export class BrevoClient {
     this.apiKey = apiKey || process.env.BREVO_API_KEY || '';
 
     if (!this.apiKey) {
-      console.warn('Brevo API Key nicht gesetzt. Überprüfen Sie Ihre Umgebungsvariablen.');
+      console.warn(
+        'Brevo API Key nicht gesetzt. Überprüfen Sie Ihre Umgebungsvariablen.'
+      );
     }
   }
 
@@ -78,7 +80,10 @@ export class BrevoClient {
 
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Ein unbekannter Fehler ist aufgetreten',
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Ein unbekannter Fehler ist aufgetreten',
       };
     }
   }

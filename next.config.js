@@ -188,8 +188,9 @@ const nextConfig = {
   poweredByHeader: false, // Remove X-Powered-By header für Sicherheit
   productionBrowserSourceMaps: false, // Deaktiviere Sourcemaps in Produktion
 
-  // Output-Konfiguration für bessere Vercel-Kompatibilität
-  output: 'standalone',
+  // ❌ ENTFERNT: Output-Konfiguration für bessere Windows-Kompatibilität
+  // Das standalone output verursacht EPERM-Fehler auf Windows durch Symlink-Probleme
+  // output: 'standalone', // <-- Diese Zeile entfernt
 
   // Transpilation von Packages falls nötig
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],

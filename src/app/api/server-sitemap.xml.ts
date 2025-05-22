@@ -9,7 +9,10 @@ interface ServiceCategory {
 }
 
 // API-Route-Handler für Next.js
-export default async function handler(_req: NextApiRequest, _res: NextApiResponse) {
+export default async function handler(
+  _req: NextApiRequest,
+  _res: NextApiResponse
+) {
   try {
     // Abrufen aller Dienstleistungen (statisch definiert, da keine Supabase-Abfrage mehr)
     const services: ServiceCategory[] = [

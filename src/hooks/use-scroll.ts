@@ -1,4 +1,3 @@
-// src/hooks/use-scroll.ts
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface ScrollPosition {
