@@ -9,6 +9,12 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // 🔧 VERCEL CLIENT REFERENCE MANIFEST FIX
+  experimental: {
+    esmExternals: 'loose', // Hilft bei Client Reference Problemen
+    serverComponentsExternalPackages: ['three'],
+  },
+
   // Optimiere die Images - wichtig für Core Web Vitals
   images: {
     remotePatterns: [
@@ -170,12 +176,21 @@ const nextConfig = {
   },
 
   // Webpack-Konfiguration
-  webpack(config) {
+  webpack(config, { isServer }) {
     // SVG als React-Komponenten
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
+
+    // 🔧 VERCEL FIX: Client Reference Manifest Problem
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
+    }
 
     return config;
   },
@@ -192,10 +207,6 @@ const nextConfig = {
   // Erweiterte Buildoptimierungen
   poweredByHeader: false, // Remove X-Powered-By header für Sicherheit
   productionBrowserSourceMaps: false, // Deaktiviere Sourcemaps in Produktion
-
-  // ❌ ENTFERNT: Output-Konfiguration für bessere Windows-Kompatibilität
-  // Das standalone output verursacht EPERM-Fehler auf Windows durch Symlink-Probleme
-  // output: 'standalone', // <-- Diese Zeile entfernt
 
   // Transpilation von Packages falls nötig
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
