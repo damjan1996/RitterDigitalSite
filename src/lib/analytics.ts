@@ -1,10 +1,10 @@
 // src/lib/analytics.ts
 
-// Typdeklaration für Google Analytics
+// Typdeklaration für Google Analytics - kompatibel mit bestehenden Types
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
+    gtag?: (...args: any[]) => void; // ✅ Verwende any[] statt unknown[]
+    dataLayer?: any[]; // ✅ Verwende any[] statt unknown[]
     Leadinfo?: {
       trackPage: (id: string) => void;
     };
@@ -21,7 +21,7 @@ export const LEADINFO_ID = process.env.NEXT_PUBLIC_LEADINFO_ID;
  * Initialisiert Google Analytics
  */
 export const initGA = (): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || window.gtag) return;
+  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag === 'function') return; // ✅ Korrekte Prüfung
 
   // Fügt das Google Analytics Script dynamisch ein
   const script = document.createElement('script');
@@ -68,13 +68,19 @@ const initLeadInfo = (): void => {
  * Trackt einen Seitenaufruf in Google Analytics
  */
 export const pageview = (url: string): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || !window.gtag) return;
+  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
 
-  // Consent-Check
-  const consentGiven = localStorage.getItem('cookie-consent') === 'all';
+  // Consent-Check - nur bei verfügbarem localStorage
+  let consentGiven = true; // Standard: erlaubt
+  try {
+    consentGiven = localStorage.getItem('cookie-consent') === 'all';
+  } catch (e) {
+    // localStorage nicht verfügbar (SSR) - verwende Standard
+  }
+
   if (!consentGiven) return;
 
-  window.gtag('config', GA_TRACKING_ID, {
+  window.gtag!('config', GA_TRACKING_ID, {
     page_path: url,
   });
 };
@@ -93,13 +99,19 @@ export const event = ({
   label?: string;
   value?: number;
 }): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || !window.gtag) return;
+  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
 
-  // Consent-Check
-  const consentGiven = localStorage.getItem('cookie-consent') === 'all';
+  // Consent-Check - nur bei verfügbarem localStorage
+  let consentGiven = true; // Standard: erlaubt
+  try {
+    consentGiven = localStorage.getItem('cookie-consent') === 'all';
+  } catch (e) {
+    // localStorage nicht verfügbar (SSR) - verwende Standard
+  }
+
   if (!consentGiven) return;
 
-  window.gtag('event', action, {
+  window.gtag!('event', action, {
     event_category: category,
     event_label: label,
     value: value,
@@ -130,7 +142,7 @@ export const eventTypes = {
     action: 'view',
     category: 'service',
   },
-};
+} as const;
 
 // Exportiere die gesamte Analytics-Funktionalität als benanntes Objekt
 export const analytics = {
