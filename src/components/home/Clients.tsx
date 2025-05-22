@@ -128,9 +128,9 @@ export const Clients: React.FC<ClientsProps> = ({
       style={{ backgroundColor: colors.primary }}
     >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute right-0 top-0 h-full w-1/2"
+          className='absolute right-0 top-0 h-full w-1/2'
           style={{
             clipPath: 'polygon(30% 0, 100% 0, 100% 100%, 10% 100%)',
             backgroundColor: `${colors.secondaryAccent}`,
@@ -144,28 +144,31 @@ export const Clients: React.FC<ClientsProps> = ({
 
       {/* Subtle accent line at the top */}
       <div
-        className="absolute left-0 top-0 h-1 w-full"
+        className='absolute left-0 top-0 h-1 w-full'
         style={{ backgroundColor: colors.accent }}
       />
 
-      <Container className="relative z-10">
+      <Container className='relative z-10'>
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.2 }}
           variants={titleVariants}
-          className="mb-16"
+          className='mb-16'
         >
-          <div className="text-center">
+          <div className='text-center'>
             {subtitle && (
               <p
-                className="mb-2 text-sm font-medium uppercase tracking-wider"
+                className='mb-2 text-sm font-medium uppercase tracking-wider'
                 style={{ color: colors.secondary }}
               >
                 {subtitle}
               </p>
             )}
-            <h2 className="mb-4 text-4xl font-medium tracking-tight" style={{ color: colors.text }}>
+            <h2
+              className='mb-4 text-4xl font-medium tracking-tight'
+              style={{ color: colors.text }}
+            >
               {title}
               <span style={{ color: colors.accent }}>.</span>
             </h2>
@@ -173,7 +176,7 @@ export const Clients: React.FC<ClientsProps> = ({
 
           {/* Decorative accent line */}
           <motion.div
-            className="mx-auto mt-4 h-1 w-16 rounded-full"
+            className='mx-auto mt-4 h-1 w-16 rounded-full'
             style={{ backgroundColor: colors.accent }}
             initial={{ width: 0 }}
             whileInView={{ width: 64 }}
@@ -183,9 +186,9 @@ export const Clients: React.FC<ClientsProps> = ({
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-2 items-center gap-6 md:grid-cols-3 lg:grid-cols-5"
-          initial="hidden"
-          whileInView="visible"
+          className='grid grid-cols-2 items-center gap-6 md:grid-cols-3 lg:grid-cols-5'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
         >
@@ -193,7 +196,7 @@ export const Clients: React.FC<ClientsProps> = ({
             <motion.div
               key={index}
               variants={itemVariants}
-              className="group relative flex items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white p-6 transition-all duration-300 hover:bg-gray-50"
+              className='group relative flex items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white p-6 transition-all duration-300 hover:bg-gray-50'
               whileHover={{
                 y: -5,
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
@@ -203,19 +206,21 @@ export const Clients: React.FC<ClientsProps> = ({
               {client.href ? (
                 <Link
                   href={client.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative flex h-20 w-full items-center justify-center"
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='relative flex h-20 w-full items-center justify-center'
                   aria-label={`Besuchen Sie die Website von ${client.name}`}
                 >
                   {/* Logo with fallback to company name */}
-                  <div className="relative h-full w-full">
+                  <div className='relative h-full w-full'>
                     <Image
-                      src={client.logo || '/images/logos/logo_ritterdigital.png'} // Fallback geändert
+                      src={
+                        client.logo || '/images/logos/logo_ritterdigital.png'
+                      } // Fallback geändert
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}
-                      className="transition-all duration-300 group-hover:brightness-110"
+                      className='transition-all duration-300 group-hover:brightness-110'
                       onError={e => {
                         // Fallback to name if image can't be loaded
                         const target = e.target as HTMLImageElement;
@@ -243,14 +248,16 @@ export const Clients: React.FC<ClientsProps> = ({
                   </div>
                 </Link>
               ) : (
-                <div className="relative flex h-20 w-full items-center justify-center">
-                  <div className="relative h-full w-full">
+                <div className='relative flex h-20 w-full items-center justify-center'>
+                  <div className='relative h-full w-full'>
                     <Image
-                      src={client.logo || '/images/logos/logo_ritterdigital.png'} // Fallback geändert
+                      src={
+                        client.logo || '/images/logos/logo_ritterdigital.png'
+                      } // Fallback geändert
                       alt={`${client.name} Logo`}
                       fill
                       style={{ objectFit: 'contain' }}
-                      className="transition-all duration-300 group-hover:brightness-110"
+                      className='transition-all duration-300 group-hover:brightness-110'
                       onError={e => {
                         // If the image can't be loaded, show the name
                         const target = e.target as HTMLImageElement;
@@ -264,7 +271,7 @@ export const Clients: React.FC<ClientsProps> = ({
 
               {/* Subtle accent line that appears on hover */}
               <motion.div
-                className="absolute bottom-0 left-0 h-1 w-full"
+                className='absolute bottom-0 left-0 h-1 w-full'
                 style={{ backgroundColor: colors.accent }}
                 initial={{ scaleX: 0, originX: 0 }}
                 whileHover={{ scaleX: 1 }}
@@ -275,13 +282,13 @@ export const Clients: React.FC<ClientsProps> = ({
         </motion.div>
 
         <motion.div
-          className="mt-20"
-          initial="hidden"
-          whileInView="visible"
+          className='mt-20'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true }}
           variants={statsVariants}
         >
-          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 lg:gap-24">
+          <div className='flex flex-wrap items-center justify-center gap-12 md:gap-16 lg:gap-24'>
             {[
               { value: '20', suffix: '+', label: 'Jahre Erfahrung' },
               { value: '90', suffix: '+', label: 'Zufriedene Kunden' },
@@ -289,19 +296,22 @@ export const Clients: React.FC<ClientsProps> = ({
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                className="relative text-center"
+                className='relative text-center'
                 variants={statItemVariants}
                 whileHover={{
                   scale: 1.05,
                   transition: { duration: 0.2 },
                 }}
               >
-                <div className="relative">
-                  <div className="mb-2 text-4xl font-bold" style={{ color: colors.text }}>
+                <div className='relative'>
+                  <div
+                    className='mb-2 text-4xl font-bold'
+                    style={{ color: colors.text }}
+                  >
                     {stat.value}
                     <span style={{ color: colors.accent }}>{stat.suffix}</span>
                   </div>
-                  <div className="text-sm" style={{ color: colors.secondary }}>
+                  <div className='text-sm' style={{ color: colors.secondary }}>
                     {stat.label}
                   </div>
                 </div>

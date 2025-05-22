@@ -13,7 +13,9 @@ const ScrollContext = createContext<ScrollContextType>({
 
 export const useScrollContext = () => useContext(ScrollContext);
 
-export const ScrollProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ScrollProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   return (

@@ -75,7 +75,8 @@ const JTLWaWiPage: NextPage = () => {
       },
       {
         title: 'Skalierbarkeit',
-        description: 'Wachsen Sie ohne Limits – JTL WaWi skaliert mit Ihrem Unternehmen.',
+        description:
+          'Wachsen Sie ohne Limits – JTL WaWi skaliert mit Ihrem Unternehmen.',
         icon: 'TrendingUp',
       },
       {
@@ -93,7 +94,7 @@ const JTLWaWiPage: NextPage = () => {
     <>
       <Head>
         <title>{pageData.title} | Ritter Digital GmbH</title>
-        <meta name="description" content={pageData.description} />
+        <meta name='description' content={pageData.description} />
       </Head>
 
       <article>
@@ -116,8 +117,8 @@ const JTLWaWiPage: NextPage = () => {
 
         <ServiceCTA
           text={pageData.ctaText}
-          buttonText="Jetzt Kontakt aufnehmen"
-          buttonLink="/kontakt"
+          buttonText='Jetzt Kontakt aufnehmen'
+          buttonLink='/kontakt'
         />
       </article>
     </>

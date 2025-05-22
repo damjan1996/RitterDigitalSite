@@ -82,19 +82,20 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="relative" onMouseLeave={handleMouseLeave}>
-      <ul className="flex items-center space-x-8">
+    <nav className='relative' onMouseLeave={handleMouseLeave}>
+      <ul className='flex items-center space-x-8'>
         {mainMenuItems.map(item => (
           <li
             key={item.href}
-            className="relative"
+            className='relative'
             onMouseEnter={() => handleMouseEnter(item.title)}
           >
             <Link
               href={item.href}
               className={cn(
                 'flex items-center py-2 font-medium transition-colors',
-                pathname === item.href || (pathname && pathname.startsWith(`${item.href}/`))
+                pathname === item.href ||
+                  (pathname && pathname.startsWith(`${item.href}/`))
                   ? 'text-accent'
                   : 'text-primary hover:text-accent'
               )}
@@ -121,7 +122,7 @@ const Navigation = () => {
                 />
               ) : (
                 <div
-                  className="absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-md bg-white py-2 shadow-lg"
+                  className='absolute left-0 top-full z-50 mt-1 min-w-[200px] rounded-md bg-white py-2 shadow-lg'
                   onMouseEnter={() => handleMouseEnter(item.title)}
                 >
                   {item.submenu.map(subItem => (

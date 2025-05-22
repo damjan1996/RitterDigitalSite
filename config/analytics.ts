@@ -13,7 +13,8 @@ declare global {
 
 // Initialisiert Google Analytics
 export const initGA = () => {
-  if (typeof window === 'undefined' || typeof window.gtag === 'function') return;
+  if (typeof window === 'undefined' || typeof window.gtag === 'function')
+    return;
 
   // Google Analytics Script dynamisch laden
   const script = document.createElement('script');
@@ -37,7 +38,8 @@ export const initGA = () => {
 
 // Seitenaufrufe tracken - App Router kompatibel
 export const pageview = (url: string, title?: string) => {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function')
+    return;
 
   window.gtag!('config', GA_TRACKING_ID, {
     page_path: url,
@@ -57,7 +59,8 @@ export const event = ({
   label?: string;
   value?: number;
 }) => {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  if (typeof window === 'undefined' || typeof window.gtag !== 'function')
+    return;
 
   window.gtag!('event', action, {
     event_category: category,
@@ -76,7 +79,10 @@ export const useAnalytics = () => {
     pageview(url, pageTitle);
   };
 
-  const trackCustomEvent = (eventName: string, parameters?: Record<string, any>) => {
+  const trackCustomEvent = (
+    eventName: string,
+    parameters?: Record<string, any>
+  ) => {
     if (typeof window === 'undefined' || !window.gtag) return;
 
     window.gtag('event', eventName, parameters);
@@ -101,7 +107,13 @@ export const useAnalytics = () => {
 };
 
 // App Router Page Tracking Component
-export const GAPageTracker = ({ pathname, title }: { pathname: string; title?: string }) => {
+export const GAPageTracker = ({
+  pathname,
+  title,
+}: {
+  pathname: string;
+  title?: string;
+}) => {
   if (typeof window !== 'undefined' && window.gtag) {
     const url = `${window.location.origin}${pathname}`;
     pageview(url, title);

@@ -37,9 +37,9 @@ const Checkbox = React.forwardRef<
   }, [indeterminate]);
 
   return (
-    <div className="relative inline-flex items-center justify-center">
+    <div className='relative inline-flex items-center justify-center'>
       <input
-        type="checkbox"
+        type='checkbox'
         ref={setRefs}
         className={cn(
           'peer h-5 w-5 shrink-0 appearance-none rounded-sm border border-primary ring-offset-background',
@@ -50,7 +50,7 @@ const Checkbox = React.forwardRef<
         )}
         {...props}
       />
-      <Check className="absolute h-4 w-4 text-white opacity-0 peer-checked:opacity-100" />
+      <Check className='absolute h-4 w-4 text-white opacity-0 peer-checked:opacity-100' />
     </div>
   );
 });
@@ -66,20 +66,20 @@ const CheckboxWithLabel = React.forwardRef<
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 >(({ className, label, description, error, ...props }, ref) => (
-  <div className="space-y-2">
-    <div className="flex items-start space-x-2">
-      <Checkbox ref={ref} className="mt-1" {...props} />
-      <div className="grid gap-1">
+  <div className='space-y-2'>
+    <div className='flex items-start space-x-2'>
+      <Checkbox ref={ref} className='mt-1' {...props} />
+      <div className='grid gap-1'>
         <label
           htmlFor={props.id}
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
         >
           {label}
         </label>
-        {description && <p className="text-sm text-secondary">{description}</p>}
+        {description && <p className='text-sm text-secondary'>{description}</p>}
       </div>
     </div>
-    {error && <p className="text-sm text-red-500">{error}</p>}
+    {error && <p className='text-sm text-red-500'>{error}</p>}
   </div>
 ));
 CheckboxWithLabel.displayName = 'CheckboxWithLabel';

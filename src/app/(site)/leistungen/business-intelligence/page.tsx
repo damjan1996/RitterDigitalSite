@@ -62,7 +62,8 @@ const BusinessIntelligencePage: NextPage = () => {
     benefits: [
       {
         title: 'Fundierte Entscheidungen',
-        description: 'Treffen Sie Entscheidungen auf Basis von Daten, nicht Bauchgefühl.',
+        description:
+          'Treffen Sie Entscheidungen auf Basis von Daten, nicht Bauchgefühl.',
         icon: 'Brain',
       },
       {
@@ -73,7 +74,8 @@ const BusinessIntelligencePage: NextPage = () => {
       },
       {
         title: 'Effizienzsteigerung',
-        description: 'Identifizieren und beheben Sie Ineffizienzen in Ihren Geschäftsprozessen.',
+        description:
+          'Identifizieren und beheben Sie Ineffizienzen in Ihren Geschäftsprozessen.',
         icon: 'Zap',
       },
       {
@@ -91,7 +93,7 @@ const BusinessIntelligencePage: NextPage = () => {
     <>
       <Head>
         <title>{pageData.title} | Ritter Digital GmbH</title>
-        <meta name="description" content={pageData.description} />
+        <meta name='description' content={pageData.description} />
       </Head>
 
       <article>
@@ -115,8 +117,8 @@ const BusinessIntelligencePage: NextPage = () => {
         {/* Hier übergeben wir jetzt auch buttonText und buttonLink */}
         <ServiceCTA
           text={pageData.ctaText}
-          buttonText="Jetzt Kontakt aufnehmen"
-          buttonLink="/kontakt"
+          buttonText='Jetzt Kontakt aufnehmen'
+          buttonLink='/kontakt'
         />
       </article>
     </>

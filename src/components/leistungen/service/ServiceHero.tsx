@@ -1,7 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Sparkles, BarChart3, Database, BrainCircuit } from 'lucide-react';
+import {
+  ArrowRight,
+  ChevronDown,
+  Sparkles,
+  BarChart3,
+  Database,
+  BrainCircuit,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
@@ -29,22 +36,22 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
   imageUrl = '/service-hero-image.jpg',
   features = [
     {
-      icon: <Sparkles className="h-5 w-5" />,
+      icon: <Sparkles className='h-5 w-5' />,
       title: 'Innovative Lösungen',
       description: 'Maßgeschneiderte Entwicklung für Ihre Anforderungen',
     },
     {
-      icon: <BarChart3 className="h-5 w-5" />,
+      icon: <BarChart3 className='h-5 w-5' />,
       title: 'Datengestützte Entscheidungen',
       description: 'Business Intelligence für strategische Vorteile',
     },
     {
-      icon: <Database className="h-5 w-5" />,
+      icon: <Database className='h-5 w-5' />,
       title: 'Zentrale Datenverwaltung',
       description: 'Effiziente Analysen durch Data Warehouse',
     },
     {
-      icon: <BrainCircuit className="h-5 w-5" />,
+      icon: <BrainCircuit className='h-5 w-5' />,
       title: 'KI-Integration',
       description: 'Intelligente Automatisierung und Optimierung',
     },
@@ -105,20 +112,20 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-white"
+      className='relative min-h-screen overflow-hidden bg-white'
       style={{ paddingTop: `${headerHeight}px` }}
     >
       {/* Enhanced background with layered elements for depth */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-white to-[#F8F9FC]"
+          className='absolute inset-0 bg-gradient-to-br from-white to-[#F8F9FC]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
         />
 
         <motion.div
-          className="absolute right-0 top-0 h-full w-3/4 bg-[#F8F9FC]"
+          className='absolute right-0 top-0 h-full w-3/4 bg-[#F8F9FC]'
           style={{ clipPath: 'polygon(20% 0, 100% 0, 100% 100%, 0% 100%)' }}
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -127,89 +134,100 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
         {/* Accent lines and decorative elements */}
         <motion.div
-          className="absolute bottom-0 left-0 h-1 w-full"
-          style={{ background: 'linear-gradient(90deg, transparent, #FF7A35, transparent)' }}
+          className='absolute bottom-0 left-0 h-1 w-full'
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, #FF7A35, transparent)',
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ duration: 1.5, delay: 1.2 }}
         />
 
         <motion.div
-          className="absolute right-[10%] top-[15%] h-32 w-32 rounded-full bg-[#FF7A35]/5"
+          className='absolute right-[10%] top-[15%] h-32 w-32 rounded-full bg-[#FF7A35]/5'
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.8 }}
         />
 
         <motion.div
-          className="absolute bottom-[20%] left-[5%] h-24 w-24 rounded-full bg-[#3D5A73]/5"
+          className='absolute bottom-[20%] left-[5%] h-24 w-24 rounded-full bg-[#3D5A73]/5'
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.2, delay: 1 }}
         />
       </div>
 
-      <Container className="relative z-10 flex flex-1 flex-col justify-center px-4 py-16 md:py-24">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Container className='relative z-10 flex flex-1 flex-col justify-center px-4 py-16 md:py-24'>
+        <div className='grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16'>
           {/* Left column - Text content */}
           <motion.div
-            className="flex flex-col justify-center"
-            initial="hidden"
+            className='flex flex-col justify-center'
+            initial='hidden'
             animate={isVisible ? 'visible' : 'hidden'}
             variants={containerVariants}
           >
             {/* Enhanced title with gradient accent */}
-            <div className="relative mb-2">
+            <div className='relative mb-2'>
               <motion.div
-                className="absolute -left-3 top-1/2 h-12 w-1.5 -translate-y-1/2 bg-gradient-to-b from-[#FF7A35] to-[#FF7A35]/30"
+                className='absolute -left-3 top-1/2 h-12 w-1.5 -translate-y-1/2 bg-gradient-to-b from-[#FF7A35] to-[#FF7A35]/30'
                 initial={{ height: 0 }}
                 animate={{ height: '3rem' }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               />
               <motion.div
-                className="mb-2 inline-flex items-center rounded-full bg-[#FF7A35]/10 px-4 py-1.5"
+                className='mb-2 inline-flex items-center rounded-full bg-[#FF7A35]/10 px-4 py-1.5'
                 variants={itemVariants}
               >
-                <Sparkles className="mr-2 h-4 w-4 text-[#FF7A35]" />
-                <span className="text-sm font-medium text-[#FF7A35]">Leistungen</span>
+                <Sparkles className='mr-2 h-4 w-4 text-[#FF7A35]' />
+                <span className='text-sm font-medium text-[#FF7A35]'>
+                  Leistungen
+                </span>
               </motion.div>
 
               <motion.h1
-                className="text-4xl font-medium leading-tight tracking-tight text-[#1A2027] md:text-5xl lg:text-6xl"
+                className='text-4xl font-medium leading-tight tracking-tight text-[#1A2027] md:text-5xl lg:text-6xl'
                 variants={itemVariants}
               >
                 {title}
-                <span className="text-[#FF7A35]">.</span>
+                <span className='text-[#FF7A35]'>.</span>
               </motion.h1>
             </div>
 
             {/* Enhanced subtitle with better typography */}
             <motion.p
               variants={itemVariants}
-              className="mb-4 text-xl font-medium text-[#3D5A73] md:text-2xl"
+              className='mb-4 text-xl font-medium text-[#3D5A73] md:text-2xl'
             >
               {subtitle}
             </motion.p>
 
-            <motion.p variants={itemVariants} className="mb-8 max-w-xl text-[#3D5A73]">
+            <motion.p
+              variants={itemVariants}
+              className='mb-8 max-w-xl text-[#3D5A73]'
+            >
               {description}
             </motion.p>
 
             {/* Enhanced CTA section with modern button designs */}
-            <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-4">
-              <Link href="/kontakt" className="group">
+            <motion.div
+              variants={itemVariants}
+              className='mt-8 flex flex-wrap gap-4'
+            >
+              <Link href='/kontakt' className='group'>
                 <Button
-                  className="relative overflow-hidden rounded-md bg-[#1A2027] px-8 py-6 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]"
-                  size="lg"
+                  className='relative overflow-hidden rounded-md bg-[#1A2027] px-8 py-6 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]'
+                  size='lg'
                 >
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className='relative z-10 flex items-center gap-2'>
                     Beratungsgespräch
-                    <motion.div className="transition-transform duration-300 group-hover:translate-x-1">
-                      <ArrowRight className="h-4 w-4" />
+                    <motion.div className='transition-transform duration-300 group-hover:translate-x-1'>
+                      <ArrowRight className='h-4 w-4' />
                     </motion.div>
                   </span>
                   <motion.div
-                    className="absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]"
+                    className='absolute bottom-0 left-0 h-1 w-full bg-[#FF7A35]'
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: 1 }}
                     transition={{ duration: 0.3 }}
@@ -217,15 +235,15 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
                 </Button>
               </Link>
 
-              <Link href="#details" className="group">
+              <Link href='#details' className='group'>
                 <Button
-                  variant="outline"
-                  className="relative rounded-md border-[#3D5A73]/30 px-8 py-6 font-medium text-[#3D5A73] transition-all duration-300 hover:border-[#FF7A35] hover:text-[#1A2027]"
-                  size="lg"
+                  variant='outline'
+                  className='relative rounded-md border-[#3D5A73]/30 px-8 py-6 font-medium text-[#3D5A73] transition-all duration-300 hover:border-[#FF7A35] hover:text-[#1A2027]'
+                  size='lg'
                 >
-                  <span className="relative z-10">Mehr erfahren</span>
+                  <span className='relative z-10'>Mehr erfahren</span>
                   <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 w-full origin-left bg-[#FF7A35]"
+                    className='absolute bottom-0 left-0 h-0.5 w-full origin-left bg-[#FF7A35]'
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: 1 }}
                     transition={{ duration: 0.3 }}
@@ -237,52 +255,54 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
           {/* Right column - Image and features */}
           <motion.div
-            className="hidden lg:block"
+            className='hidden lg:block'
             initial={{ opacity: 0, y: 30 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative">
+            <div className='relative'>
               {/* Main image with hover effect */}
               <motion.div
-                className="relative overflow-hidden rounded-lg shadow-xl"
+                className='relative overflow-hidden rounded-lg shadow-xl'
                 whileHover={{
                   y: -5,
                   boxShadow: '0 25px 50px rgba(0,0,0,0.1)',
                   transition: { duration: 0.3 },
                 }}
               >
-                <div className="relative aspect-[4/3] w-full">
+                <div className='relative aspect-[4/3] w-full'>
                   <Image
                     src={imageUrl || '/placeholder.svg'}
                     alt={title}
                     fill
-                    className="object-cover transition-transform duration-700 hover:scale-105"
+                    className='object-cover transition-transform duration-700 hover:scale-105'
                     priority
                   />
 
                   {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#1A2027]/30 to-transparent"></div>
+                  <div className='absolute inset-0 bg-gradient-to-tr from-[#1A2027]/30 to-transparent'></div>
                 </div>
 
                 {/* Floating badge */}
                 <motion.div
-                  className="absolute -right-4 -top-4 rounded-xl bg-white p-3 shadow-lg"
+                  className='absolute -right-4 -top-4 rounded-xl bg-white p-3 shadow-lg'
                   whileHover={{
                     y: -5,
                     boxShadow: '0 15px 30px rgba(0,0,0,0.1)',
                     transition: { duration: 0.3 },
                   }}
                 >
-                  <Sparkles className="h-6 w-6 text-[#FF7A35]" />
+                  <Sparkles className='h-6 w-6 text-[#FF7A35]' />
                 </motion.div>
               </motion.div>
 
               {/* Feature cards */}
               <motion.div
-                className="absolute -bottom-16 -left-8 w-3/4 rounded-lg bg-white p-6 shadow-lg"
+                className='absolute -bottom-16 -left-8 w-3/4 rounded-lg bg-white p-6 shadow-lg'
                 initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={
+                  isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                }
                 transition={{ duration: 0.8, delay: 0.8 }}
                 whileHover={{
                   y: -5,
@@ -290,17 +310,20 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
                   transition: { duration: 0.3 },
                 }}
               >
-                <div className="mb-4 flex gap-3">
+                <div className='mb-4 flex gap-3'>
                   {features.map((_, index) => (
                     <motion.button
                       key={index}
-                      className="group relative h-2 w-12 overflow-hidden rounded-full bg-[#F8F9FC]"
+                      className='group relative h-2 w-12 overflow-hidden rounded-full bg-[#F8F9FC]'
                       onClick={() => setActiveFeature(index)}
                       whileHover={{ scale: 1.05 }}
                     >
                       <motion.div
-                        className="absolute inset-0 rounded-full"
-                        style={{ backgroundColor: index === activeFeature ? '#FF7A35' : '#3D5A73' }}
+                        className='absolute inset-0 rounded-full'
+                        style={{
+                          backgroundColor:
+                            index === activeFeature ? '#FF7A35' : '#3D5A73',
+                        }}
                         initial={{ scaleX: index === activeFeature ? 1 : 0 }}
                         animate={{ scaleX: index === activeFeature ? 1 : 0 }}
                         transition={{ duration: 0.5 }}
@@ -309,15 +332,17 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF7A35]/10 text-[#FF7A35]">
+                <div className='flex items-center gap-4'>
+                  <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF7A35]/10 text-[#FF7A35]'>
                     {features[activeFeature].icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-[#1A2027]">
+                    <h3 className='text-lg font-medium text-[#1A2027]'>
                       {features[activeFeature].title}
                     </h3>
-                    <p className="text-sm text-[#3D5A73]">{features[activeFeature].description}</p>
+                    <p className='text-sm text-[#3D5A73]'>
+                      {features[activeFeature].description}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -326,45 +351,50 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
           {/* Mobile features showcase */}
           <motion.div
-            className="mt-8 block lg:hidden"
+            className='mt-8 block lg:hidden'
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <div className="relative mb-8 overflow-hidden rounded-lg shadow-lg">
+            <div className='relative mb-8 overflow-hidden rounded-lg shadow-lg'>
               <Image
                 src={imageUrl || '/placeholder.svg'}
                 alt={title}
                 width={600}
                 height={450}
-                className="h-full w-full object-cover"
+                className='h-full w-full object-cover'
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#1A2027]/30 to-transparent"></div>
+              <div className='absolute inset-0 bg-gradient-to-tr from-[#1A2027]/30 to-transparent'></div>
             </div>
 
-            <div className="relative w-full overflow-hidden rounded-lg bg-white p-6 shadow-md">
-              <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF7A35]/10 text-[#FF7A35]">
+            <div className='relative w-full overflow-hidden rounded-lg bg-white p-6 shadow-md'>
+              <div className='flex items-center gap-4'>
+                <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-[#FF7A35]/10 text-[#FF7A35]'>
                   {features[activeFeature].icon}
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-[#1A2027]">
+                  <h3 className='text-lg font-medium text-[#1A2027]'>
                     {features[activeFeature].title}
                   </h3>
-                  <p className="text-sm text-[#3D5A73]">{features[activeFeature].description}</p>
+                  <p className='text-sm text-[#3D5A73]'>
+                    {features[activeFeature].description}
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-4 flex gap-3">
+              <div className='mt-4 flex gap-3'>
                 {features.map((_, index) => (
                   <button
                     key={index}
-                    className="group relative h-2 flex-1 overflow-hidden rounded-full bg-[#F8F9FC]"
+                    className='group relative h-2 flex-1 overflow-hidden rounded-full bg-[#F8F9FC]'
                     onClick={() => setActiveFeature(index)}
                   >
                     <motion.div
-                      className="absolute inset-0 rounded-full"
-                      style={{ backgroundColor: index === activeFeature ? '#FF7A35' : '#3D5A73' }}
+                      className='absolute inset-0 rounded-full'
+                      style={{
+                        backgroundColor:
+                          index === activeFeature ? '#FF7A35' : '#3D5A73',
+                      }}
                       initial={{ scaleX: index === activeFeature ? 1 : 0 }}
                       animate={{ scaleX: index === activeFeature ? 1 : 0 }}
                       transition={{ duration: 0.5 }}
@@ -379,13 +409,13 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-0 right-0 flex justify-center"
+        className='absolute bottom-8 left-0 right-0 flex justify-center'
         initial={{ opacity: 0, y: -20 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: 0.8, delay: 1.2 }}
       >
         <button
-          className="group flex flex-col items-center opacity-70 transition-opacity duration-300 hover:opacity-100"
+          className='group flex flex-col items-center opacity-70 transition-opacity duration-300 hover:opacity-100'
           onClick={() => {
             const nextSection = document.getElementById('details');
             if (nextSection) {
@@ -398,8 +428,8 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
             }
           }}
         >
-          <span className="mb-2 text-sm text-[#3D5A73]">Mehr entdecken</span>
-          <ChevronDown className="h-6 w-6 animate-bounce text-[#3D5A73]" />
+          <span className='mb-2 text-sm text-[#3D5A73]'>Mehr entdecken</span>
+          <ChevronDown className='h-6 w-6 animate-bounce text-[#3D5A73]' />
         </button>
       </motion.div>
     </section>

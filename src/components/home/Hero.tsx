@@ -1,7 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, BarChart3, Brain, ChevronRight, Code2, Database, Server } from 'lucide-react';
+import {
+  ArrowRight,
+  BarChart3,
+  Brain,
+  ChevronRight,
+  Code2,
+  Database,
+  Server,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
@@ -26,7 +34,7 @@ const services = [
     id: 1,
     title: 'Digitalisierung',
     description: 'Digitale Transformation für zukunftsfähige Unternehmen.',
-    icon: <Code2 className="h-6 w-6" />,
+    icon: <Code2 className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/digitalisierung',
     image: '/digital-transformation.png',
@@ -37,7 +45,7 @@ const services = [
     id: 2,
     title: 'Business Intelligence',
     description: 'Datenbasierte Entscheidungen für strategische Vorteile.',
-    icon: <BarChart3 className="h-6 w-6" />,
+    icon: <BarChart3 className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/business-intelligence',
     image: '/business-intelligence-dashboard.png',
@@ -48,7 +56,7 @@ const services = [
     id: 3,
     title: 'Data Warehouse',
     description: 'Zentrale Datenverwaltung für effiziente Analysen.',
-    icon: <Database className="h-6 w-6" />,
+    icon: <Database className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/data-warehouse',
     image: '/placeholder.svg?key=ejf8y',
@@ -59,7 +67,7 @@ const services = [
     id: 4,
     title: 'Software Entwicklung',
     description: 'Maßgeschneiderte Lösungen für Ihre Geschäftsprozesse.',
-    icon: <Code2 className="h-6 w-6" />,
+    icon: <Code2 className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/software-development',
     image: '/software-development-code.png',
@@ -70,7 +78,7 @@ const services = [
     id: 5,
     title: 'Künstliche Intelligenz',
     description: 'Intelligente Automatisierung und Optimierung.',
-    icon: <Brain className="h-6 w-6" />,
+    icon: <Brain className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/kuenstliche-intelligenz',
     image: '/artificial-intelligence-concept.png',
@@ -81,12 +89,17 @@ const services = [
     id: 6,
     title: 'JTL WaWi',
     description: 'Professionelle JTL-Lösungen und Integrationen.',
-    icon: <Server className="h-6 w-6" />,
+    icon: <Server className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/jtl',
     image: '/placeholder.svg?key=hdwaz',
     video: '/videos/jtl.mp4',
-    keywords: ['Integration', 'E-Commerce', 'Warenwirtschaft', 'Automatisierung'],
+    keywords: [
+      'Integration',
+      'E-Commerce',
+      'Warenwirtschaft',
+      'Automatisierung',
+    ],
   },
 ];
 
@@ -237,7 +250,8 @@ export function Hero({
   // Swipe handlers for mobile
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => setActiveService(prev => (prev + 1) % services.length),
-    onSwipedRight: () => setActiveService(prev => (prev - 1 + services.length) % services.length),
+    onSwipedRight: () =>
+      setActiveService(prev => (prev - 1 + services.length) % services.length),
     trackMouse: false,
     trackTouch: true,
     delta: 10,
@@ -272,71 +286,86 @@ export function Hero({
         paddingTop: `${headerHeight}px`,
         background: 'linear-gradient(135deg, #FFFFFF 0%, #F8F9FC 100%)',
       }}
-      aria-label="Ritter Digital Services"
+      aria-label='Ritter Digital Services'
     >
       {/* Background elements */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute inset-0 opacity-10"
+          className='absolute inset-0 opacity-10'
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.1 }}
           transition={{ duration: 1.2 }}
         >
           <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
+            width='100%'
+            height='100%'
+            viewBox='0 0 100 100'
+            xmlns='http://www.w3.org/2000/svg'
+            preserveAspectRatio='none'
           >
             <defs>
-              <radialGradient id="grid" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                <stop offset="0%" stopColor="#23282D" stopOpacity="0.05" />
-                <stop offset="100%" stopColor="#23282D" stopOpacity="0" />
+              <radialGradient
+                id='grid'
+                cx='50%'
+                cy='50%'
+                r='50%'
+                fx='50%'
+                fy='50%'
+              >
+                <stop offset='0%' stopColor='#23282D' stopOpacity='0.05' />
+                <stop offset='100%' stopColor='#23282D' stopOpacity='0' />
               </radialGradient>
             </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-            <pattern id="smallGrid" width="5" height="5" patternUnits="userSpaceOnUse">
+            <rect width='100%' height='100%' fill='url(#grid)' />
+            <pattern
+              id='smallGrid'
+              width='5'
+              height='5'
+              patternUnits='userSpaceOnUse'
+            >
               <path
-                d="M 5 0 L 0 0 0 5"
-                fill="none"
-                stroke="#23282D"
-                strokeWidth="0.2"
-                opacity="0.1"
+                d='M 5 0 L 0 0 0 5'
+                fill='none'
+                stroke='#23282D'
+                strokeWidth='0.2'
+                opacity='0.1'
               />
             </pattern>
-            <rect width="100%" height="100%" fill="url(#smallGrid)" />
+            <rect width='100%' height='100%' fill='url(#smallGrid)' />
           </svg>
         </motion.div>
 
         {/* Accent glow */}
         <motion.div
-          className="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-accent opacity-5 blur-[100px]"
+          className='absolute -right-40 -top-40 h-80 w-80 rounded-full bg-accent opacity-5 blur-[100px]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.05 }}
           transition={{ duration: 1.5, delay: 0.5 }}
         />
 
         <motion.div
-          className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-blue-500 opacity-5 blur-[100px]"
+          className='absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-blue-500 opacity-5 blur-[100px]'
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.05 }}
           transition={{ duration: 1.5, delay: 0.7 }}
         />
       </div>
 
-      <div className="container relative z-10 flex flex-1 flex-col justify-center px-4 py-6 md:px-6 md:py-16 lg:py-24">
+      <div className='container relative z-10 flex flex-1 flex-col justify-center px-4 py-6 md:px-6 md:py-16 lg:py-24'>
         <motion.div
-          className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16"
+          className='grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16'
           variants={containerVariants}
-          initial="hidden"
+          initial='hidden'
           animate={isInView ? 'visible' : 'hidden'}
         >
-          <motion.div variants={itemVariants} className="flex flex-col justify-center">
+          <motion.div
+            variants={itemVariants}
+            className='flex flex-col justify-center'
+          >
             {/* Title with accent */}
-            <div className="relative mb-2">
+            <div className='relative mb-2'>
               <motion.div
-                className="absolute -left-2 top-1/2 h-12 w-1.5 -translate-y-1/2 sm:-left-3"
+                className='absolute -left-2 top-1/2 h-12 w-1.5 -translate-y-1/2 sm:-left-3'
                 style={{
                   background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
                 }}
@@ -344,9 +373,9 @@ export function Hero({
                 animate={{ height: '3rem' }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               />
-              <h1 className="text-3xl font-medium leading-tight tracking-tight text-primary sm:text-4xl md:text-5xl lg:text-6xl">
+              <h1 className='text-3xl font-medium leading-tight tracking-tight text-primary sm:text-4xl md:text-5xl lg:text-6xl'>
                 {title}
-                <span className="text-accent">.</span>
+                <span className='text-accent'>.</span>
               </h1>
             </div>
 
@@ -354,24 +383,27 @@ export function Hero({
             {subtitle && (
               <motion.p
                 variants={itemVariants}
-                className="mb-6 max-w-xl text-base text-secondary sm:text-lg md:mb-10 md:text-xl"
+                className='mb-6 max-w-xl text-base text-secondary sm:text-lg md:mb-10 md:text-xl'
               >
                 {subtitle}
               </motion.p>
             )}
 
             {/* Service tags - angelehnt an die Tags auf der Website */}
-            <motion.div variants={itemVariants} className="mb-8 hidden flex-wrap gap-2 md:flex">
-              <span className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm">
+            <motion.div
+              variants={itemVariants}
+              className='mb-8 hidden flex-wrap gap-2 md:flex'
+            >
+              <span className='rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm'>
                 Struktur
               </span>
-              <span className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm">
+              <span className='rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm'>
                 Integration
               </span>
-              <span className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm">
+              <span className='rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm'>
                 Skalierung
               </span>
-              <span className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm">
+              <span className='rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-secondary shadow-sm'>
                 Optimierung
               </span>
             </motion.div>
@@ -379,26 +411,26 @@ export function Hero({
             {/* CTA buttons */}
             <motion.div
               variants={itemVariants}
-              className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-8 md:gap-4"
+              className='mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-8 md:gap-4'
             >
-              <Link href={ctaPrimary.href} className="group">
+              <Link href={ctaPrimary.href} className='group'>
                 <Button
-                  className="relative h-auto w-full overflow-hidden rounded-md bg-primary px-6 py-4 font-medium text-white transition-all duration-300 sm:py-5"
-                  size="lg"
+                  className='relative h-auto w-full overflow-hidden rounded-md bg-primary px-6 py-4 font-medium text-white transition-all duration-300 sm:py-5'
+                  size='lg'
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
+                  <span className='relative z-10 flex items-center justify-center gap-2'>
                     {ctaPrimary.text}
                     <motion.div
                       initial={{ x: -5, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
+                      className='transition-transform duration-300 group-hover:translate-x-1'
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className='h-4 w-4' />
                     </motion.div>
                   </span>
                   <motion.div
-                    className="absolute bottom-0 left-0 h-1 w-full"
+                    className='absolute bottom-0 left-0 h-1 w-full'
                     style={{ backgroundColor: colors.accent }}
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: 1 }}
@@ -407,15 +439,15 @@ export function Hero({
                 </Button>
               </Link>
 
-              <Link href={ctaSecondary.href} className="group">
+              <Link href={ctaSecondary.href} className='group'>
                 <Button
-                  variant="outline"
-                  className="relative h-auto w-full rounded-md border-gray-300 px-6 py-4 font-medium text-secondary transition-all duration-300 sm:py-5"
-                  size="lg"
+                  variant='outline'
+                  className='relative h-auto w-full rounded-md border-gray-300 px-6 py-4 font-medium text-secondary transition-all duration-300 sm:py-5'
+                  size='lg'
                 >
-                  <span className="relative z-10">{ctaSecondary.text}</span>
+                  <span className='relative z-10'>{ctaSecondary.text}</span>
                   <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 w-full origin-left"
+                    className='absolute bottom-0 left-0 h-0.5 w-full origin-left'
                     style={{ backgroundColor: colors.accent }}
                     initial={{ scaleX: 0 }}
                     whileHover={{ scaleX: 1 }}
@@ -429,19 +461,19 @@ export function Hero({
           {/* Services Showcase mit Sidebar - angepasst an das Design der Website */}
           <motion.div
             variants={itemVariants}
-            className="relative h-[400px] md:h-[500px]"
+            className='relative h-[400px] md:h-[500px]'
             {...swipeHandlers}
           >
-            <div className="relative h-full w-full overflow-hidden rounded-lg shadow-md">
+            <div className='relative h-full w-full overflow-hidden rounded-lg shadow-md'>
               {/* Sidebar für Dienstleistungen - nur für Desktop */}
               {!isMobile && (
-                <div className="absolute bottom-0 left-0 top-0 z-10 w-[220px] border-r border-gray-100 bg-gray-50">
-                  <div className="flex h-full flex-col">
-                    <div className="px-4 pb-2 pt-4 text-sm font-medium text-secondary">
+                <div className='absolute bottom-0 left-0 top-0 z-10 w-[220px] border-r border-gray-100 bg-gray-50'>
+                  <div className='flex h-full flex-col'>
+                    <div className='px-4 pb-2 pt-4 text-sm font-medium text-secondary'>
                       Unsere Leistungen
                     </div>
-                    <div className="flex-1 overflow-auto">
-                      <nav className="flex flex-col">
+                    <div className='flex-1 overflow-auto'>
+                      <nav className='flex flex-col'>
                         {services.map((service, index) => (
                           <button
                             key={index}
@@ -454,22 +486,32 @@ export function Hero({
                             onClick={() => setActiveService(index)}
                           >
                             <div
-                              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md"
+                              className='flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md'
                               style={{
                                 backgroundColor:
-                                  index === activeService ? `${colors.accent}15` : '#F0F0F5',
-                                color: index === activeService ? colors.accent : colors.secondary,
+                                  index === activeService
+                                    ? `${colors.accent}15`
+                                    : '#F0F0F5',
+                                color:
+                                  index === activeService
+                                    ? colors.accent
+                                    : colors.secondary,
                               }}
                             >
                               {service.icon}
                             </div>
-                            <span className="text-sm font-medium">{service.title}</span>
+                            <span className='text-sm font-medium'>
+                              {service.title}
+                            </span>
                             {index === activeService && (
                               <motion.div
-                                className="absolute bottom-0 left-0 top-0 w-1 rounded-r-full"
+                                className='absolute bottom-0 left-0 top-0 w-1 rounded-r-full'
                                 style={{ backgroundColor: colors.accent }}
-                                layoutId="activeSidebar"
-                                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                                layoutId='activeSidebar'
+                                transition={{
+                                  duration: 0.2,
+                                  ease: 'easeInOut',
+                                }}
                               />
                             )}
                           </button>
@@ -481,7 +523,12 @@ export function Hero({
               )}
 
               {/* Video background */}
-              <div className={cn('absolute inset-0 h-full w-full', !isMobile && 'pl-[220px]')}>
+              <div
+                className={cn(
+                  'absolute inset-0 h-full w-full',
+                  !isMobile && 'pl-[220px]'
+                )}
+              >
                 {ready &&
                   services.map((service, index) => (
                     <div
@@ -497,7 +544,7 @@ export function Hero({
                             videoRefs.current[index] = el;
                           }}
                           src={service.video}
-                          className="h-full w-full object-cover"
+                          className='h-full w-full object-cover'
                           muted
                           loop
                           playsInline
@@ -505,14 +552,14 @@ export function Hero({
                       ) : (
                         <Image
                           src={service.image || '/placeholder.svg'}
-                          alt=""
+                          alt=''
                           fill
-                          className="h-full w-full object-cover"
+                          className='h-full w-full object-cover'
                         />
                       )}
 
                       {/* Overlay gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                      <div className='absolute inset-0 bg-gradient-to-t from-black/70 to-transparent' />
                     </div>
                   ))}
               </div>
@@ -524,34 +571,36 @@ export function Hero({
                   !isMobile && 'left-[220px]'
                 )}
               >
-                <div className="mb-2 flex items-center gap-3">
+                <div className='mb-2 flex items-center gap-3'>
                   <div
-                    className="flex h-10 w-10 items-center justify-center rounded-lg"
+                    className='flex h-10 w-10 items-center justify-center rounded-lg'
                     style={{
                       backgroundColor: `${colors.accent}30`,
                     }}
                   >
                     {services[activeService].icon}
                   </div>
-                  <h3 className="text-xl font-medium">
+                  <h3 className='text-xl font-medium'>
                     {services[activeService].title}
-                    <span className="text-accent">.</span>
+                    <span className='text-accent'>.</span>
                   </h3>
                 </div>
 
-                <p className="mb-4 text-gray-200">{services[activeService].description}</p>
+                <p className='mb-4 text-gray-200'>
+                  {services[activeService].description}
+                </p>
 
                 <Link
                   href={services[activeService].href}
-                  className="group inline-flex items-center gap-2 font-medium text-white transition-colors"
+                  className='group inline-flex items-center gap-2 font-medium text-white transition-colors'
                 >
                   <span>Mehr erfahren</span>
                   <motion.div
-                    className="flex items-center justify-center rounded-full"
+                    className='flex items-center justify-center rounded-full'
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ArrowRight className="h-4 w-4 text-accent" />
+                    <ArrowRight className='h-4 w-4 text-accent' />
                   </motion.div>
                 </Link>
               </div>
@@ -560,7 +609,7 @@ export function Hero({
         </motion.div>
 
         {/* Mobile service indicators */}
-        <div className="mt-6 flex justify-center gap-1 md:hidden">
+        <div className='mt-6 flex justify-center gap-1 md:hidden'>
           {services.map((_, idx) => (
             <button
               key={idx}
@@ -576,60 +625,69 @@ export function Hero({
 
         {/* Stats section - angepasst an das Design der Website */}
         <motion.div
-          className="relative mt-16 md:mt-24"
+          className='relative mt-16 md:mt-24'
           variants={containerVariants}
-          initial="hidden"
+          initial='hidden'
           animate={isInView ? 'visible' : 'hidden'}
           transition={{ delay: 0.8 }}
         >
-          <motion.div variants={itemVariants} className="flex flex-col items-center gap-6">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="h-px w-12 bg-gray-300"></div>
-              <span className="text-xs font-medium uppercase tracking-wider text-secondary">
+          <motion.div
+            variants={itemVariants}
+            className='flex flex-col items-center gap-6'
+          >
+            <div className='mb-4 flex items-center gap-3'>
+              <div className='h-px w-12 bg-gray-300'></div>
+              <span className='text-xs font-medium uppercase tracking-wider text-secondary'>
                 Unsere Expertise
               </span>
-              <div className="h-px w-12 bg-gray-300"></div>
+              <div className='h-px w-12 bg-gray-300'></div>
             </div>
 
             {/* Statistics */}
-            <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8">
+            <div className='grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:gap-8'>
               <motion.div
-                className="flex flex-col items-center justify-center py-6 text-center"
+                className='flex flex-col items-center justify-center py-6 text-center'
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.03,
                 }}
               >
-                <span className="text-4xl font-medium text-primary md:text-5xl">
-                  20<span className="text-accent">+</span>
+                <span className='text-4xl font-medium text-primary md:text-5xl'>
+                  20<span className='text-accent'>+</span>
                 </span>
-                <span className="mt-2 text-sm text-secondary">Jahre Erfahrung</span>
+                <span className='mt-2 text-sm text-secondary'>
+                  Jahre Erfahrung
+                </span>
               </motion.div>
 
               <motion.div
-                className="flex flex-col items-center justify-center py-6 text-center"
+                className='flex flex-col items-center justify-center py-6 text-center'
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.03,
                 }}
               >
-                <span className="text-4xl font-medium text-primary md:text-5xl">
-                  90<span className="text-accent">+</span>
+                <span className='text-4xl font-medium text-primary md:text-5xl'>
+                  90<span className='text-accent'>+</span>
                 </span>
-                <span className="mt-2 text-sm text-secondary">Zufriedene Kunden</span>
+                <span className='mt-2 text-sm text-secondary'>
+                  Zufriedene Kunden
+                </span>
               </motion.div>
 
               <motion.div
-                className="flex flex-col items-center justify-center py-6 text-center"
+                className='flex flex-col items-center justify-center py-6 text-center'
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.03,
                 }}
               >
-                <span className="text-4xl font-medium text-primary md:text-5xl">
-                  250<span className="text-accent">+</span>
+                <span className='text-4xl font-medium text-primary md:text-5xl'>
+                  250<span className='text-accent'>+</span>
                 </span>
-                <span className="mt-2 text-sm text-secondary">Erfolgreiche Projekte</span>
+                <span className='mt-2 text-sm text-secondary'>
+                  Erfolgreiche Projekte
+                </span>
               </motion.div>
             </div>
           </motion.div>

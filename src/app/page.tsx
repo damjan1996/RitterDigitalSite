@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Ritter Digital - Ihr Partner für digitale Transformation',
-    description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    description:
+      'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
     url: 'https://ritter-digital.de',
     siteName: 'Ritter Digital',
     images: [
@@ -38,7 +39,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ritter Digital - Ihr Partner für digitale Transformation',
-    description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    description:
+      'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
     images: ['https://ritter-digital.de/images/og-image.jpg'],
   },
   alternates: {
@@ -156,7 +158,7 @@ export default function HomePage() {
     <>
       {/* JSON-LD Structured Data */}
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData),
         }}

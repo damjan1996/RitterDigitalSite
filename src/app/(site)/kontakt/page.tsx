@@ -11,8 +11,8 @@ const Kontakt: NextPage = () => {
       <Head>
         <title>Kontakt | Ritter Digital GmbH</title>
         <meta
-          name="description"
-          content="Nehmen Sie Kontakt zu uns auf. Wir beraten Sie gerne zu unseren Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz."
+          name='description'
+          content='Nehmen Sie Kontakt zu uns auf. Wir beraten Sie gerne zu unseren Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz.'
         />
       </Head>
       <KontaktPage />

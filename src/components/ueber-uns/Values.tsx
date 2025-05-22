@@ -1,7 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Lightbulb, Handshake, BarChart, ShieldCheck, RefreshCw, Users } from 'lucide-react';
+import {
+  Lightbulb,
+  Handshake,
+  BarChart,
+  ShieldCheck,
+  RefreshCw,
+  Users,
+} from 'lucide-react';
 import type React from 'react';
 import type { ElementType } from 'react';
 
@@ -85,14 +92,14 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
 
   return (
     <section
-      id="values"
+      id='values'
       className={cn('relative overflow-hidden py-16 md:py-24', className)}
       style={{ backgroundColor: colors.background }}
     >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute right-0 top-0 h-full w-1/2"
+          className='absolute right-0 top-0 h-full w-1/2'
           style={{
             clipPath: 'polygon(30% 0, 100% 0, 100% 100%, 10% 100%)',
             backgroundColor: 'white',
@@ -104,7 +111,7 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
         />
 
         <motion.div
-          className="absolute right-[10%] top-[15%] h-24 w-24 rounded-full"
+          className='absolute right-[10%] top-[15%] h-24 w-24 rounded-full'
           style={{ backgroundColor: `${colors.accent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -112,7 +119,7 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
         />
 
         <motion.div
-          className="absolute bottom-[15%] left-[8%] h-32 w-32 rounded-full"
+          className='absolute bottom-[15%] left-[8%] h-32 w-32 rounded-full'
           style={{ backgroundColor: `${colors.secondaryAccent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -120,27 +127,28 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
         />
       </div>
 
-      <Container className="relative z-10 max-w-6xl">
+      <Container className='relative z-10 max-w-6xl'>
         {/* Section header */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.2 }}
           variants={titleVariants}
-          className="mb-16 text-center"
+          className='mb-16 text-center'
         >
-          <h2 className="mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl">
+          <h2 className='mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl'>
             Unsere Werte
-            <span className="text-[#FF7A35]">.</span>
+            <span className='text-[#FF7A35]'>.</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-3xl text-lg text-[#3D5A73]">
-            Diese Grundprinzipien leiten unser tägliches Handeln und definieren die Art und Weise,
-            wie wir mit unseren Kunden, Partnern und Mitarbeitern zusammenarbeiten.
+          <p className='mx-auto mt-4 max-w-3xl text-lg text-[#3D5A73]'>
+            Diese Grundprinzipien leiten unser tägliches Handeln und definieren
+            die Art und Weise, wie wir mit unseren Kunden, Partnern und
+            Mitarbeitern zusammenarbeiten.
           </p>
 
           {/* Decorative accent line */}
           <motion.div
-            className="mx-auto mt-6 h-1 w-16 rounded-full"
+            className='mx-auto mt-6 h-1 w-16 rounded-full'
             style={{ backgroundColor: colors.accent }}
             initial={{ width: 0 }}
             whileInView={{ width: 64 }}
@@ -150,9 +158,9 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          initial="hidden"
-          whileInView="visible"
+          className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
         >
@@ -164,7 +172,7 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
 
       {/* Animated background elements */}
       <motion.div
-        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5"
+        className='absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5'
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -176,7 +184,7 @@ export const Values: React.FC<ValuesProps> = ({ className }) => {
         }}
       />
       <motion.div
-        className="absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5"
+        className='absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5'
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.4, 0.2],
@@ -206,7 +214,7 @@ const ValueCard: React.FC<ValueCardProps> = ({ value, index }) => {
 
   return (
     <motion.div
-      className="group relative overflow-hidden rounded-lg border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:border-[#1A2027]/20 hover:shadow-lg"
+      className='group relative overflow-hidden rounded-lg border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:border-[#1A2027]/20 hover:shadow-lg'
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: {
@@ -222,14 +230,19 @@ const ValueCard: React.FC<ValueCardProps> = ({ value, index }) => {
       }}
     >
       <div
-        className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110"
-        style={{ backgroundColor: index % 2 === 0 ? '#FF7A35/10' : '#3D5A73/10' }}
+        className='mb-6 flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110'
+        style={{
+          backgroundColor: index % 2 === 0 ? '#FF7A35/10' : '#3D5A73/10',
+        }}
       >
-        <Icon className="h-6 w-6" style={{ color: index % 2 === 0 ? '#FF7A35' : '#3D5A73' }} />
+        <Icon
+          className='h-6 w-6'
+          style={{ color: index % 2 === 0 ? '#FF7A35' : '#3D5A73' }}
+        />
       </div>
 
-      <h3 className="mb-3 text-xl font-medium text-[#1A2027]">{value.title}</h3>
-      <p className="text-[#3D5A73]">{value.description}</p>
+      <h3 className='mb-3 text-xl font-medium text-[#1A2027]'>{value.title}</h3>
+      <p className='text-[#3D5A73]'>{value.description}</p>
     </motion.div>
   );
 };

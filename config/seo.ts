@@ -96,7 +96,8 @@ export const pageSeo = {
   },
   impressum: {
     title: 'Impressum | Ritter Digital GmbH',
-    description: 'Gesetzliche Angaben zum Betreiber der Website der Ritter Digital GmbH.',
+    description:
+      'Gesetzliche Angaben zum Betreiber der Website der Ritter Digital GmbH.',
   },
 };
 
@@ -111,7 +112,10 @@ export const schemaData = {
     alternateName: COMPANY_INFO.FULL_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
-    sameAs: [COMPANY_INFO.SOCIAL_MEDIA.LINKEDIN, COMPANY_INFO.SOCIAL_MEDIA.XING],
+    sameAs: [
+      COMPANY_INFO.SOCIAL_MEDIA.LINKEDIN,
+      COMPANY_INFO.SOCIAL_MEDIA.XING,
+    ],
     contactPoint: [
       {
         '@type': 'ContactPoint',
@@ -231,7 +235,8 @@ export const schemaData = {
         {
           '@type': 'Offer',
           name: 'Business Intelligence',
-          description: 'Datenbasierte Entscheidungsfindung für strategische Vorteile.',
+          description:
+            'Datenbasierte Entscheidungsfindung für strategische Vorteile.',
           url: `${SITE_URL}/leistungen/business-intelligence`,
         },
         {

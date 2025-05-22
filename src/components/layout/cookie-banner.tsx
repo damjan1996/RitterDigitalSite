@@ -97,13 +97,15 @@ export const CookieBanner: React.FC = () => {
       cookies: [
         {
           name: '_ga',
-          purpose: 'Verwendet von Google Analytics zum Unterscheiden einzelner Nutzer',
+          purpose:
+            'Verwendet von Google Analytics zum Unterscheiden einzelner Nutzer',
           provider: 'Google',
           expiry: '2 Jahre',
         },
         {
           name: '_gid',
-          purpose: 'Verwendet von Google Analytics zum Identifizieren von Nutzern',
+          purpose:
+            'Verwendet von Google Analytics zum Identifizieren von Nutzern',
           provider: 'Google',
           expiry: '24 Stunden',
         },
@@ -136,7 +138,9 @@ export const CookieBanner: React.FC = () => {
   useEffect(() => {
     // Lade gespeicherte Einstellungen
     const loadSavedPreferences = () => {
-      const storedConsent = localStorage.getItem('cookie-consent') as ConsentLevel | null;
+      const storedConsent = localStorage.getItem(
+        'cookie-consent'
+      ) as ConsentLevel | null;
       const storedSettings = localStorage.getItem('cookie-settings');
 
       if (storedSettings) {
@@ -250,49 +254,52 @@ export const CookieBanner: React.FC = () => {
           isVisible ? 'translate-y-0' : 'translate-y-full'
         )}
       >
-        <div className="container mx-auto px-4 py-4 md:py-6">
-          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <div className="max-w-3xl flex-1">
-              <h3 className="mb-2 text-lg font-semibold">Datenschutzhinweis</h3>
-              <p className="mb-2 text-sm text-secondary md:text-base">
-                Wir verwenden Cookies und ähnliche Technologien auf unserer Website, um das
-                Nutzererlebnis zu verbessern und unsere Dienste zu optimieren. Einige sind
-                erforderlich, während andere uns helfen, diese Website und Ihre Erfahrung zu
-                verbessern.
+        <div className='container mx-auto px-4 py-4 md:py-6'>
+          <div className='flex flex-col items-start justify-between gap-4 md:flex-row md:items-center'>
+            <div className='max-w-3xl flex-1'>
+              <h3 className='mb-2 text-lg font-semibold'>Datenschutzhinweis</h3>
+              <p className='mb-2 text-sm text-secondary md:text-base'>
+                Wir verwenden Cookies und ähnliche Technologien auf unserer
+                Website, um das Nutzererlebnis zu verbessern und unsere Dienste
+                zu optimieren. Einige sind erforderlich, während andere uns
+                helfen, diese Website und Ihre Erfahrung zu verbessern.
               </p>
-              <p className="text-sm text-tertiary">
+              <p className='text-sm text-tertiary'>
                 Weitere Informationen finden Sie in unserer{' '}
-                <Link href="/src/app/datenschutz" className="text-accent underline">
+                <Link
+                  href='/src/app/datenschutz'
+                  className='text-accent underline'
+                >
                   Datenschutzerklärung
                 </Link>
                 .
               </p>
             </div>
 
-            <div className="flex w-full flex-col gap-2 sm:flex-row md:w-auto">
+            <div className='flex w-full flex-col gap-2 sm:flex-row md:w-auto'>
               <Button
-                variant="outline"
-                size="sm"
+                variant='outline'
+                size='sm'
                 onClick={handleAcceptEssential}
-                className="whitespace-nowrap"
+                className='whitespace-nowrap'
               >
                 Nur essenzielle Cookies
               </Button>
 
               <Button
-                variant="default"
-                size="sm"
+                variant='default'
+                size='sm'
                 onClick={handleAcceptAll}
-                className="whitespace-nowrap"
+                className='whitespace-nowrap'
               >
                 Alle akzeptieren
               </Button>
 
               <Button
-                variant="ghost"
-                size="sm"
+                variant='ghost'
+                size='sm'
                 onClick={handleCustomize}
-                className="whitespace-nowrap"
+                className='whitespace-nowrap'
               >
                 Anpassen
               </Button>
@@ -308,24 +315,24 @@ export const CookieBanner: React.FC = () => {
     if (!showSettings) return null;
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
+      <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+        <div className='relative w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl'>
           {/* Header */}
-          <div className="mb-4 flex items-center justify-between border-b pb-2">
-            <h2 className="text-xl font-semibold">Cookie-Einstellungen</h2>
+          <div className='mb-4 flex items-center justify-between border-b pb-2'>
+            <h2 className='text-xl font-semibold'>Cookie-Einstellungen</h2>
             <button
               onClick={() => setShowSettings(false)}
-              className="text-gray-500 hover:text-gray-700"
+              className='text-gray-500 hover:text-gray-700'
             >
-              <span className="text-2xl">&times;</span>
+              <span className='text-2xl'>&times;</span>
             </button>
           </div>
 
           {/* Content Area */}
-          <div className="mb-6">
+          <div className='mb-6'>
             {/* Tabs */}
-            <div className="mb-4 border-b">
-              <div className="flex space-x-4">
+            <div className='mb-4 border-b'>
+              <div className='flex space-x-4'>
                 <button
                   onClick={() => setActiveTab('cookie-settings')}
                   className={`border-b-2 pb-2 ${
@@ -351,37 +358,44 @@ export const CookieBanner: React.FC = () => {
 
             {/* Settings Tab Content */}
             {activeTab === 'cookie-settings' && (
-              <div className="space-y-4">
-                <p className="text-sm text-secondary">
-                  Sie können hier Ihre Cookie-Präferenzen anpassen. Bitte beachten Sie, dass einige
-                  Cookies für die grundlegenden Funktionen der Website erforderlich sind.
+              <div className='space-y-4'>
+                <p className='text-sm text-secondary'>
+                  Sie können hier Ihre Cookie-Präferenzen anpassen. Bitte
+                  beachten Sie, dass einige Cookies für die grundlegenden
+                  Funktionen der Website erforderlich sind.
                 </p>
 
-                <div className="space-y-4">
+                <div className='space-y-4'>
                   {cookieCategories.map(category => (
                     <div
                       key={category.id}
-                      className="flex items-start space-x-3 rounded-md border p-4"
+                      className='flex items-start space-x-3 rounded-md border p-4'
                     >
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         id={`cookie-${category.id}`}
                         checked={cookieConsent[category.id]}
-                        onChange={e => handleCategoryChange(category.id, e.target.checked)}
+                        onChange={e =>
+                          handleCategoryChange(category.id, e.target.checked)
+                        }
                         disabled={category.required}
-                        className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600"
+                        className='mt-1 h-4 w-4 rounded border-gray-300 text-blue-600'
                       />
-                      <div className="space-y-1">
+                      <div className='space-y-1'>
                         <label
                           htmlFor={`cookie-${category.id}`}
-                          className="block cursor-pointer font-medium"
+                          className='block cursor-pointer font-medium'
                         >
                           {category.name}{' '}
                           {category.required && (
-                            <span className="text-xs text-accent">(Erforderlich)</span>
+                            <span className='text-xs text-accent'>
+                              (Erforderlich)
+                            </span>
                           )}
                         </label>
-                        <p className="text-sm text-secondary">{category.description}</p>
+                        <p className='text-sm text-secondary'>
+                          {category.description}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -392,49 +406,53 @@ export const CookieBanner: React.FC = () => {
             {/* Info Tab Content */}
             {activeTab === 'cookie-info' && (
               <div>
-                <p className="mb-4 text-sm text-secondary">
-                  Hier finden Sie detaillierte Informationen zu allen Cookies, die wir auf unserer
-                  Website verwenden.
+                <p className='mb-4 text-sm text-secondary'>
+                  Hier finden Sie detaillierte Informationen zu allen Cookies,
+                  die wir auf unserer Website verwenden.
                 </p>
 
-                <div className="space-y-4">
+                <div className='space-y-4'>
                   {cookieCategories.map(category => (
-                    <details key={category.id} className="rounded border">
-                      <summary className="cursor-pointer bg-gray-50 p-3 font-medium">
+                    <details key={category.id} className='rounded border'>
+                      <summary className='cursor-pointer bg-gray-50 p-3 font-medium'>
                         {category.name}
                       </summary>
-                      <div className="space-y-4 p-3">
-                        <p className="text-sm text-secondary">{category.description}</p>
+                      <div className='space-y-4 p-3'>
+                        <p className='text-sm text-secondary'>
+                          {category.description}
+                        </p>
 
-                        <div className="rounded-md border">
-                          <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                        <div className='rounded-md border'>
+                          <table className='min-w-full divide-y divide-gray-200'>
+                            <thead className='bg-gray-50'>
                               <tr>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
+                                <th className='px-3 py-2 text-left text-xs font-medium text-gray-500'>
                                   Name
                                 </th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
+                                <th className='px-3 py-2 text-left text-xs font-medium text-gray-500'>
                                   Zweck
                                 </th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
+                                <th className='px-3 py-2 text-left text-xs font-medium text-gray-500'>
                                   Anbieter
                                 </th>
-                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
+                                <th className='px-3 py-2 text-left text-xs font-medium text-gray-500'>
                                   Ablauf
                                 </th>
                               </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
+                            <tbody className='divide-y divide-gray-200 bg-white'>
                               {category.cookies.map((cookie, index) => (
                                 <tr key={index}>
-                                  <td className="whitespace-nowrap px-3 py-2 text-xs">
+                                  <td className='whitespace-nowrap px-3 py-2 text-xs'>
                                     {cookie.name}
                                   </td>
-                                  <td className="px-3 py-2 text-xs">{cookie.purpose}</td>
-                                  <td className="whitespace-nowrap px-3 py-2 text-xs">
+                                  <td className='px-3 py-2 text-xs'>
+                                    {cookie.purpose}
+                                  </td>
+                                  <td className='whitespace-nowrap px-3 py-2 text-xs'>
                                     {cookie.provider}
                                   </td>
-                                  <td className="whitespace-nowrap px-3 py-2 text-xs">
+                                  <td className='whitespace-nowrap px-3 py-2 text-xs'>
                                     {cookie.expiry}
                                   </td>
                                 </tr>
@@ -451,14 +469,14 @@ export const CookieBanner: React.FC = () => {
           </div>
 
           {/* Footer */}
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <Button variant="outline" onClick={() => setShowSettings(false)}>
+          <div className='flex flex-col-reverse gap-2 sm:flex-row sm:justify-end'>
+            <Button variant='outline' onClick={() => setShowSettings(false)}>
               Abbrechen
             </Button>
-            <Button variant="default" onClick={handleSaveSettings}>
+            <Button variant='default' onClick={handleSaveSettings}>
               Einstellungen speichern
             </Button>
-            <Button variant="default" onClick={handleAcceptAll}>
+            <Button variant='default' onClick={handleAcceptAll}>
               Alle akzeptieren
             </Button>
           </div>

@@ -13,7 +13,13 @@ const ServiceComponents: React.FC = () => {
 };
 
 // Exportiere alle Service-Komponenten, damit sie in den einzelnen Service-Pages verwendet werden können
-export { ServiceHero, ServiceDetails, ServiceFeatures, ServiceBenefits, ServiceCTA };
+export {
+  ServiceHero,
+  ServiceDetails,
+  ServiceFeatures,
+  ServiceBenefits,
+  ServiceCTA,
+};
 
 // Default-Export hinzufügen
 export default ServiceComponents;

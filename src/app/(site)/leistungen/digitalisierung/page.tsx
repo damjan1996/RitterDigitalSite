@@ -68,7 +68,8 @@ const DigitalisierungPage: NextPage = () => {
       },
       {
         title: 'Kosteneinsparung',
-        description: 'Senken Sie operative Kosten durch automatisierte, fehlerresistente Prozesse.',
+        description:
+          'Senken Sie operative Kosten durch automatisierte, fehlerresistente Prozesse.',
         icon: 'DollarSign',
       },
       {
@@ -92,7 +93,7 @@ const DigitalisierungPage: NextPage = () => {
     <>
       <Head>
         <title>{pageData.title} | Ritter Digital GmbH</title>
-        <meta name="description" content={pageData.description} />
+        <meta name='description' content={pageData.description} />
       </Head>
 
       <article>
@@ -115,8 +116,8 @@ const DigitalisierungPage: NextPage = () => {
 
         <ServiceCTA
           text={pageData.ctaText}
-          buttonText="Jetzt Kontakt aufnehmen"
-          buttonLink="/kontakt"
+          buttonText='Jetzt Kontakt aufnehmen'
+          buttonLink='/kontakt'
         />
       </article>
     </>

@@ -11,10 +11,17 @@ import { cn } from '@/lib/utils';
 
 // Definiere die gültigen Variant-Typen, die von der Button-Komponente unterstützt werden
 // Wichtig: 'accent' wurde entfernt, da es nicht vom Button-Komponente unterstützt wird
-type ButtonVariantType = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+type ButtonVariantType =
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | 'link';
 type ButtonSizeType = 'default' | 'sm' | 'lg' | 'icon';
 
-interface CTAButtonProps extends Omit<ButtonProps, 'asChild' | 'variant' | 'size'> {
+interface CTAButtonProps
+  extends Omit<ButtonProps, 'asChild' | 'variant' | 'size'> {
   href: string;
   label: string;
   icon?: boolean;
@@ -41,7 +48,7 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   const buttonContent = (
     <>
       {label}
-      {icon && <ArrowRight className="ml-2 h-4 w-4" />}
+      {icon && <ArrowRight className='ml-2 h-4 w-4' />}
     </>
   );
 
@@ -49,8 +56,14 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
 
   if (isExternal) {
     return (
-      <Button asChild variant={variant} size={size} className={buttonClassName} {...props}>
-        <a href={href} target="_blank" rel="noopener noreferrer">
+      <Button
+        asChild
+        variant={variant}
+        size={size}
+        className={buttonClassName}
+        {...props}
+      >
+        <a href={href} target='_blank' rel='noopener noreferrer'>
           {buttonContent}
         </a>
       </Button>
@@ -58,7 +71,13 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   }
 
   return (
-    <Button asChild variant={variant} size={size} className={buttonClassName} {...props}>
+    <Button
+      asChild
+      variant={variant}
+      size={size}
+      className={buttonClassName}
+      {...props}
+    >
       <Link href={href}>{buttonContent}</Link>
     </Button>
   );

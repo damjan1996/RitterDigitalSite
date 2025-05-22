@@ -17,7 +17,12 @@ export const metadata: Metadata = {
   },
   description:
     'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung. Über 20 Jahre Erfahrung in der Digitalisierung von Geschäftsprozessen.',
-  keywords: ['JTL WaWi', 'Business Intelligence', 'Softwareentwicklung', 'Digitalisierung'],
+  keywords: [
+    'JTL WaWi',
+    'Business Intelligence',
+    'Softwareentwicklung',
+    'Digitalisierung',
+  ],
   authors: [{ name: 'Ritter Digital GmbH' }],
   creator: 'Ritter Digital GmbH',
   publisher: 'Ritter Digital GmbH',
@@ -31,7 +36,8 @@ export const metadata: Metadata = {
     url: 'https://ritterdigital.de',
     siteName: 'Ritter Digital',
     title: 'Ritter Digital - Ihr Partner für digitale Transformation',
-    description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    description:
+      'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
     images: [
       {
         url: '/images/og-image.jpg',
@@ -44,14 +50,19 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Ritter Digital - Ihr Partner für digitale Transformation',
-    description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    description:
+      'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
     images: ['/images/og-image.jpg'],
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="de">
+    <html lang='de'>
       <body className={inter.className}>
         <Header />
         <main>{children}</main>

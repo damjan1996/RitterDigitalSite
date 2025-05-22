@@ -37,7 +37,8 @@ export const SEO: React.FC<SEOProps> = ({
 
   // Ermittle die endgültigen Metadaten mit Fallbacks
   const metaTitle = title || pageMetadata?.title || defaultSeo.title;
-  const metaDescription = description || pageMetadata?.description || defaultSeo.description;
+  const metaDescription =
+    description || pageMetadata?.description || defaultSeo.description;
   const metaCanonical = canonical || `${defaultSeo.canonical}${pathname}`; // ✅ Use pathname instead of router.asPath
   const metaOgImage = ogImage || defaultSeo.openGraph.images[0].url;
 
@@ -47,31 +48,31 @@ export const SEO: React.FC<SEOProps> = ({
   return (
     <Head>
       <title>{metaTitle}</title>
-      <meta name="description" content={metaDescription} />
-      <link rel="canonical" href={metaCanonical} />
+      <meta name='description' content={metaDescription} />
+      <link rel='canonical' href={metaCanonical} />
 
       {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={metaCanonical} />
-      <meta property="og:title" content={metaTitle} />
-      <meta property="og:description" content={metaDescription} />
-      <meta property="og:image" content={metaOgImage} />
-      <meta property="og:site_name" content={defaultSeo.openGraph.site_name} />
-      <meta property="og:locale" content={defaultSeo.openGraph.locale} />
+      <meta property='og:type' content='website' />
+      <meta property='og:url' content={metaCanonical} />
+      <meta property='og:title' content={metaTitle} />
+      <meta property='og:description' content={metaDescription} />
+      <meta property='og:image' content={metaOgImage} />
+      <meta property='og:site_name' content={defaultSeo.openGraph.site_name} />
+      <meta property='og:locale' content={defaultSeo.openGraph.locale} />
 
       {/* Twitter */}
-      <meta name="twitter:card" content={defaultSeo.twitter.cardType} />
-      <meta name="twitter:site" content={defaultSeo.twitter.site} />
-      <meta name="twitter:title" content={metaTitle} />
-      <meta name="twitter:description" content={metaDescription} />
-      <meta name="twitter:image" content={metaOgImage} />
+      <meta name='twitter:card' content={defaultSeo.twitter.cardType} />
+      <meta name='twitter:site' content={defaultSeo.twitter.site} />
+      <meta name='twitter:title' content={metaTitle} />
+      <meta name='twitter:description' content={metaDescription} />
+      <meta name='twitter:image' content={metaOgImage} />
 
       {/* Steuerung der Indexierung */}
-      {noindex && <meta name="robots" content="noindex,nofollow" />}
+      {noindex && <meta name='robots' content='noindex,nofollow' />}
 
       {/* JSON-LD für strukturierte Daten */}
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
     </Head>

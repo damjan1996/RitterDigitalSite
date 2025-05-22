@@ -17,8 +17,10 @@ export const FORM_ERRORS = {
 // Erfolgsmeldungen
 export const SUCCESS_MESSAGES = {
   CONTACT_SENT: 'Ihre Nachricht wurde erfolgreich versendet',
-  NEWSLETTER_SUBSCRIBED: 'Sie haben sich erfolgreich für unseren Newsletter angemeldet',
-  PASSWORD_RESET: 'Ein Link zum Zurücksetzen des Passworts wurde an Ihre E-Mail gesendet',
+  NEWSLETTER_SUBSCRIBED:
+    'Sie haben sich erfolgreich für unseren Newsletter angemeldet',
+  PASSWORD_RESET:
+    'Ein Link zum Zurücksetzen des Passworts wurde an Ihre E-Mail gesendet',
   PROFILE_UPDATED: 'Ihr Profil wurde erfolgreich aktualisiert',
   SETTINGS_SAVED: 'Ihre Einstellungen wurden gespeichert',
 } as const;
@@ -32,7 +34,8 @@ export const API_ENDPOINTS = {
 } as const;
 
 // Website URL
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ritter-digital.de';
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://ritter-digital.de';
 
 // Unternehmensinformationen
 export const COMPANY_INFO = {
@@ -63,10 +66,19 @@ export const NAVIGATION = {
       href: '/leistungen',
       label: 'Leistungen',
       submenu: [
-        { href: '/leistungen/business-intelligence', label: 'Business Intelligence' },
+        {
+          href: '/leistungen/business-intelligence',
+          label: 'Business Intelligence',
+        },
         { href: '/leistungen/data-warehouse', label: 'Data Warehouse' },
-        { href: '/leistungen/softwareentwicklung', label: 'Softwareentwicklung' },
-        { href: '/leistungen/kuenstliche-intelligenz', label: 'Künstliche Intelligenz' },
+        {
+          href: '/leistungen/softwareentwicklung',
+          label: 'Softwareentwicklung',
+        },
+        {
+          href: '/leistungen/kuenstliche-intelligenz',
+          label: 'Künstliche Intelligenz',
+        },
         { href: '/leistungen/digitalisierung', label: 'Digitalisierung' },
         { href: '/leistungen/jtl-wawi', label: 'JTL WaWi' },
       ],
@@ -117,7 +129,12 @@ export const SERVICES = {
     title: 'JTL WaWi',
     description: 'Professionelle JTL-Lösungen und Integrationen',
     href: '/leistungen/jtl-wawi',
-    keywords: ['Integration', 'E-Commerce', 'Warenwirtschaft', 'Automatisierung'],
+    keywords: [
+      'Integration',
+      'E-Commerce',
+      'Warenwirtschaft',
+      'Automatisierung',
+    ],
   },
 } as const;
 

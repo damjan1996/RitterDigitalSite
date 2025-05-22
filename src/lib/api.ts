@@ -55,7 +55,8 @@ export async function fetchApi<T = unknown>(
 
     // Fehlerbehandlung
     if (!response.ok) {
-      const errorMessage = result?.error || response.statusText || 'Ein Fehler ist aufgetreten';
+      const errorMessage =
+        result?.error || response.statusText || 'Ein Fehler ist aufgetreten';
       return {
         success: false,
         error: String(errorMessage),
@@ -73,7 +74,10 @@ export async function fetchApi<T = unknown>(
     console.error('API Fehler:', error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Ein unbekannter Fehler ist aufgetreten',
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Ein unbekannter Fehler ist aufgetreten',
     };
   }
 }
@@ -90,7 +94,9 @@ export const API_ENDPOINTS = {
 /**
  * Sendet ein Kontaktformular an die API
  */
-export async function submitContactForm(data: ContactFormData): Promise<ApiResponse> {
+export async function submitContactForm(
+  data: ContactFormData
+): Promise<ApiResponse> {
   return fetchApi(API_ENDPOINTS.CONTACT, {
     method: 'POST',
     body: JSON.stringify(data),
@@ -100,7 +106,10 @@ export async function submitContactForm(data: ContactFormData): Promise<ApiRespo
 /**
  * Fügt einen Kontakt zum Newsletter hinzu
  */
-export async function subscribeToNewsletter(email: string, consent: boolean): Promise<ApiResponse> {
+export async function subscribeToNewsletter(
+  email: string,
+  consent: boolean
+): Promise<ApiResponse> {
   return fetchApi(API_ENDPOINTS.NEWSLETTER, {
     method: 'POST',
     body: JSON.stringify({ email, privacy: consent }),

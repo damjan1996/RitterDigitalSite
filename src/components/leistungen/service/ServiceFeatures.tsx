@@ -102,14 +102,14 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
 
   return (
     <section
-      id="features"
+      id='features'
       className={cn('relative overflow-hidden py-16 md:py-24', className)}
       style={{ backgroundColor: colors.background }}
     >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute left-0 top-0 h-full w-1/3"
+          className='absolute left-0 top-0 h-full w-1/3'
           style={{
             clipPath: 'polygon(0 0, 100% 0, 70% 100%, 0 100%)',
             backgroundColor: 'white',
@@ -121,7 +121,7 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
         />
 
         <motion.div
-          className="absolute left-[10%] top-[15%] h-24 w-24 rounded-full"
+          className='absolute left-[10%] top-[15%] h-24 w-24 rounded-full'
           style={{ backgroundColor: `${colors.accent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -129,7 +129,7 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
         />
 
         <motion.div
-          className="absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full"
+          className='absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full'
           style={{ backgroundColor: `${colors.secondaryAccent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -137,26 +137,26 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
         />
       </div>
 
-      <Container className="relative z-10 max-w-6xl">
+      <Container className='relative z-10 max-w-6xl'>
         {/* Section header */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.2 }}
           variants={titleVariants}
-          className="mb-16 text-center"
+          className='mb-16 text-center'
         >
-          <p className="mb-3 text-xs font-medium uppercase tracking-wider text-[#3D5A73]">
+          <p className='mb-3 text-xs font-medium uppercase tracking-wider text-[#3D5A73]'>
             {subtitle}
           </p>
-          <h2 className="mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl">
+          <h2 className='mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl'>
             {title}
-            <span className="text-[#FF7A35]">.</span>
+            <span className='text-[#FF7A35]'>.</span>
           </h2>
 
           {/* Decorative accent line */}
           <motion.div
-            className="mx-auto mt-4 h-1 w-16 rounded-full"
+            className='mx-auto mt-4 h-1 w-16 rounded-full'
             style={{ backgroundColor: colors.accent }}
             initial={{ width: 0 }}
             whileInView={{ width: 64 }}
@@ -166,9 +166,9 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
-          initial="hidden"
-          whileInView="visible"
+          className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
         >
@@ -179,7 +179,7 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
             return (
               <motion.div
                 key={index}
-                className="group relative overflow-hidden rounded-lg border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:border-[#1A2027]/20 hover:shadow-lg"
+                className='group relative overflow-hidden rounded-lg border border-[#E5E7EB] bg-white p-6 transition-all duration-300 hover:border-[#1A2027]/20 hover:shadow-lg'
                 variants={itemVariants}
                 whileHover={{
                   y: -5,
@@ -192,25 +192,32 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
                   backgroundRepeat: 'no-repeat',
                 }}
               >
-                <div className="mb-6 flex items-start gap-4">
+                <div className='mb-6 flex items-start gap-4'>
                   <div
-                    className="flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110"
-                    style={{ backgroundColor: index % 2 === 0 ? '#FF7A35/10' : '#3D5A73/10' }}
+                    className='flex h-12 w-12 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110'
+                    style={{
+                      backgroundColor:
+                        index % 2 === 0 ? '#FF7A35/10' : '#3D5A73/10',
+                    }}
                   >
                     <IconComponent
-                      className="h-6 w-6"
+                      className='h-6 w-6'
                       style={{ color: index % 2 === 0 ? '#FF7A35' : '#3D5A73' }}
                     />
                   </div>
                   <div>
-                    <h3 className="mb-2 text-xl font-medium text-[#1A2027]">{feature.title}</h3>
-                    <p className="text-base text-[#3D5A73]">{feature.description}</p>
+                    <h3 className='mb-2 text-xl font-medium text-[#1A2027]'>
+                      {feature.title}
+                    </h3>
+                    <p className='text-base text-[#3D5A73]'>
+                      {feature.description}
+                    </p>
                   </div>
                 </div>
 
-                <div className="mt-auto flex items-center gap-2 text-[#3D5A73] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="text-sm font-medium">Mehr erfahren</span>
-                  <ArrowRight className="h-4 w-4" />
+                <div className='mt-auto flex items-center gap-2 text-[#3D5A73] opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+                  <span className='text-sm font-medium'>Mehr erfahren</span>
+                  <ArrowRight className='h-4 w-4' />
                 </div>
               </motion.div>
             );
@@ -220,7 +227,7 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
 
       {/* Animated background elements */}
       <motion.div
-        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5"
+        className='absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5'
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -232,7 +239,7 @@ export const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
         }}
       />
       <motion.div
-        className="absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5"
+        className='absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5'
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.4, 0.2],

@@ -69,7 +69,11 @@ export const Container = ({
   );
 
   // Verwende React.createElement anstelle von JSX für bessere TypeScript-Kompatibilität
-  return React.createElement(as, { className: containerClasses, ...props }, children);
+  return React.createElement(
+    as,
+    { className: containerClasses, ...props },
+    children
+  );
 };
 
 export default Container;

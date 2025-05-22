@@ -27,15 +27,15 @@ const Logo = () => (
       scale: 1.2,
       transition: { duration: 0.3, ease: customEase },
     }}
-    className="relative z-10"
+    className='relative z-10'
   >
     <Image
-      src="/images/logos/logo_ritterdigital.png"
-      alt="Ritter Digital"
+      src='/images/logos/logo_ritterdigital.png'
+      alt='Ritter Digital'
       width={280}
       height={90}
       priority
-      className="brightness-125 filter"
+      className='brightness-125 filter'
     />
   </motion.div>
 );
@@ -142,22 +142,22 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
       className={`relative bg-white ${isAnimating ? 'pointer-events-none' : ''}`}
       style={{ minHeight: '100vh' }}
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode='wait'>
         {showLogo && (
           <motion.div
-            key="logo-container"
-            className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-white"
+            key='logo-container'
+            className='pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-white'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: customEase }}
           >
-            <div className="flex items-center justify-center">
+            <div className='flex items-center justify-center'>
               <Logo />
 
               {/* Subtle glow effect */}
               <motion.div
-                className="from-[#FF7A35]/3 to-[#3D5A73]/3 absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r blur-2xl"
+                className='from-[#FF7A35]/3 to-[#3D5A73]/3 absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r blur-2xl'
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={{
                   scale: 1.1,
@@ -181,11 +181,11 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
         )}
       </AnimatePresence>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode='wait'>
         {showContent && (
           <motion.div
             key={pathname} // ✅ Use pathname as key for App Router
-            className="relative z-0 min-h-screen"
+            className='relative z-0 min-h-screen'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -194,7 +194,9 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
               ease: customEase,
             }}
           >
-            <div className={isAnimating ? 'pointer-events-none' : ''}>{displayChildren}</div>
+            <div className={isAnimating ? 'pointer-events-none' : ''}>
+              {displayChildren}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -47,11 +47,16 @@ const defaultServices: Service[] = [
     id: 5,
     title: 'Digitalisierung',
     description: 'Transformation analoger Prozesse in digitale Workflows.',
-    icon: <Workflow className="h-6 w-6" />,
+    icon: <Workflow className='h-6 w-6' />,
     color: colors.secondary,
     href: '/leistungen/digitalisierung',
     video: '/videos/digitalisierung.mp4',
-    keywords: ['Prozessoptimierung', 'Automatisierung', 'Effizienz', 'Innovation'],
+    keywords: [
+      'Prozessoptimierung',
+      'Automatisierung',
+      'Effizienz',
+      'Innovation',
+    ],
     detailedInfo:
       'Unsere Digitalisierungsexperten helfen Ihnen dabei, analoge Prozesse zu identifizieren und in effiziente digitale Abläufe umzuwandeln. Durch die Digitalisierung Ihrer Workflows reduzieren wir Fehlerquellen, beschleunigen Abläufe und steigern die Effizienz Ihres Unternehmens.',
   },
@@ -59,7 +64,7 @@ const defaultServices: Service[] = [
     id: 1,
     title: 'Business Intelligence',
     description: 'Datenbasierte Entscheidungen für strategische Vorteile.',
-    icon: <BarChart3 className="h-6 w-6" />,
+    icon: <BarChart3 className='h-6 w-6' />,
     color: colors.secondary,
     href: '/leistungen/business-intelligence',
     video: '/videos/businessintelligence.mp4',
@@ -71,7 +76,7 @@ const defaultServices: Service[] = [
     id: 2,
     title: 'Data Warehouse',
     description: 'Zentrale Datenverwaltung für effiziente Analysen.',
-    icon: <Database className="h-6 w-6" />,
+    icon: <Database className='h-6 w-6' />,
     color: colors.secondary,
     href: '/leistungen/data-warehouse',
     video: '/videos/datawarehouse.mp4',
@@ -83,7 +88,7 @@ const defaultServices: Service[] = [
     id: 3,
     title: 'Softwareentwicklung',
     description: 'Maßgeschneiderte Lösungen für Ihre Geschäftsprozesse.',
-    icon: <Code2 className="h-6 w-6" />,
+    icon: <Code2 className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/softwareentwicklung',
     video: '/videos/softwaredevelopment.mp4',
@@ -95,7 +100,7 @@ const defaultServices: Service[] = [
     id: 4,
     title: 'Künstliche Intelligenz',
     description: 'Intelligente Automatisierung und Optimierung.',
-    icon: <Brain className="h-6 w-6" />,
+    icon: <Brain className='h-6 w-6' />,
     color: colors.primary,
     href: '/leistungen/kuenstliche-intelligenz',
     video: '/videos/artificialintelligence.mp4',
@@ -107,7 +112,7 @@ const defaultServices: Service[] = [
     id: 6,
     title: 'JTL WaWi',
     description: 'Professionelle Warenwirtschaft für Ihren Online-Handel.',
-    icon: <ShoppingCart className="h-6 w-6" />,
+    icon: <ShoppingCart className='h-6 w-6' />,
     color: colors.accent,
     href: '/leistungen/jtl-wawi',
     video: '/videos/jtlwawi.mp4',
@@ -205,11 +210,18 @@ export function ServiceTeaser({
   const handleSwipe = useCallback(
     (direction: number): void => {
       pauseAutoRotation();
-      const nextIndex = (activeIndex + direction + services.length) % services.length;
+      const nextIndex =
+        (activeIndex + direction + services.length) % services.length;
       goToPanel(nextIndex);
       resumeAutoRotation();
     },
-    [pauseAutoRotation, activeIndex, services.length, goToPanel, resumeAutoRotation]
+    [
+      pauseAutoRotation,
+      activeIndex,
+      services.length,
+      goToPanel,
+      resumeAutoRotation,
+    ]
   );
 
   // Touch handlers
@@ -261,7 +273,7 @@ export function ServiceTeaser({
         paddingTop: `${headerHeight}px`,
         minHeight: isMobile ? '100vh' : 'auto',
       }}
-      id="carousel-section"
+      id='carousel-section'
     >
       {/* Fix for ESLint "unknown property" warnings */}
       {/* eslint-disable-next-line react/no-unknown-property */}
@@ -474,7 +486,7 @@ export function ServiceTeaser({
         }
       `}</style>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-4 py-6 md:px-6">
+      <div className='relative z-10 mx-auto flex w-full max-w-7xl flex-col px-4 py-6 md:px-6'>
         {/* Section title */}
         <h2
           className={cn(
@@ -486,18 +498,18 @@ export function ServiceTeaser({
         </h2>
 
         {/* Main content area */}
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className='grid gap-8 md:grid-cols-2'>
           {/* Left column - Video carousel */}
-          <div className="order-2 md:order-1">
+          <div className='order-2 md:order-1'>
             <div
-              className="carousel-container"
+              className='carousel-container'
               ref={carouselRef}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
               onMouseEnter={pauseAutoRotation}
               onMouseLeave={resumeAutoRotation}
-              role="region"
-              aria-label="Service Carousel"
+              role='region'
+              aria-label='Service Carousel'
             >
               {services.map((service, index) => (
                 <div
@@ -505,7 +517,7 @@ export function ServiceTeaser({
                   className={`carousel-slide ${activeIndex === index ? 'active' : ''}`}
                   aria-hidden={activeIndex !== index}
                 >
-                  <div className="video-container">
+                  <div className='video-container'>
                     <video
                       className={`service-video service-video-${index}`}
                       src={service.video}
@@ -521,23 +533,23 @@ export function ServiceTeaser({
 
               {/* Navigation buttons */}
               <button
-                className="carousel-nav-button prev"
+                className='carousel-nav-button prev'
                 onClick={() => handleSwipe(-1)}
-                aria-label="Vorheriger Slide"
+                aria-label='Vorheriger Slide'
               >
                 <ChevronLeft />
               </button>
               <button
-                className="carousel-nav-button next"
+                className='carousel-nav-button next'
                 onClick={() => handleSwipe(1)}
-                aria-label="Nächster Slide"
+                aria-label='Nächster Slide'
               >
                 <ChevronRight />
               </button>
             </div>
 
             {/* Carousel indicators */}
-            <div className="mt-4 flex items-center justify-center gap-2">
+            <div className='mt-4 flex items-center justify-center gap-2'>
               {services.map((_, idx) => (
                 <button
                   key={idx}
@@ -555,12 +567,12 @@ export function ServiceTeaser({
           </div>
 
           {/* Right column - Active service details */}
-          <div className="order-1 md:order-2">
-            <div className="flex flex-col">
+          <div className='order-1 md:order-2'>
+            <div className='flex flex-col'>
               {/* Title with accent line */}
-              <div className="relative mb-4">
+              <div className='relative mb-4'>
                 <div
-                  className="absolute -left-3 top-1/2 hidden h-12 w-1.5 -translate-y-1/2 md:block"
+                  className='absolute -left-3 top-1/2 hidden h-12 w-1.5 -translate-y-1/2 md:block'
                   style={{
                     background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
                   }}
@@ -568,7 +580,9 @@ export function ServiceTeaser({
                 <h1
                   className={cn(
                     'font-medium leading-tight tracking-tight text-white',
-                    isMobile ? 'text-center text-3xl' : 'text-left text-4xl md:text-5xl'
+                    isMobile
+                      ? 'text-center text-3xl'
+                      : 'text-left text-4xl md:text-5xl'
                   )}
                 >
                   {services[activeIndex]?.title}
@@ -587,7 +601,7 @@ export function ServiceTeaser({
 
               {/* Detailed information - always visible */}
               <div
-                className="mb-6 border-l-2 py-2 pl-4 text-white/80"
+                className='mb-6 border-l-2 py-2 pl-4 text-white/80'
                 style={{ borderColor: colors.accent }}
               >
                 <p>{services[activeIndex]?.detailedInfo}</p>
@@ -603,7 +617,7 @@ export function ServiceTeaser({
                 {services[activeIndex]?.keywords.map((keyword, kidx) => (
                   <span
                     key={kidx}
-                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm text-white/80"
+                    className='rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm text-white/80'
                   >
                     {keyword}
                   </span>
@@ -618,8 +632,8 @@ export function ServiceTeaser({
                 )}
               >
                 <Button
-                  className="relative overflow-hidden rounded-full px-6 py-3 font-medium text-white transition-all duration-300"
-                  size="default"
+                  className='relative overflow-hidden rounded-full px-6 py-3 font-medium text-white transition-all duration-300'
+                  size='default'
                   style={{ backgroundColor: colors.accent }}
                   onClick={() => {
                     if (services[activeIndex]) {
@@ -627,22 +641,28 @@ export function ServiceTeaser({
                     }
                   }}
                 >
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className='relative z-10 flex items-center gap-2'>
                     Mehr erfahren
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className='h-4 w-4' />
                   </span>
                 </Button>
 
-                <Link href={services[activeIndex]?.href || '#'} className="group">
+                <Link
+                  href={services[activeIndex]?.href || '#'}
+                  className='group'
+                >
                   <Button
-                    variant="outline"
-                    className="relative rounded-full px-6 py-3 font-medium transition-all duration-300"
-                    size="default"
-                    style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
+                    variant='outline'
+                    className='relative rounded-full px-6 py-3 font-medium transition-all duration-300'
+                    size='default'
+                    style={{
+                      borderColor: 'rgba(255,255,255,0.2)',
+                      color: '#fff',
+                    }}
                   >
-                    <span className="relative z-10">Kontakt</span>
+                    <span className='relative z-10'>Kontakt</span>
                     <div
-                      className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                      className='absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100'
                       style={{ backgroundColor: colors.accent }}
                     />
                   </Button>
@@ -653,9 +673,11 @@ export function ServiceTeaser({
         </div>
 
         {/* Service cards grid - all services visible at once */}
-        <div className="mt-12 border-t border-white/10 pt-8">
-          <h3 className="mb-6 text-center text-xl font-medium text-white/70">Alle Leistungen</h3>
-          <div className="service-info-grid">
+        <div className='mt-12 border-t border-white/10 pt-8'>
+          <h3 className='mb-6 text-center text-xl font-medium text-white/70'>
+            Alle Leistungen
+          </h3>
+          <div className='service-info-grid'>
             {services.map((service, idx) => (
               <div
                 key={service.id}
@@ -665,7 +687,7 @@ export function ServiceTeaser({
                   goToPanel(idx);
                   resumeAutoRotation();
                 }}
-                role="button"
+                role='button'
                 tabIndex={0}
                 onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -675,14 +697,16 @@ export function ServiceTeaser({
                   }
                 }}
               >
-                <div className="service-card-header">
-                  <div className="service-card-icon">{service.icon}</div>
-                  <h4 className="service-card-title">{service.title}</h4>
+                <div className='service-card-header'>
+                  <div className='service-card-icon'>{service.icon}</div>
+                  <h4 className='service-card-title'>{service.title}</h4>
                 </div>
-                <p className="service-card-description">{service.description}</p>
-                <div className="service-card-keywords">
+                <p className='service-card-description'>
+                  {service.description}
+                </p>
+                <div className='service-card-keywords'>
                   {service.keywords.slice(0, 2).map((keyword, kidx) => (
-                    <span key={kidx} className="service-card-keyword">
+                    <span key={kidx} className='service-card-keyword'>
                       {keyword}
                     </span>
                   ))}

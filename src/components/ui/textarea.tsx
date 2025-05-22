@@ -34,7 +34,18 @@ export interface TextareaProps
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, variant, resize, wrapperClassName, counter = false, maxLength, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      resize,
+      wrapperClassName,
+      counter = false,
+      maxLength,
+      ...props
+    },
+    ref
+  ) => {
     const [charCount, setCharCount] = React.useState(0);
 
     // Aktualisiere den Zeichenzähler bei Änderungen
@@ -60,7 +71,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {counter && maxLength && (
-          <div className="absolute bottom-2 right-3 text-xs text-gray-400">
+          <div className='absolute bottom-2 right-3 text-xs text-gray-400'>
             {charCount}/{maxLength}
           </div>
         )}

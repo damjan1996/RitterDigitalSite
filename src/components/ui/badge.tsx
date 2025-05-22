@@ -10,11 +10,14 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: 'border-transparent bg-primary text-white hover:bg-primary/80',
-        secondary: 'border-transparent bg-secondary text-white hover:bg-secondary/80',
+        secondary:
+          'border-transparent bg-secondary text-white hover:bg-secondary/80',
         accent: 'border-transparent bg-accent text-white hover:bg-accent/80',
         outline: 'text-primary hover:bg-primary/10',
-        success: 'border-transparent bg-green-500 text-white hover:bg-green-500/80',
-        warning: 'border-transparent bg-yellow-500 text-white hover:bg-yellow-500/80',
+        success:
+          'border-transparent bg-green-500 text-white hover:bg-green-500/80',
+        warning:
+          'border-transparent bg-yellow-500 text-white hover:bg-yellow-500/80',
         error: 'border-transparent bg-red-500 text-white hover:bg-red-500/80',
       },
       size: {
@@ -40,7 +43,11 @@ function Badge({ className, variant, size, onClick, ...props }: BadgeProps) {
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
     <div
-      className={cn(badgeVariants({ variant, size }), onClick ? 'cursor-pointer' : '', className)}
+      className={cn(
+        badgeVariants({ variant, size }),
+        onClick ? 'cursor-pointer' : '',
+        className
+      )}
       onClick={onClick}
       {...props}
     />

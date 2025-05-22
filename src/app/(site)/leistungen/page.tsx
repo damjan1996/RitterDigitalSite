@@ -11,8 +11,8 @@ const Leistungen: NextPage = () => {
       <Head>
         <title>Unsere Leistungen | Ritter Digital GmbH</title>
         <meta
-          name="description"
-          content="Entdecken Sie unsere Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz. Ritter Digital GmbH ist Ihr Partner für digitale Transformation."
+          name='description'
+          content='Entdecken Sie unsere Leistungen in den Bereichen Business Intelligence, Data Warehouse, Softwareentwicklung und künstliche Intelligenz. Ritter Digital GmbH ist Ihr Partner für digitale Transformation.'
         />
       </Head>
       <LeistungenPage />

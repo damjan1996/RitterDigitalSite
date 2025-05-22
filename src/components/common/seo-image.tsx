@@ -79,7 +79,9 @@ export const SEOImage: React.FC<SEOImageProps> = ({
         blurDataURL={
           priority &&
           typeof src === 'string' &&
-          (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png'))
+          (src.endsWith('.jpg') ||
+            src.endsWith('.jpeg') ||
+            src.endsWith('.png'))
             ? `data:image/svg+xml;base64,${Buffer.from(
                 `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#e2e8f0"/></svg>`
               ).toString('base64')}`
@@ -90,7 +92,7 @@ export const SEOImage: React.FC<SEOImageProps> = ({
 
       {/* Strukturierte Daten für Suchmaschinen */}
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',

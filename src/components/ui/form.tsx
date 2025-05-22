@@ -25,7 +25,9 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
+const FormFieldContext = React.createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue
+);
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -67,7 +69,9 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+);
 
 const FormItem = React.forwardRef<
   HTMLDivElement,
@@ -85,7 +89,9 @@ const FormItem = React.forwardRef<
 FormItem.displayName = 'FormItem';
 
 type ElementRef<T> =
-  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>> ? U : never;
+  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>>
+    ? U
+    : never;
 
 const FormLabel = React.forwardRef<
   ElementRef<typeof LabelPrimitive.Root>,
@@ -102,7 +108,7 @@ const FormLabel = React.forwardRef<
       {...props}
     >
       {children}
-      {required && <span className="ml-1 text-red-500">*</span>}
+      {required && <span className='ml-1 text-red-500'>*</span>}
     </Label>
   );
 });
@@ -112,13 +118,18 @@ const FormControl = React.forwardRef<
   ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
 >(({ ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
 
   return (
     <Slot
       ref={ref}
       id={formItemId}
-      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
       aria-invalid={!!error}
       {...props}
     />
@@ -158,10 +169,13 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn('flex items-center text-sm font-medium text-red-500', className)}
+      className={cn(
+        'flex items-center text-sm font-medium text-red-500',
+        className
+      )}
       {...props}
     >
-      <AlertCircle className="mr-1 h-4 w-4" />
+      <AlertCircle className='mr-1 h-4 w-4' />
       {body}
     </p>
   );

@@ -99,8 +99,8 @@ const KuenstlicheIntelligenzPage: NextPage = () => {
       <Head>
         <title>Künstliche Intelligenz | Ritter Digital GmbH</title>
         <meta
-          name="description"
-          content="KI-Lösungen von Ritter Digital - Nutzen Sie das Potenzial künstlicher Intelligenz, um Ihre Geschäftsprozesse zu optimieren und neue Wachstumschancen zu erschließen."
+          name='description'
+          content='KI-Lösungen von Ritter Digital - Nutzen Sie das Potenzial künstlicher Intelligenz, um Ihre Geschäftsprozesse zu optimieren und neue Wachstumschancen zu erschließen.'
         />
       </Head>
 
@@ -113,59 +113,66 @@ const KuenstlicheIntelligenzPage: NextPage = () => {
         />
 
         <ServiceDetails
-          title="Intelligente Lösungen für komplexe Herausforderungen"
-          description="Künstliche Intelligenz revolutioniert die Art und Weise, wie Unternehmen arbeiten. Unsere KI-Lösungen kombinieren modernste Technologien mit fundiertem Branchenwissen, um maßgeschneiderte Anwendungen zu entwickeln, die messbare Geschäftsergebnisse liefern."
+          title='Intelligente Lösungen für komplexe Herausforderungen'
+          description='Künstliche Intelligenz revolutioniert die Art und Weise, wie Unternehmen arbeiten. Unsere KI-Lösungen kombinieren modernste Technologien mit fundiertem Branchenwissen, um maßgeschneiderte Anwendungen zu entwickeln, die messbare Geschäftsergebnisse liefern.'
           videoSrc={serviceData.videoSrc}
         >
-          <div className="mt-8">
-            <h3 className="mb-4 text-xl font-semibold text-primary">
+          <div className='mt-8'>
+            <h3 className='mb-4 text-xl font-semibold text-primary'>
               Unser Leistungsspektrum im KI-Bereich:
             </h3>
-            <ul className="space-y-2 text-secondary">
-              <li className="flex items-start">
-                <div className="mr-2 text-accent">•</div>
+            <ul className='space-y-2 text-secondary'>
+              <li className='flex items-start'>
+                <div className='mr-2 text-accent'>•</div>
                 <span>Entwicklung maßgeschneiderter KI-Modelle</span>
               </li>
-              <li className="flex items-start">
-                <div className="mr-2 text-accent">•</div>
+              <li className='flex items-start'>
+                <div className='mr-2 text-accent'>•</div>
                 <span>Integration von KI in bestehende Geschäftsprozesse</span>
               </li>
-              <li className="flex items-start">
-                <div className="mr-2 text-accent">•</div>
-                <span>Predictive Analytics für datenbasierte Entscheidungen</span>
+              <li className='flex items-start'>
+                <div className='mr-2 text-accent'>•</div>
+                <span>
+                  Predictive Analytics für datenbasierte Entscheidungen
+                </span>
               </li>
-              <li className="flex items-start">
-                <div className="mr-2 text-accent">•</div>
+              <li className='flex items-start'>
+                <div className='mr-2 text-accent'>•</div>
                 <span>Chatbots und virtuelle Assistenten</span>
               </li>
-              <li className="flex items-start">
-                <div className="mr-2 text-accent">•</div>
+              <li className='flex items-start'>
+                <div className='mr-2 text-accent'>•</div>
                 <span>Beratung zur KI-Strategie und -Implementation</span>
               </li>
             </ul>
           </div>
         </ServiceDetails>
 
-        <section className="bg-background py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="mb-12 text-center text-3xl font-bold text-primary">
+        <section className='bg-background py-16'>
+          <div className='container mx-auto px-4'>
+            <h2 className='mb-12 text-center text-3xl font-bold text-primary'>
               Anwendungsbereiche
             </h2>
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className='grid grid-cols-1 gap-8 md:grid-cols-3'>
               {useCases.map((useCase, index) => (
-                <div key={index} className="overflow-hidden rounded-lg bg-white shadow-sm">
-                  <div className="relative h-48">
+                <div
+                  key={index}
+                  className='overflow-hidden rounded-lg bg-white shadow-sm'
+                >
+                  <div className='relative h-48'>
                     <Image
                       src={useCase.imageUrl}
                       alt={useCase.title}
                       fill
-                      className="object-cover"
+                      className='object-cover'
                     />
                   </div>
-                  <div className="p-6">
-                    <h3 className="mb-2 text-xl font-semibold text-primary">{useCase.title}</h3>
-                    <p className="text-secondary">{useCase.description}</p>
+                  <div className='p-6'>
+                    <h3 className='mb-2 text-xl font-semibold text-primary'>
+                      {useCase.title}
+                    </h3>
+                    <p className='text-secondary'>{useCase.description}</p>
                   </div>
                 </div>
               ))}
@@ -173,15 +180,18 @@ const KuenstlicheIntelligenzPage: NextPage = () => {
           </div>
         </section>
 
-        <ServiceFeatures title="Funktionen unserer KI-Lösungen" features={serviceData.features} />
+        <ServiceFeatures
+          title='Funktionen unserer KI-Lösungen'
+          features={serviceData.features}
+        />
         <ServiceBenefits
-          title="Vorteile von KI für Ihr Unternehmen"
+          title='Vorteile von KI für Ihr Unternehmen'
           benefits={serviceData.benefits}
         />
         <ServiceCTA
           text={serviceData.ctaText}
-          buttonText="Jetzt Kontakt aufnehmen"
-          buttonLink="/kontakt"
+          buttonText='Jetzt Kontakt aufnehmen'
+          buttonLink='/kontakt'
         />
       </div>
     </>

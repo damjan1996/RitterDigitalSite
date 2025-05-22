@@ -14,10 +14,19 @@ export const FORM_ERRORS = {
  * Validierungsschema für Kontaktformular (erweitert)
  */
 export const contactFormSchema = z.object({
-  name: z.string().min(2, FORM_ERRORS.MIN_LENGTH(2)).max(100, FORM_ERRORS.MAX_LENGTH(100)),
+  name: z
+    .string()
+    .min(2, FORM_ERRORS.MIN_LENGTH(2))
+    .max(100, FORM_ERRORS.MAX_LENGTH(100)),
   email: z.string().email(FORM_ERRORS.EMAIL),
-  subject: z.string().min(1, FORM_ERRORS.REQUIRED).max(200, FORM_ERRORS.MAX_LENGTH(200)),
-  message: z.string().min(10, FORM_ERRORS.MIN_LENGTH(10)).max(2000, FORM_ERRORS.MAX_LENGTH(2000)),
+  subject: z
+    .string()
+    .min(1, FORM_ERRORS.REQUIRED)
+    .max(200, FORM_ERRORS.MAX_LENGTH(200)),
+  message: z
+    .string()
+    .min(10, FORM_ERRORS.MIN_LENGTH(10))
+    .max(2000, FORM_ERRORS.MAX_LENGTH(2000)),
   privacy: z
     .boolean()
     .refine(val => val === true, {
@@ -30,13 +39,25 @@ export const contactFormSchema = z.object({
  * Validierungsschema für detailliertes Kontaktformular
  */
 export const detailedContactFormSchema = z.object({
-  firstName: z.string().min(2, FORM_ERRORS.MIN_LENGTH(2)).max(50, FORM_ERRORS.MAX_LENGTH(50)),
-  lastName: z.string().min(2, FORM_ERRORS.MIN_LENGTH(2)).max(50, FORM_ERRORS.MAX_LENGTH(50)),
+  firstName: z
+    .string()
+    .min(2, FORM_ERRORS.MIN_LENGTH(2))
+    .max(50, FORM_ERRORS.MAX_LENGTH(50)),
+  lastName: z
+    .string()
+    .min(2, FORM_ERRORS.MIN_LENGTH(2))
+    .max(50, FORM_ERRORS.MAX_LENGTH(50)),
   email: z.string().email(FORM_ERRORS.EMAIL),
   phone: z.string().optional(),
   company: z.string().optional(),
-  subject: z.string().min(1, FORM_ERRORS.REQUIRED).max(200, FORM_ERRORS.MAX_LENGTH(200)),
-  message: z.string().min(10, FORM_ERRORS.MIN_LENGTH(10)).max(1000, FORM_ERRORS.MAX_LENGTH(1000)),
+  subject: z
+    .string()
+    .min(1, FORM_ERRORS.REQUIRED)
+    .max(200, FORM_ERRORS.MAX_LENGTH(200)),
+  message: z
+    .string()
+    .min(10, FORM_ERRORS.MIN_LENGTH(10))
+    .max(1000, FORM_ERRORS.MAX_LENGTH(1000)),
   privacy: z.boolean().refine(val => val === true, {
     message: FORM_ERRORS.PRIVACY,
   }),
@@ -58,9 +79,15 @@ export const newsletterSchema = z.object({
  * Validierungsschema für Blog-Kommentare
  */
 export const commentSchema = z.object({
-  name: z.string().min(2, FORM_ERRORS.MIN_LENGTH(2)).max(50, FORM_ERRORS.MAX_LENGTH(50)),
+  name: z
+    .string()
+    .min(2, FORM_ERRORS.MIN_LENGTH(2))
+    .max(50, FORM_ERRORS.MAX_LENGTH(50)),
   email: z.string().email(FORM_ERRORS.EMAIL),
-  comment: z.string().min(10, FORM_ERRORS.MIN_LENGTH(10)).max(500, FORM_ERRORS.MAX_LENGTH(500)),
+  comment: z
+    .string()
+    .min(10, FORM_ERRORS.MIN_LENGTH(10))
+    .max(500, FORM_ERRORS.MAX_LENGTH(500)),
   privacy: z.boolean().refine(val => val === true, {
     message: FORM_ERRORS.PRIVACY,
   }),

@@ -33,11 +33,14 @@ export const useAnalytics = () => {
   }, [pathname, searchParams]);
 
   // Funktion zum Tracking von benutzerdefinierten Ereignissen
-  const trackEvent = useCallback(({ action, category, label, value }: AnalyticsEvent) => {
-    if (process.env.NODE_ENV === 'production') {
-      gaEvent({ action, category, label, value });
-    }
-  }, []);
+  const trackEvent = useCallback(
+    ({ action, category, label, value }: AnalyticsEvent) => {
+      if (process.env.NODE_ENV === 'production') {
+        gaEvent({ action, category, label, value });
+      }
+    },
+    []
+  );
 
   // Vordefinierte Ereignisse
   const trackContactFormSubmission = useCallback(() => {
@@ -85,7 +88,8 @@ export const useAnalytics = () => {
     (url?: string) => {
       // Null-safe Behandlung von searchParams
       const searchString = searchParams?.toString() || '';
-      const trackingUrl = url || pathname + (searchString ? `?${searchString}` : '');
+      const trackingUrl =
+        url || pathname + (searchString ? `?${searchString}` : '');
 
       if (process.env.NODE_ENV === 'production') {
         pageview(trackingUrl);

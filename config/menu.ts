@@ -12,10 +12,16 @@ export const mainMenuItems: MenuItem[] = [
     title: 'Leistungen',
     href: '/leistungen',
     submenu: [
-      { title: 'Business Intelligence', href: '/leistungen/business-intelligence' },
+      {
+        title: 'Business Intelligence',
+        href: '/leistungen/business-intelligence',
+      },
       { title: 'Data Warehouse', href: '/leistungen/data-warehouse' },
       { title: 'Softwareentwicklung', href: '/leistungen/softwareentwicklung' },
-      { title: 'Künstliche Intelligenz', href: '/leistungen/kuenstliche-intelligenz' },
+      {
+        title: 'Künstliche Intelligenz',
+        href: '/leistungen/kuenstliche-intelligenz',
+      },
     ],
   },
   { title: 'Über Uns', href: '/ueber-uns' },
@@ -25,10 +31,16 @@ export const mainMenuItems: MenuItem[] = [
 // Menüpunkte für den Footer
 export const footerMenuItems = {
   services: [
-    { title: 'Business Intelligence', href: '/leistungen/business-intelligence' },
+    {
+      title: 'Business Intelligence',
+      href: '/leistungen/business-intelligence',
+    },
     { title: 'Data Warehouse', href: '/leistungen/data-warehouse' },
     { title: 'Softwareentwicklung', href: '/leistungen/softwareentwicklung' },
-    { title: 'Künstliche Intelligenz', href: '/leistungen/kuenstliche-intelligenz' },
+    {
+      title: 'Künstliche Intelligenz',
+      href: '/leistungen/kuenstliche-intelligenz',
+    },
   ],
   company: [
     { title: 'Über Uns', href: '/ueber-uns' },
@@ -48,5 +60,9 @@ export const socialMedia = [
     href: 'https://www.linkedin.com/company/ritter-digital-gmbh/',
     icon: 'Linkedin',
   },
-  { title: 'Xing', href: 'https://www.xing.com/pages/ritterdigitalgmbh', icon: 'Xing' },
+  {
+    title: 'Xing',
+    href: 'https://www.xing.com/pages/ritterdigitalgmbh',
+    icon: 'Xing',
+  },
 ];

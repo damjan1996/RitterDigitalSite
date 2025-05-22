@@ -66,7 +66,9 @@ interface CompanyHistoryProps {
   className?: string;
 }
 
-export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => {
+export const CompanyHistory: React.FC<CompanyHistoryProps> = ({
+  className,
+}) => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -99,14 +101,14 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
 
   return (
     <section
-      id="history"
+      id='history'
       className={cn('relative overflow-hidden py-16 md:py-24', className)}
       style={{ backgroundColor: 'white' }}
     >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 h-full w-full">
+      <div className='absolute inset-0 h-full w-full'>
         <motion.div
-          className="absolute left-0 top-0 h-full w-1/2"
+          className='absolute left-0 top-0 h-full w-1/2'
           style={{
             clipPath: 'polygon(0 0, 90% 0, 70% 100%, 0 100%)',
             backgroundColor: colors.background,
@@ -118,7 +120,7 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
         />
 
         <motion.div
-          className="absolute left-[10%] top-[15%] h-24 w-24 rounded-full"
+          className='absolute left-[10%] top-[15%] h-24 w-24 rounded-full'
           style={{ backgroundColor: `${colors.accent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -126,7 +128,7 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
         />
 
         <motion.div
-          className="absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full"
+          className='absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full'
           style={{ backgroundColor: `${colors.secondaryAccent}10` }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -134,27 +136,28 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
         />
       </div>
 
-      <Container className="relative z-10 max-w-6xl">
+      <Container className='relative z-10 max-w-6xl'>
         {/* Section header */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.2 }}
           variants={titleVariants}
-          className="mb-16 text-center"
+          className='mb-16 text-center'
         >
-          <h2 className="mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl">
+          <h2 className='mx-auto max-w-3xl text-3xl font-medium tracking-tight text-[#1A2027] md:text-4xl'>
             Unsere Geschichte
-            <span className="text-[#FF7A35]">.</span>
+            <span className='text-[#FF7A35]'>.</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-3xl text-lg text-[#3D5A73]">
-            Seit über 20 Jahren unterstützen wir Unternehmen bei ihrer digitalen Transformation.
-            Hier sind einige wichtige Meilensteine auf unserem Weg.
+          <p className='mx-auto mt-4 max-w-3xl text-lg text-[#3D5A73]'>
+            Seit über 20 Jahren unterstützen wir Unternehmen bei ihrer digitalen
+            Transformation. Hier sind einige wichtige Meilensteine auf unserem
+            Weg.
           </p>
 
           {/* Decorative accent line */}
           <motion.div
-            className="mx-auto mt-6 h-1 w-16 rounded-full"
+            className='mx-auto mt-6 h-1 w-16 rounded-full'
             style={{ backgroundColor: colors.accent }}
             initial={{ width: 0 }}
             whileInView={{ width: 64 }}
@@ -164,9 +167,9 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
         </motion.div>
 
         <motion.div
-          className="space-y-24"
-          initial="hidden"
-          whileInView="visible"
+          className='space-y-24'
+          initial='hidden'
+          whileInView='visible'
           viewport={{ once: true, amount: 0.1 }}
           variants={containerVariants}
         >
@@ -178,9 +181,9 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
               }`}
               variants={itemVariants}
             >
-              <div className="w-full md:w-1/2">
+              <div className='w-full md:w-1/2'>
                 <motion.div
-                  className="relative overflow-hidden rounded-lg bg-white p-4 shadow-lg"
+                  className='relative overflow-hidden rounded-lg bg-white p-4 shadow-lg'
                   whileHover={{
                     y: -5,
                     boxShadow: '0 20px 40px rgba(0,0,0,0.08)',
@@ -188,21 +191,21 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
                   }}
                 >
                   {/* Decorative elements */}
-                  <div className="absolute right-0 top-0 h-20 w-20 bg-gradient-to-bl from-[#FF7A35]/10 to-transparent" />
-                  <div className="absolute bottom-0 left-0 h-16 w-16 bg-gradient-to-tr from-[#3D5A73]/10 to-transparent" />
+                  <div className='absolute right-0 top-0 h-20 w-20 bg-gradient-to-bl from-[#FF7A35]/10 to-transparent' />
+                  <div className='absolute bottom-0 left-0 h-16 w-16 bg-gradient-to-tr from-[#3D5A73]/10 to-transparent' />
 
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+                  <div className='relative aspect-[4/3] overflow-hidden rounded-md'>
                     <Image
                       src={milestone.image || '/placeholder.svg'}
                       alt={milestone.title}
                       fill
-                      className="object-cover transition-transform duration-700 hover:scale-105"
+                      className='object-cover transition-transform duration-700 hover:scale-105'
                     />
                   </div>
 
                   {/* Year Badge */}
                   <motion.div
-                    className="absolute -left-2 -top-2 rounded-lg bg-[#FF7A35] px-4 py-2 font-bold text-white shadow-md"
+                    className='absolute -left-2 -top-2 rounded-lg bg-[#FF7A35] px-4 py-2 font-bold text-white shadow-md'
                     whileHover={{
                       y: -3,
                       boxShadow: '0 10px 25px rgba(255,122,53,0.3)',
@@ -214,8 +217,11 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
                 </motion.div>
               </div>
 
-              <div className="w-full md:w-1/2">
-                <motion.div className="relative mb-4" whileHover={{ x: index % 2 === 0 ? 5 : -5 }}>
+              <div className='w-full md:w-1/2'>
+                <motion.div
+                  className='relative mb-4'
+                  whileHover={{ x: index % 2 === 0 ? 5 : -5 }}
+                >
                   <motion.div
                     className={`absolute ${
                       index % 2 === 0 ? '-left-3' : '-right-3'
@@ -225,12 +231,14 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
                     transition={{ duration: 0.6, delay: 0.3 }}
                     viewport={{ once: true }}
                   />
-                  <h3 className="text-2xl font-medium text-[#1A2027]">
+                  <h3 className='text-2xl font-medium text-[#1A2027]'>
                     {milestone.title}
-                    <span className="text-[#FF7A35]">.</span>
+                    <span className='text-[#FF7A35]'>.</span>
                   </h3>
                 </motion.div>
-                <p className="text-lg text-[#3D5A73]">{milestone.description}</p>
+                <p className='text-lg text-[#3D5A73]'>
+                  {milestone.description}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -239,7 +247,7 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
 
       {/* Animated background elements */}
       <motion.div
-        className="absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5"
+        className='absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-[#FF7A35]/5'
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -251,7 +259,7 @@ export const CompanyHistory: React.FC<CompanyHistoryProps> = ({ className }) => 
         }}
       />
       <motion.div
-        className="absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5"
+        className='absolute -top-20 right-20 h-40 w-40 rounded-full bg-[#3D5A73]/5'
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.2, 0.4, 0.2],

@@ -95,67 +95,84 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
     <Head>
       {/* Grundlegende Meta-Tags */}
       {title && <title>{title}</title>}
-      {description && <meta name="description" content={description} />}
-      {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+      {description && <meta name='description' content={description} />}
+      {keywords.length > 0 && (
+        <meta name='keywords' content={keywords.join(', ')} />
+      )}
 
       {/* Robots-Meta-Tag */}
-      <meta name="robots" content={robotsContent} />
+      <meta name='robots' content={robotsContent} />
 
       {/* Viewport-Meta-Tag */}
-      <meta name="viewport" content={viewport} />
+      <meta name='viewport' content={viewport} />
 
       {/* Open Graph / Facebook */}
-      <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content={locale} />
-      <meta property="og:type" content={ogType} />
-      {ogTitle && <meta property="og:title" content={ogTitle} />}
-      {ogDescription && <meta property="og:description" content={ogDescription} />}
-      {ogImage && <meta property="og:image" content={ogImage} />}
-      {ogImage && <meta property="og:image:width" content="1200" />}
-      {ogImage && <meta property="og:image:height" content="630" />}
-      {ogUrl && <meta property="og:url" content={ogUrl} />}
+      <meta property='og:site_name' content={siteName} />
+      <meta property='og:locale' content={locale} />
+      <meta property='og:type' content={ogType} />
+      {ogTitle && <meta property='og:title' content={ogTitle} />}
+      {ogDescription && (
+        <meta property='og:description' content={ogDescription} />
+      )}
+      {ogImage && <meta property='og:image' content={ogImage} />}
+      {ogImage && <meta property='og:image:width' content='1200' />}
+      {ogImage && <meta property='og:image:height' content='630' />}
+      {ogUrl && <meta property='og:url' content={ogUrl} />}
 
       {/* Zusätzliche Artikel-Meta-Tags */}
       {ogType === 'article' && publishedTime && (
-        <meta property="article:published_time" content={publishedTime} />
+        <meta property='article:published_time' content={publishedTime} />
       )}
       {ogType === 'article' && modifiedTime && (
-        <meta property="article:modified_time" content={modifiedTime} />
+        <meta property='article:modified_time' content={modifiedTime} />
       )}
-      {ogType === 'article' && author && <meta property="article:author" content={author} />}
-      {ogType === 'article' && category && <meta property="article:section" content={category} />}
+      {ogType === 'article' && author && (
+        <meta property='article:author' content={author} />
+      )}
+      {ogType === 'article' && category && (
+        <meta property='article:section' content={category} />
+      )}
       {ogType === 'article' &&
         tags.map((tag, index) => (
-          <meta key={`article:tag:${index}`} property="article:tag" content={tag} />
+          <meta
+            key={`article:tag:${index}`}
+            property='article:tag'
+            content={tag}
+          />
         ))}
 
       {/* Twitter */}
-      <meta name="twitter:card" content={twitterCard} />
-      {twitterTitle && <meta name="twitter:title" content={twitterTitle} />}
-      {twitterDescription && <meta name="twitter:description" content={twitterDescription} />}
-      {twitterImage && <meta name="twitter:image" content={twitterImage} />}
-      {twitterImage && (
-        <meta name="twitter:image:alt" content={twitterTitle || ogTitle || title || 'Bild'} />
+      <meta name='twitter:card' content={twitterCard} />
+      {twitterTitle && <meta name='twitter:title' content={twitterTitle} />}
+      {twitterDescription && (
+        <meta name='twitter:description' content={twitterDescription} />
       )}
-      <meta name="twitter:site" content="@ritterdigital" />
-      <meta name="twitter:creator" content="@ritterdigital" />
+      {twitterImage && <meta name='twitter:image' content={twitterImage} />}
+      {twitterImage && (
+        <meta
+          name='twitter:image:alt'
+          content={twitterTitle || ogTitle || title || 'Bild'}
+        />
+      )}
+      <meta name='twitter:site' content='@ritterdigital' />
+      <meta name='twitter:creator' content='@ritterdigital' />
 
       {/* Autorentag */}
-      {author && <meta name="author" content={author} />}
+      {author && <meta name='author' content={author} />}
 
       {/* Theme-Color für Browser */}
-      <meta name="theme-color" content={themeColor} />
-      <meta name="msapplication-TileColor" content={themeColor} />
-      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name='theme-color' content={themeColor} />
+      <meta name='msapplication-TileColor' content={themeColor} />
+      <meta name='apple-mobile-web-app-status-bar-style' content='default' />
 
       {/* Canonical URL */}
-      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      {canonicalUrl && <link rel='canonical' href={canonicalUrl} />}
 
       {/* Alternative Versionen */}
       {alternates.map((alternate, index) => (
         <link
           key={`alternate-${index}`}
-          rel="alternate"
+          rel='alternate'
           href={alternate.href}
           hrefLang={alternate.hrefLang}
           {...(alternate.media ? { media: alternate.media } : {})}
@@ -167,7 +184,7 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       {preload.map((item, index) => (
         <link
           key={`preload-${index}`}
-          rel="preload"
+          rel='preload'
           href={item.href}
           as={item.as}
           {...(item.type ? { type: item.type } : {})}
@@ -178,12 +195,17 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
 
       {/* Prefetch für schnellere Navigation */}
       {prefetch.map((url, index) => (
-        <link key={`prefetch-${index}`} rel="prefetch" href={url} />
+        <link key={`prefetch-${index}`} rel='prefetch' href={url} />
       ))}
 
       {/* Preconnect zu externen Domains */}
       {preconnect.map((url, index) => (
-        <link key={`preconnect-${index}`} rel="preconnect" href={url} crossOrigin="anonymous" />
+        <link
+          key={`preconnect-${index}`}
+          rel='preconnect'
+          href={url}
+          crossOrigin='anonymous'
+        />
       ))}
     </Head>
   );

@@ -38,7 +38,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   const spinnerElement = (
-    <div className="flex flex-col items-center justify-center">
+    <div className='flex flex-col items-center justify-center'>
       <div
         className={cn(
           'animate-spin rounded-full border-2 border-t-transparent',
@@ -47,14 +47,14 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           className
         )}
       />
-      {text && <p className="mt-2 text-sm text-secondary">{text}</p>}
+      {text && <p className='mt-2 text-sm text-secondary'>{text}</p>}
     </div>
   );
 
   // Wenn Vollbild-Modus aktiviert ist, zeige Spinner im Zentrum des Bildschirms
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+      <div className='fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur-sm'>
         {spinnerElement}
       </div>
     );

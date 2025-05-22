@@ -263,7 +263,7 @@ export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -303,7 +303,7 @@ export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -344,7 +344,7 @@ export const WebPageSchema: React.FC<WebPageSchemaProps> = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -396,7 +396,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -431,7 +431,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -439,7 +439,9 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
 };
 
 // Breadcrumb-Schema
-export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({ items }) => {
+export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({
+  items,
+}) => {
   const schema: BreadcrumbListSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -454,7 +456,7 @@ export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({ item
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -479,7 +481,7 @@ export const FAQPageSchema: React.FC<FAQPageSchemaProps> = ({ questions }) => {
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -510,7 +512,10 @@ type SchemaGeneratorProps =
   | { type: 'organization'; data: Partial<OrganizationData> }
   | { type: 'all'; data: AllSchemaData };
 
-export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({ type, data }) => {
+export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({
+  type,
+  data,
+}) => {
   switch (type) {
     case 'website':
       return <WebsiteSchema {...data} />;

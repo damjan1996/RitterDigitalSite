@@ -12,9 +12,9 @@ export const LeistungenPage: React.FC = () => {
       <Hero />
       <ServiceList />
       <ServiceCTA
-        text="Bereit, Ihr Digitalprojekt zu starten? Wir beraten Sie gerne unverbindlich zu Ihren Möglichkeiten."
-        buttonText="Jetzt Kontakt aufnehmen"
-        buttonLink="/kontakt"
+        text='Bereit, Ihr Digitalprojekt zu starten? Wir beraten Sie gerne unverbindlich zu Ihren Möglichkeiten.'
+        buttonText='Jetzt Kontakt aufnehmen'
+        buttonLink='/kontakt'
       />
     </>
   );
