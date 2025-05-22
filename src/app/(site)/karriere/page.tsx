@@ -4,7 +4,7 @@
 import Head from 'next/head';
 import React from 'react';
 
-import { UeberUnsPage } from '@/components/pages/ueber-uns';
+import { UeberUnsPage } from '@/components/ueber-uns';
 
 export default function UeberUnsRoute() {
   return (

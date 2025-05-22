@@ -4,11 +4,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import React from 'react';
 
-import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 import { ServiceBenefits } from '@/components/leistungen/service/ServiceBenefits';
 import { ServiceDetails } from '@/components/leistungen/service/ServiceDetails';
 import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures';
 import { ServiceHero } from '@/components/leistungen/service/ServiceHero';
+import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
 const SoftwareentwicklungPage: NextPage = () => {
   // Softwareentwicklung Leistungsdaten

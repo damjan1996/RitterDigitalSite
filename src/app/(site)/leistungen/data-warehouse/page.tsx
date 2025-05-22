@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import React from 'react';
 
-import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
+import { ServiceCTA } from '@/components/leistungen';
 import { ServiceBenefits } from '@/components/leistungen/service/ServiceBenefits';
 import { ServiceDetails } from '@/components/leistungen/service/ServiceDetails';
 import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures';
