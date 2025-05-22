@@ -1,10 +1,11 @@
+// src/components/layout/header.tsx - FIXED VERSION
 'use client';
 
-// src/components/layout/header.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Phone, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // ✅ App Router import
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -14,11 +15,11 @@ import { cn } from '@/lib/utils';
 
 // Refined color palette - consistent with other components
 const colors = {
-  primary: '#1A2027', // Darker primary for better contrast
-  secondary: '#3D5A73', // Richer secondary color
-  accent: '#FF7A35', // Warmer accent for better visibility
-  background: '#FFFFFF', // White background
-  secondaryAccent: '#2A3F56', // Deeper secondary accent
+  primary: '#1A2027',
+  secondary: '#3D5A73',
+  accent: '#FF7A35',
+  background: '#FFFFFF',
+  secondaryAccent: '#2A3F56',
 };
 
 export interface HeaderProps {
@@ -30,6 +31,9 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('');
+
+  // ✅ App Router way to get pathname
+  const pathname = usePathname();
 
   // Überwache das Scrollen und füge Schatten hinzu, wenn gescrollt wird
   useEffect(() => {
@@ -53,25 +57,24 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
     };
   }, [isMenuOpen]);
 
-  // Setze den aktiven Link basierend auf dem aktuellen Pfad
+  // ✅ Setze den aktiven Link basierend auf dem pathname
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === '/') {
+    if (pathname === '/') {
       setActiveLink('Startseite');
-    } else if (path.includes('ueber-uns')) {
+    } else if (pathname.includes('ueber-uns')) {
       setActiveLink('Über uns');
-    } else if (path.includes('leistungen')) {
+    } else if (pathname.includes('leistungen')) {
       setActiveLink('Leistungen');
-    } else if (path.includes('kontakt')) {
+    } else if (pathname.includes('kontakt')) {
       setActiveLink('Kontakt');
+    } else {
+      setActiveLink('');
     }
-    // Blog-Bedingung entfernt
-  }, []);
+  }, [pathname]); // ✅ Abhängig von pathname, nicht window.location
 
   const navItems = [
     { name: 'Leistungen', path: '/leistungen' },
     { name: 'Über uns', path: '/ueber-uns' },
-    // Blog-Eintrag entfernt
   ];
 
   return (
@@ -117,11 +120,10 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
                       )}
                       onMouseEnter={() => setActiveLink(item.name)}
                       onMouseLeave={() => {
-                        const path = window.location.pathname;
-                        if (path.includes('ueber-uns') && item.name === 'Über Uns') return;
-                        if (path.includes('leistungen') && item.name === 'Leistungen') return;
-                        // Blog-Zeile entfernt
-                        if (path.includes('kontakt') && item.name === 'Kontakt') return;
+                        // ✅ Verwende pathname statt window.location.pathname
+                        if (pathname.includes('ueber-uns') && item.name === 'Über uns') return;
+                        if (pathname.includes('leistungen') && item.name === 'Leistungen') return;
+                        if (pathname.includes('kontakt') && item.name === 'Kontakt') return;
                         setActiveLink('');
                       }}
                     >
