@@ -1,9 +1,8 @@
-// src/app/(site)/page.tsx
+// src/app/(site)/page.tsx - Server Component Lösung
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-import { HomePage } from '@/components/home';
-
-// App Router Metadata (ersetzt SEO Component)
+// App Router Metadata
 export const metadata: Metadata = {
   title: 'Ritter Digital GmbH | Ihr Partner für Digitalisierung',
   description:
@@ -22,7 +21,16 @@ export const metadata: Metadata = {
   },
 };
 
-// App Router Page Component (kein NextPage Type!)
+// Dynamischer Import mit Next.js dynamic
+const HomePage = dynamic(
+  () => import('@/components/home').then(mod => mod.HomePage),
+  {
+    loading: () => <div>Loading...</div>,
+    ssr: true,
+  }
+);
+
+// App Router Page Component
 export default function HomePageRoute() {
   return <HomePage />;
 }

@@ -3,5 +3,12 @@
   "regions": ["iad1"],
   "github": {
     "silent": true
+  },
+  "buildCommand": "npm run build && ls -la .next/server/app/",
+  "installCommand": "npm install --legacy-peer-deps",
+  "functions": {
+    "src/app/api/*/route.ts": {
+      "maxDuration": 10
+    }
   }
 }
