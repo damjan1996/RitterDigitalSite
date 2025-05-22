@@ -14,10 +14,11 @@
   ],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      "error",
       {
         "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_"
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
       }
     ],
     "@typescript-eslint/no-explicit-any": "warn",
@@ -25,12 +26,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-non-null-assertion": "warn",
-    "no-console": [
-      "warn",
-      {
-        "allow": ["warn", "error"]
-      }
-    ],
+    "no-console": "off",
     "prefer-const": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -86,6 +82,12 @@
       "files": ["src/app/api/**/*.ts"],
       "rules": {
         "no-console": "off"
+      }
+    },
+    {
+      "files": ["src/lib/analytics.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
       }
     }
   ]
