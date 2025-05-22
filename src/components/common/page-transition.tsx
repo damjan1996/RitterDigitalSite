@@ -1,8 +1,9 @@
 // src/components/common/page-transition.tsx
 'use client';
+
 import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'; // ✅ App Router import
 import React, { useEffect, useState } from 'react';
 
 import { useScrollContext } from './scroll-context';
@@ -39,85 +40,86 @@ const Logo = () => (
   </motion.div>
 );
 
-const PageTransition = ({ children }: PageTransitionProps) => {
-  const router = useRouter();
-  const [showLogo, setShowLogo] = useState(false); // Start with logo hidden
-  const [showContent, setShowContent] = useState(true); // Start with content shown
+const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+  const pathname = usePathname(); // ✅ App Router hook
+  const [showLogo, setShowLogo] = useState(false);
+  const [showContent, setShowContent] = useState(true);
   const { setIsTransitioning } = useScrollContext();
   const [isAnimating, setIsAnimating] = useState(false);
+  const [displayChildren, setDisplayChildren] = useState(children);
 
-  // Vereinfachte Erstinitialisierung - wichtig für Deployment-Stabilität
+  // ✅ App Router compatible transition logic
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Initial Logo kurz anzeigen, dann Content direkt einblenden
-    setShowLogo(true);
-    setIsAnimating(true);
-    setIsTransitioning(true);
-
-    // Sicherstellen, dass die Animation nicht stecken bleibt
-    const initialSafetyTimeout = setTimeout(() => {
-      setShowLogo(false);
-      setShowContent(true);
-      setIsAnimating(false);
-      setIsTransitioning(false);
-    }, 1000); // Nach 1 Sekunde immer anzeigen, egal was passiert
-
-    // Nach kurzer Zeit standardmäßig einblenden
-    const normalTimeout = setTimeout(() => {
-      setShowLogo(false);
-      setShowContent(true);
-      setIsAnimating(false);
-      setIsTransitioning(false);
-    }, 800);
-
-    return () => {
-      clearTimeout(initialSafetyTimeout);
-      clearTimeout(normalTimeout);
-    };
-  }, [setIsTransitioning]);
-
-  // Vereinfachte Router-Events - nur Änderung erkennen, keine komplexen Animationen
-  useEffect(() => {
-    if (typeof window === 'undefined' || !router.isReady) return;
-
-    const handleRouteChange = () => {
-      // Beim Routenwechsel kurz Logo anzeigen
-      setShowLogo(true);
-      setShowContent(false);
+    // Only show transition for route changes, not initial load
+    if (displayChildren !== children) {
       setIsAnimating(true);
       setIsTransitioning(true);
+      setShowLogo(true);
+      setShowContent(false);
 
-      // Nach kurzer Zeit immer einblenden
-      setTimeout(() => {
+      // Update children after a brief delay
+      const updateChildrenTimer = setTimeout(() => {
+        setDisplayChildren(children);
+      }, 300);
+
+      // Complete transition
+      const completeTransitionTimer = setTimeout(() => {
         setShowLogo(false);
         setShowContent(true);
         setIsAnimating(false);
         setIsTransitioning(false);
 
-        // Scroll zurücksetzen
+        // Scroll to top
         window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 800);
-    };
+      }, 600);
 
-    // Sicherstellen, dass bei Fehlern die Seite trotzdem angezeigt wird
-    const handleRouteError = () => {
+      return () => {
+        clearTimeout(updateChildrenTimer);
+        clearTimeout(completeTransitionTimer);
+      };
+    }
+    // ✅ Explicitly return undefined when condition is not met
+    return undefined;
+  }, [children, displayChildren, setIsTransitioning]);
+
+  // ✅ Handle pathname changes for App Router
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Brief animation on route change
+    setIsAnimating(true);
+    setIsTransitioning(true);
+
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+      setIsTransitioning(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [pathname, setIsTransitioning]); // ✅ Listen to pathname changes
+
+  // Initial load setup
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Brief initial animation
+    setShowLogo(true);
+    setIsAnimating(true);
+    setIsTransitioning(true);
+
+    const initialTimer = setTimeout(() => {
       setShowLogo(false);
       setShowContent(true);
       setIsAnimating(false);
       setIsTransitioning(false);
-    };
+    }, 500);
 
-    router.events.on('routeChangeStart', handleRouteChange);
-    router.events.on('routeChangeError', handleRouteError);
+    return () => clearTimeout(initialTimer);
+  }, [setIsTransitioning]);
 
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
-      router.events.off('routeChangeError', handleRouteError);
-    };
-  }, [router.events, router.isReady, setIsTransitioning]);
-
-  // Body-Klassen für Animation
+  // Body classes for animation
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -182,7 +184,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
       <AnimatePresence mode="wait">
         {showContent && (
           <motion.div
-            key="content-container"
+            key={pathname} // ✅ Use pathname as key for App Router
             className="relative z-0 min-h-screen"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -192,7 +194,7 @@ const PageTransition = ({ children }: PageTransitionProps) => {
               ease: customEase,
             }}
           >
-            <div className={isAnimating ? 'pointer-events-none' : ''}>{children}</div>
+            <div className={isAnimating ? 'pointer-events-none' : ''}>{displayChildren}</div>
           </motion.div>
         )}
       </AnimatePresence>

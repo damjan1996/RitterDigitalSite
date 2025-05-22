@@ -1,6 +1,8 @@
 // src/components/enhanced-seo.tsx
+'use client';
+
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'; // ✅ App Router import
 import React from 'react';
 
 import { defaultSeo, pageSeo, schemaData } from '@/config/seo';
@@ -46,7 +48,7 @@ export const EnhancedSEO: React.FC<EnhancedSEOProps> = ({
   articleTags = [],
   breadcrumbs = [],
 }) => {
-  const router = useRouter();
+  const pathname = usePathname(); // ✅ App Router hook
 
   // Verwende seitenspezifische Daten, wenn ein pageType angegeben ist
   const pageMetadata = pageType ? pageSeo[pageType] : null;
@@ -54,7 +56,7 @@ export const EnhancedSEO: React.FC<EnhancedSEOProps> = ({
   // Ermittle die endgültigen Metadaten mit Fallbacks
   const metaTitle = title || pageMetadata?.title || defaultSeo.title;
   const metaDescription = description || pageMetadata?.description || defaultSeo.description;
-  const metaCanonical = canonical || `${defaultSeo.canonical}${router.asPath}`;
+  const metaCanonical = canonical || `${defaultSeo.canonical}${pathname}`; // ✅ Use pathname instead of router.asPath
   const metaOgImage = ogImage || defaultSeo.openGraph.images[0].url;
 
   // Schema.org JSON-LD Daten
