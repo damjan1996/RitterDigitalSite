@@ -32,5 +32,7 @@
         }
       ]
     }
-  ]
+  ],
+  "outputDirectory": ".next",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 }
