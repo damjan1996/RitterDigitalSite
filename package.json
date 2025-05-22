@@ -1,24 +1,41 @@
+// package.json
 {
     "name": "ritter-digital-website",
     "version": "1.0.0",
     "private": true,
     "author": "Ritter Digital GmbH",
     "description": "Website der Ritter Digital GmbH - Experten für digitale Prozesse",
+    "keywords": [
+        "nextjs",
+        "typescript",
+        "supabase",
+        "tailwindcss",
+        "ritter-digital",
+        "business-intelligence",
+        "digitalisierung"
+    ],
+    "homepage": "https://ritterdigital.de",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/damjan1996/RitterDigitalSite.git"
+    },
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
-        "lint:fix": "next lint --fix",
+        "lint": "next lint --fix",
+        "lint:check": "next lint",
         "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "type-check": "tsc --noEmit",
-        "prepare": "husky install",
         "test": "jest",
         "test:watch": "jest --watch",
-        "analyze": "ANALYZE=true next build"
+        "test:coverage": "jest --coverage",
+        "analyze": "ANALYZE=true next build",
+        "clean": "rm -rf .next node_modules/.cache",
+        "prepare": "husky install"
     },
     "dependencies": {
-        "@anthropic-ai/claude-code": "^0.2.97",
         "@hookform/resolvers": "^3.10.0",
         "@radix-ui/react-accordion": "^1.2.7",
         "@radix-ui/react-checkbox": "^1.2.2",
@@ -37,11 +54,10 @@
         "clsx": "^2.1.1",
         "framer-motion": "^11.18.2",
         "lucide-react": "^0.323.0",
-        "next": "14.1.0",
+        "next": "^14.2.0",
         "next-seo": "^6.6.0",
         "next-sitemap": "^4.2.3",
         "react": "^18.3.1",
-        "react-checkbox": "^0.1.3",
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.55.0",
         "react-swipeable": "^7.0.2",
@@ -60,12 +76,12 @@
         "@types/node": "^20.17.30",
         "@types/react": "^18.3.20",
         "@types/react-dom": "^18.3.6",
-        "@typescript-eslint/eslint-plugin": "^6.21.0",
-        "@typescript-eslint/parser": "^6.21.0",
+        "@typescript-eslint/eslint-plugin": "^7.0.0",
+        "@typescript-eslint/parser": "^7.0.0",
         "autoprefixer": "^10.4.21",
         "cssnano": "^7.0.6",
         "eslint": "^8.57.1",
-        "eslint-config-next": "14.1.0",
+        "eslint-config-next": "^14.2.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -97,6 +113,28 @@
         ]
     },
     "engines": {
-        "node": ">=18.0.0"
+        "node": ">=18.0.0",
+        "npm": ">=8.0.0"
+    },
+    "browserslist": {
+        "production": [
+            ">0.3%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "jest": {
+        "testEnvironment": "jsdom",
+        "setupFilesAfterEnv": [
+            "<rootDir>/jest.setup.js"
+        ],
+        "moduleNameMapping": {
+            "^@/(.*)$": "<rootDir>/src/$1"
+        }
     }
 }

@@ -1,4 +1,4 @@
-// next.config.js - SEO-Optimierungen
+// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -6,27 +6,23 @@ const nextConfig = {
 
   // Optimiere die Images - wichtig für Core Web Vitals
   images: {
-    // 'domains' durch 'remotePatterns' ersetzen
     remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-      },
       {
         protocol: 'https',
         hostname: 'ritterdigital.de',
       },
-      // Supabase-Hostname entfernt
+      {
+        protocol: 'https',
+        hostname: 'www.ritterdigital.de',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      }
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-  },
-
-  // Internationalisierung (nur Deutsch)
-  i18n: {
-    locales: ['de'],
-    defaultLocale: 'de',
   },
 
   // Sicherheitsheader für SEO und Sicherheit
@@ -55,15 +51,10 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
-          // Zusätzlich für SEO
           {
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains; preload',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=3600, must-revalidate',
-          },
+          }
         ],
       },
       // Spezifische Headers für statische Assets
@@ -85,7 +76,6 @@ const nextConfig = {
           },
         ],
       },
-      // Header für Fonts zur Performance-Verbesserung
       {
         source: '/fonts/(.*)',
         headers: [
@@ -117,7 +107,6 @@ const nextConfig = {
         destination: '/leistungen/business-intelligence',
         permanent: true,
       },
-      // Zusätzliche Weiterleitungen
       {
         source: '/it-beratung',
         destination: '/leistungen',
@@ -148,14 +137,13 @@ const nextConfig = {
         destination: '/kontakt',
         permanent: true,
       },
-      // Blog-Kategorien-Weiterleitungen entfernt
       // Entferne trailing slash für kanonische URLs
       {
         source: '/:path*/',
         destination: '/:path*',
         permanent: true,
       },
-      // Umleitung von www zu non-www (oder umgekehrt)
+      // Umleitung von www zu non-www
       {
         source: '/:path*',
         has: [
@@ -187,15 +175,6 @@ const nextConfig = {
     return config;
   },
 
-  // Experimentelle Features - problematische Optionen entfernt
-  experimental: {
-    // optimieren für statische Export, wenn gewünscht
-    // outputStandalone: true,
-    // Verbesserte Client-Router-Cache
-    optimisticClientCache: true,
-    // 'browsersListForSwc' und 'legacyBrowsers' wurden entfernt
-  },
-
   // Compile-Zeit Umgebungsvariablen für Produktionsumgebung
   env: {
     NEXT_PUBLIC_SITE_NAME: 'Ritter Digital GmbH',
@@ -208,6 +187,12 @@ const nextConfig = {
   // Erweiterte Buildoptimierungen
   poweredByHeader: false, // Remove X-Powered-By header für Sicherheit
   productionBrowserSourceMaps: false, // Deaktiviere Sourcemaps in Produktion
+
+  // Output-Konfiguration für bessere Vercel-Kompatibilität
+  output: 'standalone',
+
+  // Transpilation von Packages falls nötig
+  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
 };
 
 module.exports = nextConfig;

@@ -1,6 +1,7 @@
+// tsconfig.json
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ES2020",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -25,13 +26,13 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/styles/*": ["./src/styles/*"],
       "@/types/*": ["./src/types/*"],
-      "@/config/*": ["./config/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/utils/*": ["./src/utils/*"],
       "@/public/*": ["./public/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "removeComments": true,
-    "pretty": true,
     "sourceMap": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -39,29 +40,42 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": false,
     "declarationMap": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "verbatimModuleSyntax": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": false,
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": false,
+    "noPropertyAccessFromIndexSignature": false
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/**/*",
+    "jest.config.js",
+    "jest.setup.js"
   ],
   "exclude": [
     "node_modules",
     "dist",
     ".next",
     "out",
-    "next.config.js",
-    "postcss.config.js",
-    "tailwind.config.js",
+    "build",
+    "coverage",
     "**/*.spec.ts",
     "**/*.test.ts",
     "**/*.spec.tsx",
-    "**/*.test.tsx",
-    "coverage"
-  ]
+    "**/*.test.tsx"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }
