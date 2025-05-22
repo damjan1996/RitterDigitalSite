@@ -2,18 +2,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  // ✅ swcMinify entfernt - standardmäßig in Next.js 15 aktiviert
 
   // 🔧 VERCEL BUILD FIX - ESLint Warnungen ignorieren
   eslint: {
     ignoreDuringBuilds: true,
   },
 
-  // 🔧 VERCEL CLIENT REFERENCE MANIFEST FIX
-  experimental: {
-    esmExternals: 'loose', // Hilft bei Client Reference Problemen
-    serverComponentsExternalPackages: ['three'],
-  },
+  // 🔧 NEXT.JS 15 KOMPATIBILITÄT - Server External Packages
+  serverExternalPackages: ['three'],
 
   // Optimiere die Images - wichtig für Core Web Vitals
   images: {
@@ -175,7 +172,7 @@ const nextConfig = {
     ];
   },
 
-  // Webpack-Konfiguration
+  // Webpack-Konfiguration für Next.js 15
   webpack(config, { isServer }) {
     // SVG als React-Komponenten
     config.module.rules.push({
@@ -183,12 +180,13 @@ const nextConfig = {
       use: ['@svgr/webpack'],
     });
 
-    // 🔧 VERCEL FIX: Client Reference Manifest Problem
+    // Client-seitige Fallbacks für Next.js 15
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
         path: false,
+        crypto: false,
       };
     }
 
@@ -208,8 +206,8 @@ const nextConfig = {
   poweredByHeader: false, // Remove X-Powered-By header für Sicherheit
   productionBrowserSourceMaps: false, // Deaktiviere Sourcemaps in Produktion
 
-  // Transpilation von Packages falls nötig
-  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
+  // Transpilation von Packages falls nötig - three entfernt wegen serverExternalPackages
+  transpilePackages: ['@react-three/fiber', '@react-three/drei'],
 };
 
 module.exports = nextConfig;
