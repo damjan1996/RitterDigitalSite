@@ -8,8 +8,16 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreDuringBuilds: true,
+
+  // Fix für Client-Reference-Manifest Problem
+  experimental: {
+    // Bessere App Router Kompatibilität
+    appDir: true,
+    serverComponentsExternalPackages: [
+      'three',
+      '@react-three/fiber',
+      '@react-three/drei',
+    ],
   },
 
   // Optimiere die Images - wichtig für Core Web Vitals
