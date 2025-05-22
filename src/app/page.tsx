@@ -1,12 +1,12 @@
 // src/app/page.tsx
 import type { Metadata } from 'next';
 
-import { Benefits } from '@/components/pages/home/Benefits';
-import { Clients } from '@/components/pages/home/Clients';
-import { CTAForm } from '@/components/pages/home/CTAForm';
-import { Hero } from '@/components/pages/home/Hero';
-import { References } from '@/components/pages/home/References';
-import { ServiceTeaser } from '@/components/pages/home/ServiceTeaser';
+import { Benefits } from '@/components/home/Benefits';
+import { Clients } from '@/components/home/Clients';
+import { CTAForm } from '@/components/home/CTAForm';
+import { Hero } from '@/components/home/Hero';
+import { References } from '@/components/home/References';
+import { ServiceTeaser } from '@/components/home/ServiceTeaser';
 
 export const metadata: Metadata = {
   title: 'Ritter Digital - Ihr Partner für digitale Transformation',

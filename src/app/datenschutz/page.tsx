@@ -260,7 +260,7 @@ export default function DatenschutzPage() {
             {/* Header */}
             <div className="mb-8">
               <div className="mb-2">
-                <Link href="/" className="flex items-center gap-2 text-sm text-[#3D5A73]">
+                <Link href="/public" className="flex items-center gap-2 text-sm text-[#3D5A73]">
                   <ArrowLeft className="h-4 w-4" />
                   <span>Zurück zur Startseite</span>
                 </Link>

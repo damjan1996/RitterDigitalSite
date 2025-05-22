@@ -10,6 +10,7 @@ import { Header } from '@/components/layout/header';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ritterdigital.de'),
   title: {
     default: 'Ritter Digital - Ihr Partner für digitale Transformation',
     template: '%s | Ritter Digital',
@@ -27,10 +28,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'de_DE',
-    url: 'https://ritter-digital.de',
+    url: 'https://ritterdigital.de',
     siteName: 'Ritter Digital',
     title: 'Ritter Digital - Ihr Partner für digitale Transformation',
     description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Ritter Digital - Experten für digitale Prozesse',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ritter Digital - Ihr Partner für digitale Transformation',
+    description: 'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung.',
+    images: ['/images/og-image.jpg'],
   },
 };
 

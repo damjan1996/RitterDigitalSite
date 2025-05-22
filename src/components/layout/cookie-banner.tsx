@@ -262,7 +262,7 @@ export const CookieBanner: React.FC = () => {
               </p>
               <p className="text-sm text-tertiary">
                 Weitere Informationen finden Sie in unserer{' '}
-                <Link href="/datenschutz" className="text-accent underline">
+                <Link href="/src/app/datenschutz" className="text-accent underline">
                   Datenschutzerklärung
                 </Link>
                 .

@@ -16,18 +16,18 @@ class AppRouterMigration:
         # Migration mapping für Seiten
         self.page_migrations = {
             "index.tsx": "page.tsx",
-            "home/index.tsx": "(marketing)/page.tsx",
-            "leistungen/index.tsx": "(marketing)/leistungen/page.tsx",
-            "leistungen/business-intelligence/index.tsx": "(marketing)/leistungen/business-intelligence/page.tsx",
-            "leistungen/data-warehouse/index.tsx": "(marketing)/leistungen/data-warehouse/page.tsx",
-            "leistungen/digitalisierung/index.tsx": "(marketing)/leistungen/digitalisierung/page.tsx",
-            "leistungen/jtl-wawi/index.tsx": "(marketing)/leistungen/jtl-wawi/page.tsx",
-            "leistungen/kuenstliche-intelligenz/index.tsx": "(marketing)/leistungen/kuenstliche-intelligenz/page.tsx",
-            "leistungen/softwareentwicklung/index.tsx": "(marketing)/leistungen/softwareentwicklung/page.tsx",
-            "leistungen/service/index.tsx": "(marketing)/leistungen/service/page.tsx",
-            "ueber-uns/index.tsx": "(marketing)/ueber-uns/page.tsx",
-            "kontakt/index.tsx": "(marketing)/kontakt/page.tsx",
-            "karriere/index.tsx": "(marketing)/karriere/page.tsx",
+            "home/index.tsx": "(site)/page.tsx",
+            "leistungen/index.tsx": "(site)/leistungen/page.tsx",
+            "leistungen/business-intelligence/index.tsx": "(site)/leistungen/business-intelligence/page.tsx",
+            "leistungen/data-warehouse/index.tsx": "(site)/leistungen/data-warehouse/page.tsx",
+            "leistungen/digitalisierung/index.tsx": "(site)/leistungen/digitalisierung/page.tsx",
+            "leistungen/jtl-wawi/index.tsx": "(site)/leistungen/jtl-wawi/page.tsx",
+            "leistungen/kuenstliche-intelligenz/index.tsx": "(site)/leistungen/kuenstliche-intelligenz/page.tsx",
+            "leistungen/softwareentwicklung/index.tsx": "(site)/leistungen/softwareentwicklung/page.tsx",
+            "leistungen/service/index.tsx": "(site)/leistungen/service/page.tsx",
+            "ueber-uns/index.tsx": "(site)/ueber-uns/page.tsx",
+            "kontakt/index.tsx": "(site)/kontakt/page.tsx",
+            "karriere/index.tsx": "(site)/karriere/page.tsx",
             "impressum/index.tsx": "impressum/page.tsx",
             "datenschutz/index.tsx": "datenschutz/page.tsx",
             "404.tsx": "not-found.tsx",
@@ -70,18 +70,18 @@ class AppRouterMigration:
 
         # App Router Ordnerstruktur
         app_dirs = [
-            "(marketing)",
-            "(marketing)/leistungen",
-            "(marketing)/leistungen/business-intelligence",
-            "(marketing)/leistungen/data-warehouse",
-            "(marketing)/leistungen/digitalisierung",
-            "(marketing)/leistungen/jtl-wawi",
-            "(marketing)/leistungen/kuenstliche-intelligenz",
-            "(marketing)/leistungen/softwareentwicklung",
-            "(marketing)/leistungen/service",
-            "(marketing)/ueber-uns",
-            "(marketing)/kontakt",
-            "(marketing)/karriere",
+            "(site)",
+            "(site)/leistungen",
+            "(site)/leistungen/business-intelligence",
+            "(site)/leistungen/data-warehouse",
+            "(site)/leistungen/digitalisierung",
+            "(site)/leistungen/jtl-wawi",
+            "(site)/leistungen/kuenstliche-intelligenz",
+            "(site)/leistungen/softwareentwicklung",
+            "(site)/leistungen/service",
+            "(site)/ueber-uns",
+            "(site)/kontakt",
+            "(site)/karriere",
             "impressum",
             "datenschutz",
             "api/contact",
@@ -210,7 +210,7 @@ export default function RootLayout({
 }'''
 
         # Marketing Layout
-        marketing_layout = '''// src/app/(marketing)/layout.tsx
+        marketing_layout = '''// src/app/(site)/layout.tsx
 import { ReactNode } from 'react'
 
 export default function MarketingLayout({
@@ -226,7 +226,7 @@ export default function MarketingLayout({
 }'''
 
         # Leistungen Layout
-        leistungen_layout = '''// src/app/(marketing)/leistungen/layout.tsx
+        leistungen_layout = '''// src/app/(site)/leistungen/layout.tsx
 import { ReactNode } from 'react'
 
 export default function LeistungenLayout({
@@ -305,8 +305,8 @@ export default function NotFound() {
         # Schreibe Layout-Dateien
         layouts = [
             (self.app_dir / "layout.tsx", root_layout),
-            (self.app_dir / "(marketing)" / "layout.tsx", marketing_layout),
-            (self.app_dir / "(marketing)" / "leistungen" / "layout.tsx", leistungen_layout),
+            (self.app_dir / "(site)" / "layout.tsx", marketing_layout),
+            (self.app_dir / "(site)" / "leistungen" / "layout.tsx", leistungen_layout),
             (self.app_dir / "error.tsx", error_page),
             (self.app_dir / "loading.tsx", loading_page),
             (self.app_dir / "not-found.tsx", not_found_page),
@@ -421,7 +421,7 @@ Projekt: Ritter Digital Website
 
 ## Wichtige Dateien zu überprüfen
 - src/app/layout.tsx (Root Layout)
-- src/app/(marketing)/layout.tsx (Marketing Layout)
+- src/app/(site)/layout.tsx (Marketing Layout)
 - API Routes in src/app/api/
 
 ## Backup Location
