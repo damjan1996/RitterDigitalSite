@@ -3,8 +3,8 @@
 // Typdeklaration für Google Analytics - kompatibel mit bestehenden Types
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void; // ✅ Verwende any[] statt unknown[]
-    dataLayer?: any[]; // ✅ Verwende any[] statt unknown[]
+    gtag?: (...args: any[]) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
+    dataLayer?: any[]; // eslint-disable-line @typescript-eslint/no-explicit-any
     Leadinfo?: {
       trackPage: (id: string) => void;
     };
@@ -21,7 +21,12 @@ export const LEADINFO_ID = process.env.NEXT_PUBLIC_LEADINFO_ID;
  * Initialisiert Google Analytics
  */
 export const initGA = (): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag === 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag === 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Fügt das Google Analytics Script dynamisch ein
   const script = document.createElement('script');
@@ -68,7 +73,12 @@ const initLeadInfo = (): void => {
  * Trackt einen Seitenaufruf in Google Analytics
  */
 export const pageview = (url: string): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag !== 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Consent-Check - nur bei verfügbarem localStorage
   let consentGiven = true; // Standard: erlaubt
@@ -99,7 +109,12 @@ export const event = ({
   label?: string;
   value?: number;
 }): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag !== 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Consent-Check - nur bei verfügbarem localStorage
   let consentGiven = true; // Standard: erlaubt

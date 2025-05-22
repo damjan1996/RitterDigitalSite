@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     // Beispiel-Implementation ohne externe Dependencies:
 
     // 1. Log der Kontaktanfrage (in Production durch echte E-Mail-API ersetzen)
-    console.log('Neue Kontaktanfrage:', {
+    console.info('Neue Kontaktanfrage:', {
       name: validatedData.name,
       email: validatedData.email,
       subject: validatedData.subject,
@@ -99,7 +99,7 @@ export async function OPTIONS() {
 
 // Hilfsfunktion zum Simulieren des E-Mail-Versands
 // In der Produktion durch echte E-Mail-API ersetzen
-async function simulateEmailSending(data: ContactFormData): Promise<boolean> {
+async function simulateEmailSending(_data: ContactFormData): Promise<boolean> {
   // Simuliere Netzwerk-Delay
   await new Promise(resolve => setTimeout(resolve, 1000));
 

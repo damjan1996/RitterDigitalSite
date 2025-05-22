@@ -23,7 +23,9 @@ const getEnvVar = (key: string): string | undefined => {
         ? NEXT_PUBLIC_GA_MEASUREMENT_ID
         : undefined;
     case 'NEXT_PUBLIC_LEADINFO_ID':
-      return typeof NEXT_PUBLIC_LEADINFO_ID !== 'undefined' ? NEXT_PUBLIC_LEADINFO_ID : undefined;
+      return typeof NEXT_PUBLIC_LEADINFO_ID !== 'undefined'
+        ? NEXT_PUBLIC_LEADINFO_ID
+        : undefined;
     default:
       return undefined;
   }
@@ -39,7 +41,12 @@ export const LEADINFO_ID = getEnvVar('NEXT_PUBLIC_LEADINFO_ID');
  * Initialisiert Google Analytics
  */
 export const initGA = (): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag === 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag === 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Fügt das Google Analytics Script dynamisch ein
   const script = document.createElement('script');
@@ -86,7 +93,12 @@ const initLeadInfo = (): void => {
  * Trackt einen Seitenaufruf in Google Analytics
  */
 export const pageview = (url: string): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag !== 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Consent-Check - nur bei verfügbarem localStorage
   let consentGiven = true; // Standard: erlaubt
@@ -117,7 +129,12 @@ export const event = ({
   label?: string;
   value?: number;
 }): void => {
-  if (!GA_TRACKING_ID || typeof window === 'undefined' || typeof window.gtag !== 'function') return; // ✅ Korrekte Prüfung
+  if (
+    !GA_TRACKING_ID ||
+    typeof window === 'undefined' ||
+    typeof window.gtag !== 'function'
+  )
+    return; // ✅ Korrekte Prüfung
 
   // Consent-Check - nur bei verfügbarem localStorage
   let consentGiven = true; // Standard: erlaubt

@@ -52,20 +52,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Newsletter-Anmeldung verarbeiten
-    const subscriptionResult = await processNewsletterSubscription(validatedData);
+    const subscriptionResult =
+      await processNewsletterSubscription(validatedData);
 
     if (!subscriptionResult.success) {
       return NextResponse.json(
         {
           success: false,
-          error: subscriptionResult.error || 'Fehler bei der Newsletter-Anmeldung',
+          error:
+            subscriptionResult.error || 'Fehler bei der Newsletter-Anmeldung',
         } as ErrorResponse,
         { status: 500 }
       );
     }
 
     // Log der Anmeldung
-    console.log('Neue Newsletter-Anmeldung:', {
+    console.info('Neue Newsletter-Anmeldung:', {
       email: validatedData.email,
       name: validatedData.firstName
         ? `${validatedData.firstName} ${validatedData.lastName || ''}`.trim()
@@ -150,7 +152,7 @@ async function simulateConfirmationEmail(data: NewsletterData): Promise<void> {
   // Simuliere E-Mail-Versand
   await new Promise(resolve => setTimeout(resolve, 300));
 
-  console.log('Bestätigungs-E-Mail gesendet an:', data.email);
+  console.info('Bestätigungs-E-Mail gesendet an:', data.email);
 
   // In der Produktion hier echte E-Mail-Logik implementieren
 }
