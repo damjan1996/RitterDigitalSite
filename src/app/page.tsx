@@ -1,4 +1,4 @@
-// src/app/(site)/page.tsx - Vereinfacht für bessere Vercel-Kompatibilität
+// src/app/page.tsx - KORRIGIERT: Homepage
 import type { Metadata } from 'next';
 
 import { Benefits } from '@/components/home/Benefits';
@@ -33,8 +33,8 @@ const structuredData = {
   '@type': 'Organization',
   name: 'Ritter Digital GmbH',
   alternateName: 'RITTER Gesellschaft für digitale Geschäftsprozesse mbH',
-  url: 'https://ritter-digital.de',
-  logo: 'https://ritter-digital.de/images/logos/logo_ritterdigital.png',
+  url: 'https://ritterdigital.de',
+  logo: 'https://ritterdigital.de/images/logos/logo_ritterdigital.png',
   description:
     'Experten für JTL WaWi, Business Intelligence und Softwareentwicklung. Über 20 Jahre Erfahrung in der Digitalisierung von Geschäftsprozessen.',
   address: {
@@ -121,8 +121,8 @@ const structuredData = {
   },
 };
 
-// App Router Page Component - direkter Import statt dynamic
-export default function HomePageRoute() {
+// App Router Page Component
+export default function HomePage() {
   return (
     <>
       {/* JSON-LD Structured Data */}

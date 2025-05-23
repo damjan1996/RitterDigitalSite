@@ -1,4 +1,4 @@
-// next.config.js - Optimiert für Vercel Deployment
+// next.config.js - KORRIGIERT: Entfernt problematische Redirects
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -91,10 +91,10 @@ const nextConfig = {
     ];
   },
 
-  // Redirects für SEO
+  // KORRIGIERT: Vereinfachte Redirects ohne problematische Loops
   async redirects() {
     return [
-      // Legacy URLs
+      // Legacy URLs (spezifische Redirects)
       {
         source: '/jtl-wawi',
         destination: '/leistungen/jtl-wawi',
@@ -138,24 +138,6 @@ const nextConfig = {
       {
         source: '/kontaktformular',
         destination: '/kontakt',
-        permanent: true,
-      },
-      // Remove trailing slash
-      {
-        source: '/:path*/',
-        destination: '/:path*',
-        permanent: true,
-      },
-      // www to non-www redirect
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.ritterdigital.de',
-          },
-        ],
-        destination: 'https://ritterdigital.de/:path*',
         permanent: true,
       },
     ];
