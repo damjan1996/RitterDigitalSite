@@ -21,8 +21,8 @@ const nextConfig = {
   // Server External Packages für bessere Kompatibilität
   serverExternalPackages: ['three'],
 
-  // Output-Konfiguration für bessere Vercel-Kompatibilität
-  output: 'standalone',
+  // Output-Konfiguration nur für Vercel
+  output: process.env.VERCEL ? 'standalone' : undefined,
 
   // Image-Optimierung
   images: {
