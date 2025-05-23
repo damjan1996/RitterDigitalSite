@@ -1,13 +1,16 @@
-// src/app/layout.tsx - KORRIGIERT: Root Layout
+// src/app/layout.tsx - VEREINFACHT für Debugging
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import './globals.css';
-import { CookieBanner } from '@/components/layout/cookie-banner';
-import { Footer } from '@/components/layout/footer';
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { CookieBanner } from '@/components/layout/cookie-banner';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap'
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ritterdigital.de'),

@@ -1,6 +1,5 @@
-// src/pages/leistungen/jtl-wawi/index.tsx
-import type { NextPage } from 'next';
-import Head from 'next/head';
+// src/app/leistungen/jtl-wawi/page.tsx
+import type { Metadata } from 'next';
 import React from 'react';
 
 import { ServiceBenefits } from '@/components/leistungen/service/ServiceBenefits';
@@ -9,7 +8,36 @@ import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures
 import { ServiceHero } from '@/components/leistungen/service/ServiceHero';
 import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
-const JTLWaWiPage: NextPage = () => {
+export const metadata: Metadata = {
+  title: 'JTL WaWi | Ritter Digital GmbH',
+  description:
+    'Optimieren Sie Ihre Geschäftsprozesse mit JTL WaWi – der leistungsstarken Warenwirtschaftslösung für Online-Händler und mittelständische Unternehmen.',
+  keywords: [
+    'JTL WaWi',
+    'Warenwirtschaft',
+    'ERP',
+    'E-Commerce',
+    'JTL',
+    'Bestandsmanagement',
+    'Ritter Digital',
+  ],
+  openGraph: {
+    title: 'JTL WaWi | Ritter Digital GmbH',
+    description:
+      'Optimieren Sie Ihre Geschäftsprozesse mit JTL WaWi – der leistungsstarken Warenwirtschaftslösung für Online-Händler und mittelständische Unternehmen.',
+    type: 'website',
+    locale: 'de_DE',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/leistungen/jtl-wawi',
+  },
+};
+
+export default function JTLWaWiPage() {
   const pageData = {
     title: 'JTL WaWi',
     subtitle: 'Effiziente Warenwirtschaft für Ihren E-Commerce-Erfolg',
@@ -91,38 +119,29 @@ const JTLWaWiPage: NextPage = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>{pageData.title} | Ritter Digital GmbH</title>
-        <meta name='description' content={pageData.description} />
-      </Head>
+    <article>
+      <ServiceHero
+        title={pageData.title}
+        subtitle={pageData.subtitle}
+        description={pageData.description}
+        imageUrl={pageData.heroImage}
+      />
 
-      <article>
-        <ServiceHero
-          title={pageData.title}
-          subtitle={pageData.subtitle}
-          description={pageData.description}
-          imageUrl={pageData.heroImage}
-        />
+      <ServiceDetails
+        title={pageData.title}
+        description={pageData.details.mainContent}
+        items={pageData.details.bulletPoints}
+      />
 
-        <ServiceDetails
-          title={pageData.title}
-          description={pageData.details.mainContent}
-          items={pageData.details.bulletPoints}
-        />
+      <ServiceFeatures features={pageData.features} />
 
-        <ServiceFeatures features={pageData.features} />
+      <ServiceBenefits benefits={pageData.benefits} />
 
-        <ServiceBenefits benefits={pageData.benefits} />
-
-        <ServiceCTA
-          text={pageData.ctaText}
-          buttonText='Jetzt Kontakt aufnehmen'
-          buttonLink='/kontakt'
-        />
-      </article>
-    </>
+      <ServiceCTA
+        text={pageData.ctaText}
+        buttonText='Jetzt Kontakt aufnehmen'
+        buttonLink='/kontakt'
+      />
+    </article>
   );
-};
-
-export default JTLWaWiPage;
+}

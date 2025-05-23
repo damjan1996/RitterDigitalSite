@@ -1,12 +1,16 @@
-// src/app/page.tsx - KORRIGIERT: Homepage
+// app/page.tsx - VOLLSTÄNDIG KORRIGIERT
 import type { Metadata } from 'next';
 
-import { Benefits } from '@/components/home/Benefits';
-import { Clients } from '@/components/home/Clients';
-import { CTAForm } from '@/components/home/CTAForm';
-import { Hero } from '@/components/home/Hero';
-import { References } from '@/components/home/References';
-import { ServiceTeaser } from '@/components/home/ServiceTeaser';
+// Option 1: Verwende die HomePage Komponente (empfohlen)
+import { HomePage } from '@/components/home';
+
+// Option 2: Individuelle Imports (falls gewünscht)
+// import { Hero } from '@/components/home/Hero';
+// import { ServiceTeaser } from '@/components/home/ServiceTeaser';
+// import { Benefits } from '@/components/home/Benefits';
+// import { References } from '@/components/home/References';
+// import { Clients } from '@/components/home/Clients';
+// import { CTAForm } from '@/components/home/CTAForm';
 
 // App Router Metadata
 export const metadata: Metadata = {
@@ -27,7 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Strukturierte Daten für die Homepage
+// VOLLSTÄNDIGE strukturierte Daten für die Homepage
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -122,7 +126,7 @@ const structuredData = {
 };
 
 // App Router Page Component
-export default function HomePage() {
+export default function Page() {
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -133,12 +137,18 @@ export default function HomePage() {
         }}
       />
 
+      {/* Option 1: Verwende HomePage Komponente (empfohlen) */}
+      <HomePage />
+
+      {/* Option 2: Individuelle Komponenten (auskommentiert) */}
+      {/*
       <Hero />
       <ServiceTeaser />
       <Benefits />
       <References />
       <Clients />
       <CTAForm />
+      */}
     </>
   );
 }

@@ -1,41 +1,46 @@
-// src/app/(site)/ueber-uns/page.tsx
-'use client';
-
-import Head from 'next/head';
+// src/app/karriere/page.tsx
+import type { Metadata } from 'next';
 import React from 'react';
 
-import { UeberUnsPage } from '@/components/ueber-uns';
+import { KarrierePageComponent } from '@/components/karriere';
 
-export default function UeberUnsRoute() {
-  return (
-    <>
-      <Head>
-        <title>Über uns | Ritter Digital GmbH</title>
-        <meta
-          name='description'
-          content='Lernen Sie Ritter Digital GmbH kennen - seit über 20 Jahren Ihr verlässlicher Partner für digitale Transformation, Business Intelligence und maßgeschneiderte Softwarelösungen.'
-        />
-        <meta
-          name='keywords'
-          content='Ritter Digital, Über uns, Unternehmen, Team, Geschichte, Mission, Vision, Werte, digitale Transformation, Business Intelligence, Softwareentwicklung'
-        />
-        <meta property='og:title' content='Über uns | Ritter Digital GmbH' />
-        <meta
-          property='og:description'
-          content='Lernen Sie Ritter Digital GmbH kennen - seit über 20 Jahren Ihr verlässlicher Partner für digitale Transformation, Business Intelligence und maßgeschneiderte Softwarelösungen.'
-        />
-        <meta property='og:type' content='website' />
-        <meta property='og:locale' content='de_DE' />
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:title' content='Über uns | Ritter Digital GmbH' />
-        <meta
-          name='twitter:description'
-          content='Lernen Sie Ritter Digital GmbH kennen - seit über 20 Jahren Ihr verlässlicher Partner für digitale Transformation, Business Intelligence und maßgeschneiderte Softwarelösungen.'
-        />
-        <meta name='robots' content='index, follow' />
-        <link rel='canonical' href='/ueber-uns' />
-      </Head>
-      <UeberUnsPage />
-    </>
-  );
+export const metadata: Metadata = {
+  title: 'Karriere | Ritter Digital GmbH',
+  description:
+    'Werden Sie Teil unseres Teams bei Ritter Digital GmbH. Entdecken Sie spannende Karrieremöglichkeiten in den Bereichen Business Intelligence, Softwareentwicklung und digitale Transformation.',
+  keywords: [
+    'Karriere',
+    'Jobs',
+    'Stellenangebote',
+    'Ritter Digital',
+    'Business Intelligence',
+    'Softwareentwicklung',
+    'Digitalisierung',
+    'Team',
+    'Bewerbung',
+  ],
+  openGraph: {
+    title: 'Karriere | Ritter Digital GmbH',
+    description:
+      'Werden Sie Teil unseres Teams bei Ritter Digital GmbH. Entdecken Sie spannende Karrieremöglichkeiten in den Bereichen Business Intelligence, Softwareentwicklung und digitale Transformation.',
+    type: 'website',
+    locale: 'de_DE',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Karriere | Ritter Digital GmbH',
+    description:
+      'Werden Sie Teil unseres Teams bei Ritter Digital GmbH. Entdecken Sie spannende Karrieremöglichkeiten in den Bereichen Business Intelligence, Softwareentwicklung und digitale Transformation.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/karriere',
+  },
+};
+
+export default function KarrierePage() {
+  return <KarrierePageComponent />;
 }

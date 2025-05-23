@@ -1,16 +1,43 @@
-// src/pages/leistungen/business-intelligence/index.tsx
-import type { NextPage } from 'next';
-import Head from 'next/head';
+// src/app/leistungen/business-intelligence/page.tsx
+import type { Metadata } from 'next';
 import React from 'react';
 
 import { ServiceBenefits } from '@/components/leistungen/service/ServiceBenefits';
 import { ServiceDetails } from '@/components/leistungen/service/ServiceDetails';
 import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures';
 import { ServiceHero } from '@/components/leistungen/service/ServiceHero';
-
 import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
-const BusinessIntelligencePage: NextPage = () => {
+export const metadata: Metadata = {
+  title: 'Business Intelligence | Ritter Digital GmbH',
+  description:
+    'Unsere Business Intelligence-Lösungen helfen Ihnen, versteckte Muster in Ihren Daten zu erkennen und daraus strategische Vorteile zu ziehen.',
+  keywords: [
+    'Business Intelligence',
+    'BI',
+    'Power BI',
+    'Datenanalyse',
+    'Reporting',
+    'Dashboard',
+    'Ritter Digital',
+  ],
+  openGraph: {
+    title: 'Business Intelligence | Ritter Digital GmbH',
+    description:
+      'Unsere Business Intelligence-Lösungen helfen Ihnen, versteckte Muster in Ihren Daten zu erkennen und daraus strategische Vorteile zu ziehen.',
+    type: 'website',
+    locale: 'de_DE',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/leistungen/business-intelligence',
+  },
+};
+
+export default function BusinessIntelligencePage() {
   const pageData = {
     title: 'Business Intelligence',
     subtitle: 'Datengestützte Entscheidungen für Ihren Geschäftserfolg',
@@ -90,39 +117,29 @@ const BusinessIntelligencePage: NextPage = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>{pageData.title} | Ritter Digital GmbH</title>
-        <meta name='description' content={pageData.description} />
-      </Head>
+    <article>
+      <ServiceHero
+        title={pageData.title}
+        subtitle={pageData.subtitle}
+        description={pageData.description}
+        imageUrl={pageData.heroImage}
+      />
 
-      <article>
-        <ServiceHero
-          title={pageData.title}
-          subtitle={pageData.subtitle}
-          description={pageData.description}
-          imageUrl={pageData.heroImage}
-        />
+      <ServiceDetails
+        title={pageData.title}
+        description={pageData.details.mainContent}
+        items={pageData.details.bulletPoints}
+      />
 
-        <ServiceDetails
-          title={pageData.title}
-          description={pageData.details.mainContent}
-          items={pageData.details.bulletPoints}
-        />
+      <ServiceFeatures features={pageData.features} />
 
-        <ServiceFeatures features={pageData.features} />
+      <ServiceBenefits benefits={pageData.benefits} />
 
-        <ServiceBenefits benefits={pageData.benefits} />
-
-        {/* Hier übergeben wir jetzt auch buttonText und buttonLink */}
-        <ServiceCTA
-          text={pageData.ctaText}
-          buttonText='Jetzt Kontakt aufnehmen'
-          buttonLink='/kontakt'
-        />
-      </article>
-    </>
+      <ServiceCTA
+        text={pageData.ctaText}
+        buttonText='Jetzt Kontakt aufnehmen'
+        buttonLink='/kontakt'
+      />
+    </article>
   );
-};
-
-export default BusinessIntelligencePage;
+}

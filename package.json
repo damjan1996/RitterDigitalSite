@@ -19,6 +19,9 @@
     },
     "scripts": {
         "dev": "next dev",
+        "dev:turbo": "next dev --turbo",
+        "dev:clean": "npm run clean && next dev",
+        "dev:port": "next dev --port 3001",
         "build": "next build",
         "start": "next start",
         "lint": "next lint --fix || true",
@@ -28,7 +31,10 @@
         "type-check": "tsc --noEmit || true",
         "test": "echo \"No tests specified\" && exit 0",
         "analyze": "ANALYZE=true next build",
-        "clean": "rm -rf .next node_modules/.cache",
+        "clean": "rm -rf .next node_modules/.cache .turbo",
+        "clean:all": "rm -rf .next node_modules/.cache .turbo node_modules pnpm-lock.yaml",
+        "reset": "npm run clean && pnpm install",
+        "reset:full": "npm run clean:all && pnpm install",
         "prepare": "husky install || true"
     },
     "dependencies": {

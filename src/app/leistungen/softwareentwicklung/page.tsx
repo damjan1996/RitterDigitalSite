@@ -1,6 +1,5 @@
-// src/pages/leistungen/softwareentwicklung/index.tsx
-import type { NextPage } from 'next';
-import Head from 'next/head';
+// src/app/leistungen/softwareentwicklung/page.tsx
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 
@@ -10,7 +9,36 @@ import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures
 import { ServiceHero } from '@/components/leistungen/service/ServiceHero';
 import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
-const SoftwareentwicklungPage: NextPage = () => {
+export const metadata: Metadata = {
+  title: 'Softwareentwicklung | Ritter Digital GmbH',
+  description:
+    'Individuelle Softwareentwicklung von Ritter Digital - Maßgeschneiderte Lösungen für Ihre spezifischen Anforderungen mit modernsten Technologien.',
+  keywords: [
+    'Softwareentwicklung',
+    'Individuelle Software',
+    'Webanwendungen',
+    'Mobile Apps',
+    'React',
+    'Python',
+    'Ritter Digital',
+  ],
+  openGraph: {
+    title: 'Softwareentwicklung | Ritter Digital GmbH',
+    description:
+      'Individuelle Softwareentwicklung von Ritter Digital - Maßgeschneiderte Lösungen für Ihre spezifischen Anforderungen mit modernsten Technologien.',
+    type: 'website',
+    locale: 'de_DE',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/leistungen/softwareentwicklung',
+  },
+};
+
+export default function SoftwareentwicklungPage() {
   // Softwareentwicklung Leistungsdaten
   const serviceData = {
     title: 'Softwareentwicklung',
@@ -85,131 +113,119 @@ const SoftwareentwicklungPage: NextPage = () => {
   ];
 
   return (
-    <>
-      <Head>
-        <title>Softwareentwicklung | Ritter Digital GmbH</title>
-        <meta
-          name='description'
-          content='Individuelle Softwareentwicklung von Ritter Digital - Maßgeschneiderte Lösungen für Ihre spezifischen Anforderungen mit modernsten Technologien.'
-        />
-      </Head>
+    <div>
+      <ServiceHero
+        title={serviceData.title}
+        subtitle={serviceData.subtitle}
+        description={serviceData.description}
+        imageUrl={serviceData.imageUrl}
+      />
 
-      <div>
-        <ServiceHero
-          title={serviceData.title}
-          subtitle={serviceData.subtitle}
-          description={serviceData.description}
-          imageUrl={serviceData.imageUrl}
-        />
+      <ServiceDetails
+        title='Individuelle Software für Ihren Erfolg'
+        description='In der digitalen Welt von heute kann Standardsoftware oft nicht alle Anforderungen eines Unternehmens erfüllen. Unsere individuellen Softwarelösungen werden genau auf Ihre Geschäftsprozesse zugeschnitten und schaffen einen echten Mehrwert für Ihr Unternehmen.'
+        videoSrc={serviceData.videoSrc}
+      >
+        <div className='mt-8'>
+          <h3 className='mb-4 text-xl font-semibold text-primary'>
+            Unser Entwicklungsprozess:
+          </h3>
+          <ol className='space-y-4 text-secondary'>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>1.</div>
+              <span>
+                <strong className='text-primary'>Anforderungsanalyse:</strong>{' '}
+                Wir analysieren gemeinsam mit Ihnen Ihre spezifischen
+                Anforderungen und Geschäftsprozesse.
+              </span>
+            </li>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>2.</div>
+              <span>
+                <strong className='text-primary'>Konzeption & Design:</strong>{' '}
+                Wir erstellen ein detailliertes Konzept und Wireframes für
+                Ihre Softwarelösung.
+              </span>
+            </li>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>3.</div>
+              <span>
+                <strong className='text-primary'>Entwicklung:</strong> Agile
+                Entwicklung mit regelmäßigen Feedbackschleifen und
+                Iterationen.
+              </span>
+            </li>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>4.</div>
+              <span>
+                <strong className='text-primary'>
+                  Testing & Qualitätssicherung:
+                </strong>{' '}
+                Umfangreiche Tests zur Sicherstellung höchster Qualität.
+              </span>
+            </li>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>5.</div>
+              <span>
+                <strong className='text-primary'>
+                  Einführung & Schulung:
+                </strong>{' '}
+                Reibungslose Implementierung und Schulung Ihrer Mitarbeiter.
+              </span>
+            </li>
+            <li className='flex items-start'>
+              <div className='mr-3 font-bold'>6.</div>
+              <span>
+                <strong className='text-primary'>Wartung & Support:</strong>{' '}
+                Kontinuierliche Betreuung und Weiterentwicklung Ihrer
+                Software.
+              </span>
+            </li>
+          </ol>
+        </div>
+      </ServiceDetails>
 
-        <ServiceDetails
-          title='Individuelle Software für Ihren Erfolg'
-          description='In der digitalen Welt von heute kann Standardsoftware oft nicht alle Anforderungen eines Unternehmens erfüllen. Unsere individuellen Softwarelösungen werden genau auf Ihre Geschäftsprozesse zugeschnitten und schaffen einen echten Mehrwert für Ihr Unternehmen.'
-          videoSrc={serviceData.videoSrc}
-        >
-          <div className='mt-8'>
-            <h3 className='mb-4 text-xl font-semibold text-primary'>
-              Unser Entwicklungsprozess:
-            </h3>
-            <ol className='space-y-4 text-secondary'>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>1.</div>
-                <span>
-                  <strong className='text-primary'>Anforderungsanalyse:</strong>{' '}
-                  Wir analysieren gemeinsam mit Ihnen Ihre spezifischen
-                  Anforderungen und Geschäftsprozesse.
-                </span>
-              </li>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>2.</div>
-                <span>
-                  <strong className='text-primary'>Konzeption & Design:</strong>{' '}
-                  Wir erstellen ein detailliertes Konzept und Wireframes für
-                  Ihre Softwarelösung.
-                </span>
-              </li>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>3.</div>
-                <span>
-                  <strong className='text-primary'>Entwicklung:</strong> Agile
-                  Entwicklung mit regelmäßigen Feedbackschleifen und
-                  Iterationen.
-                </span>
-              </li>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>4.</div>
-                <span>
-                  <strong className='text-primary'>
-                    Testing & Qualitätssicherung:
-                  </strong>{' '}
-                  Umfangreiche Tests zur Sicherstellung höchster Qualität.
-                </span>
-              </li>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>5.</div>
-                <span>
-                  <strong className='text-primary'>
-                    Einführung & Schulung:
-                  </strong>{' '}
-                  Reibungslose Implementierung und Schulung Ihrer Mitarbeiter.
-                </span>
-              </li>
-              <li className='flex items-start'>
-                <div className='mr-3 font-bold'>6.</div>
-                <span>
-                  <strong className='text-primary'>Wartung & Support:</strong>{' '}
-                  Kontinuierliche Betreuung und Weiterentwicklung Ihrer
-                  Software.
-                </span>
-              </li>
-            </ol>
-          </div>
-        </ServiceDetails>
+      <section className='bg-background py-16'>
+        <div className='container mx-auto px-4'>
+          <h2 className='mb-12 text-center text-3xl font-bold text-primary'>
+            Unsere Technologien
+          </h2>
 
-        <section className='bg-background py-16'>
-          <div className='container mx-auto px-4'>
-            <h2 className='mb-12 text-center text-3xl font-bold text-primary'>
-              Unsere Technologien
-            </h2>
-
-            <div className='mx-auto grid max-w-4xl grid-cols-2 gap-8 sm:grid-cols-4'>
-              {technologies.map((tech, index) => (
-                <div
-                  key={index}
-                  className='flex flex-col items-center justify-center rounded-lg bg-white p-6 shadow-sm'
-                >
-                  <div className='relative mb-3 h-12 w-12'>
-                    <Image
-                      src={tech.icon}
-                      alt={tech.name}
-                      width={48}
-                      height={48}
-                      className='object-contain'
-                    />
-                  </div>
-                  <span className='font-medium text-primary'>{tech.name}</span>
+          <div className='mx-auto grid max-w-4xl grid-cols-2 gap-8 sm:grid-cols-4'>
+            {technologies.map((tech, index) => (
+              <div
+                key={index}
+                className='flex flex-col items-center justify-center rounded-lg bg-white p-6 shadow-sm'
+              >
+                <div className='relative mb-3 h-12 w-12'>
+                  <Image
+                    src={tech.icon}
+                    alt={tech.name}
+                    width={48}
+                    height={48}
+                    className='object-contain'
+                  />
                 </div>
-              ))}
-            </div>
+                <span className='font-medium text-primary'>{tech.name}</span>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <ServiceFeatures
-          title='Unsere Entwicklungsleistungen'
-          features={serviceData.features}
-        />
-        <ServiceBenefits
-          title='Vorteile individueller Software'
-          benefits={serviceData.benefits}
-        />
-        <ServiceCTA
-          text={serviceData.ctaText}
-          buttonText='Jetzt Kontakt aufnehmen'
-          buttonLink='/kontakt'
-        />
-      </div>
-    </>
+      <ServiceFeatures
+        title='Unsere Entwicklungsleistungen'
+        features={serviceData.features}
+      />
+      <ServiceBenefits
+        title='Vorteile individueller Software'
+        benefits={serviceData.benefits}
+      />
+      <ServiceCTA
+        text={serviceData.ctaText}
+        buttonText='Jetzt Kontakt aufnehmen'
+        buttonLink='/kontakt'
+      />
+    </div>
   );
-};
-
-export default SoftwareentwicklungPage;
+}

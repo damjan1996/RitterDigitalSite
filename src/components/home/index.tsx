@@ -1,28 +1,37 @@
-// src/pages/home/components/index.tsx
+// src/components/home/index.tsx
 import React from 'react';
 
-// Import the components
+// Import all home components
 import { Benefits } from './Benefits';
 import { Clients } from './Clients';
 import { CTAForm } from './CTAForm';
 import { Hero } from './Hero';
+import { References } from './References';
 import { ServiceTeaser } from './ServiceTeaser';
 
-// Create a component that combines all of these
+// HomePage component that combines all sections
 export const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
       <ServiceTeaser />
       <Benefits />
+      <References />
       <Clients />
       <CTAForm />
     </>
   );
 };
 
-// Export named components
-export { Hero, ServiceTeaser, Benefits, Clients };
+// Export all individual components for flexible usage
+export {
+  Hero,
+  ServiceTeaser,
+  Benefits,
+  References,
+  Clients,
+  CTAForm
+};
 
-// Add default export
+// Default export
 export default HomePage;
