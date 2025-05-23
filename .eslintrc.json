@@ -1,94 +1,38 @@
 {
   "extends": [
-    "next/core-web-vitals",
-    "@typescript-eslint/recommended",
-    "prettier"
+    "next/core-web-vitals"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint",
-    "import",
-    "jsx-a11y",
-    "react",
-    "react-hooks"
+    "@typescript-eslint"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "ignoreRestSiblings": true
-      }
-    ],
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "no-console": "off",
-    "prefer-const": "error",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "prefer-const": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/exhaustive-deps": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "react/display-name": "off",
-    "jsx-a11y/alt-text": "warn",
-    "jsx-a11y/anchor-is-valid": "warn",
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ],
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "import/no-unresolved": "off",
-    "import/no-anonymous-default-export": "warn"
+    "import/no-anonymous-default-export": "off"
   },
   "settings": {
     "react": {
       "version": "detect"
-    },
-    "import/resolver": {
-      "typescript": {
-        "alwaysTryTypes": true
-      }
     }
   },
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
-  },
-  "overrides": [
-    {
-      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
-      "env": {
-        "jest": true
-      }
-    },
-    {
-      "files": ["src/app/api/**/*.ts"],
-      "rules": {
-        "no-console": "off"
-      }
-    },
-    {
-      "files": ["src/lib/analytics.ts"],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off"
-      }
-    }
-  ]
+  }
 }

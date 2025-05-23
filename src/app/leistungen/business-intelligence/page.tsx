@@ -8,7 +8,7 @@ import { ServiceDetails } from '@/components/leistungen/service/ServiceDetails';
 import { ServiceFeatures } from '@/components/leistungen/service/ServiceFeatures';
 import { ServiceHero } from '@/components/leistungen/service/ServiceHero';
 
-import { ServiceCTA } from '../../../../components/leistungen/ServiceCTA';
+import { ServiceCTA } from '@/components/leistungen/ServiceCTA';
 
 const BusinessIntelligencePage: NextPage = () => {
   const pageData = {

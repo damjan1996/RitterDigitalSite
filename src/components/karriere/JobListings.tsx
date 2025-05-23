@@ -260,7 +260,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
                             />
                           </Button>
                         ) : (
-                          <Link href={`/karriere/${job.id}`} className='group'>
+                          <Link href={`/src/app/karriere/${job.id}`} className='group'>
                             <Button className='relative overflow-hidden rounded-md bg-[#1A2027] px-6 py-2 font-medium text-white transition-all duration-300 hover:bg-[#2A3F56]'>
                               <span className='relative z-10 flex items-center gap-2'>
                                 Details

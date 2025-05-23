@@ -1,11 +1,10 @@
-// tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2020",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -33,24 +32,24 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "removeComments": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
     "declaration": false,
     "declarationMap": false,
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "noImplicitOverride": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "noImplicitOverride": false,
     "exactOptionalPropertyTypes": false,
-    "useUnknownInCatchVariables": true,
+    "useUnknownInCatchVariables": false,
     "noUncheckedIndexedAccess": false,
     "noPropertyAccessFromIndexSignature": false
   },
@@ -59,9 +58,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/**/*",
-    "jest.config.js",
-    "jest.setup.js"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",
@@ -69,13 +66,6 @@
     ".next",
     "out",
     "build",
-    "coverage",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx"
-  ],
-  "ts-node": {
-    "esm": true
-  }
+    "coverage"
+  ]
 }

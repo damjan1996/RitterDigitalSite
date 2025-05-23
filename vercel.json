@@ -4,11 +4,37 @@
   "github": {
     "silent": true
   },
-  "buildCommand": "npm run build && ls -la .next/server/app/",
+  "buildCommand": "npm run build",
   "installCommand": "npm install --legacy-peer-deps",
   "functions": {
     "src/app/api/*/route.ts": {
       "maxDuration": 10
     }
-  }
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SITE_NAME": "Ritter Digital GmbH",
+      "NEXT_PUBLIC_SITE_URL": "https://ritterdigital.de"
+    }
+  },
+  "headers": [
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
 }
