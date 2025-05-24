@@ -125,10 +125,10 @@ interface ServiceTeaserProps {
 }
 
 export function ServiceTeaser({
-                                title = 'Unsere Leistungen im Überblick',
-                                services = defaultServices,
-                                className,
-                              }: ServiceTeaserProps) {
+  title = 'Unsere Leistungen im Überblick',
+  services = defaultServices,
+  className,
+}: ServiceTeaserProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -331,9 +331,7 @@ export function ServiceTeaser({
                   key={idx}
                   className={cn(
                     'h-2 w-2 rounded-full transition-all duration-200',
-                    activeIndex === idx
-                      ? 'bg-orange-500 w-4'
-                      : 'bg-white/30 hover:bg-white/50'
+                    activeIndex === idx ? 'w-4 bg-orange-500' : 'bg-white/30 hover:bg-white/50'
                   )}
                   onClick={() => {
                     pauseAutoRotation();
