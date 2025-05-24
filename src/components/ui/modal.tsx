@@ -10,9 +10,7 @@ const ModalTrigger = DialogPrimitive.Trigger;
 const ModalClose = DialogPrimitive.Close;
 
 type ElementRef<T> =
-  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>>
-    ? U
-    : never;
+  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>> ? U : never;
 
 // Eigene Portal-Props, da Radix's DialogPortalProps keine className hat
 type ModalPortalProps = DialogPrimitive.DialogPortalProps & {
@@ -58,9 +56,9 @@ const ModalContent = React.forwardRef<
     >
       {children}
       {!hideCloseButton && (
-        <DialogPrimitive.Close className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-white'>
-          <X className='h-4 w-4' />
-          <span className='sr-only'>Schließen</span>
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-white">
+          <X className="h-4 w-4" />
+          <span className="sr-only">Schließen</span>
         </DialogPrimitive.Close>
       )}
     </DialogPrimitive.Content>
@@ -68,29 +66,14 @@ const ModalContent = React.forwardRef<
 ));
 ModalContent.displayName = DialogPrimitive.Content.displayName;
 
-const ModalHeader = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      'flex flex-col space-y-1.5 text-center sm:text-left',
-      className
-    )}
-    {...props}
-  />
+const ModalHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
 );
 ModalHeader.displayName = 'ModalHeader';
 
-const ModalFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+const ModalFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-      className
-    )}
+    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
     {...props}
   />
 );
@@ -102,10 +85,7 @@ const ModalTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      'text-lg font-semibold leading-none tracking-tight text-primary',
-      className
-    )}
+    className={cn('text-lg font-semibold leading-none tracking-tight text-primary', className)}
     {...props}
   />
 ));

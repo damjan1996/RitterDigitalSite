@@ -135,10 +135,4 @@ export interface ExternalReference {
 }
 
 // Status für verschiedene Entitäten
-export type Status =
-  | 'active'
-  | 'inactive'
-  | 'pending'
-  | 'archived'
-  | 'draft'
-  | 'published';
+export type Status = 'active' | 'inactive' | 'pending' | 'archived' | 'draft' | 'published';

@@ -5,9 +5,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 type ElementRef<T> =
-  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>>
-    ? U
-    : never;
+  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>> ? U : never;
 
 const Label = React.forwardRef<
   ElementRef<typeof LabelPrimitive.Root>,

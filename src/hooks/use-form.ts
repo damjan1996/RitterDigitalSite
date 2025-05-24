@@ -90,8 +90,7 @@ export const useForm = <T extends FieldValues>({
                   trackEvent({
                     action: 'submit_error',
                     category: analyticsCategory,
-                    label:
-                      error instanceof Error ? error.message : 'unknown_error',
+                    label: error instanceof Error ? error.message : 'unknown_error',
                   });
                 }
 
@@ -151,21 +150,15 @@ z.object({
   email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
   phone: z.string().optional(),
   company: z.string().optional(),
-  message: z
-    .string()
-    .min(10, 'Bitte geben Sie eine Nachricht mit mindestens 10 Zeichen ein.'),
+  message: z.string().min(10, 'Bitte geben Sie eine Nachricht mit mindestens 10 Zeichen ein.'),
   privacy: z.literal(true, {
-    errorMap: () => ({
-      message: 'Bitte stimmen Sie der Datenschutzerklärung zu.',
-    }),
+    errorMap: () => ({ message: 'Bitte stimmen Sie der Datenschutzerklärung zu.' }),
   }),
 });
 z.object({
   email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
   privacy: z.literal(true, {
-    errorMap: () => ({
-      message: 'Bitte stimmen Sie der Datenschutzerklärung zu.',
-    }),
+    errorMap: () => ({ message: 'Bitte stimmen Sie der Datenschutzerklärung zu.' }),
   }),
 });
 

@@ -22,10 +22,8 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   if (!message) return null;
 
   return (
-    <div
-      className={cn('mt-1 flex items-center text-sm text-red-600', className)}
-    >
-      {showIcon && <AlertCircle className='mr-1.5 h-4 w-4' />}
+    <div className={cn('mt-1 flex items-center text-sm text-red-600', className)}>
+      {showIcon && <AlertCircle className="mr-1.5 h-4 w-4" />}
       <span>{message}</span>
     </div>
   );
@@ -36,9 +34,7 @@ export const FormErrorMessage: React.FC<{
   error?: { message?: string } | undefined;
   className?: string;
 }> = ({ error, className }) => {
-  return error?.message ? (
-    <ErrorMessage message={error.message} className={className} />
-  ) : null;
+  return error?.message ? <ErrorMessage message={error.message} className={className} /> : null;
 };
 
 export default ErrorMessage;

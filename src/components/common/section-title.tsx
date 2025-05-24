@@ -59,9 +59,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
 
   return (
     <div className={cn('mb-8 max-w-3xl', alignMap[align], className)}>
-      <h2 className={cn('font-bold', titleSizeMap[titleSize], colorMap[color])}>
-        {title}
-      </h2>
+      <h2 className={cn('font-bold', titleSizeMap[titleSize], colorMap[color])}>{title}</h2>
 
       {decorative && (
         <div
@@ -73,15 +71,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({
       )}
 
       {subtitle && (
-        <p
-          className={cn(
-            'mt-3 text-lg',
-            subtitleColorMap[color],
-            subtitleClassName
-          )}
-        >
-          {subtitle}
-        </p>
+        <p className={cn('mt-3 text-lg', subtitleColorMap[color], subtitleClassName)}>{subtitle}</p>
       )}
     </div>
   );

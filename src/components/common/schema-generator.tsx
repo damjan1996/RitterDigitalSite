@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import React from 'react';
 
-import { SEO, COMPANY_INFO, SITE_URL } from '@/lib/constants';
+import { SITE_NAME, SITE_URL } from '@/lib/constants';
 
 // Typdefinitionen für Schema-Objekte
 
@@ -222,15 +222,15 @@ interface FAQPageSchemaProps extends BaseSchemaProps {
 
 // Organisationsschema
 export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
-  name = SEO.SITE_NAME,
+  name = SITE_NAME,
   url = SITE_URL,
   logo = `${SITE_URL}/images/logos/logo_ritterdigital.png`,
   socialLinks = [],
-  streetAddress = COMPANY_INFO.ADDRESS.STREET,
-  city = COMPANY_INFO.ADDRESS.CITY,
-  postalCode = COMPANY_INFO.ADDRESS.ZIP,
+  streetAddress = 'Essener Straße 2-24',
+  city = 'Oberhausen',
+  postalCode = '46047',
   countryCode = 'DE',
-  phoneNumber = COMPANY_INFO.PHONE,
+  phoneNumber = '+4902083067485',
   contactType = 'customer service',
   areaServed = 'DE',
   availableLanguage = ['German', 'English'],
@@ -263,7 +263,7 @@ export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -272,9 +272,9 @@ export const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({
 
 // Website-Schema
 export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
-  name = SEO.SITE_NAME,
+  name = SITE_NAME,
   url = SITE_URL,
-  description = SEO.DEFAULT_DESCRIPTION,
+  description = 'Ritter Digital GmbH ist Ihr Partner für digitale Optimierung von Prozessen und maßgeschneiderte Softwarelösungen.',
   inLanguage = 'de-DE',
 }) => {
   const schema: WebsiteSchema = {
@@ -303,7 +303,7 @@ export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -313,7 +313,7 @@ export const WebsiteSchema: React.FC<WebsiteSchemaProps> = ({
 // Webseiten-Schema
 export const WebPageSchema: React.FC<WebPageSchemaProps> = ({
   url = SITE_URL,
-  title = SEO.SITE_NAME,
+  title = SITE_NAME,
   description,
   imageUrl,
   datePublished,
@@ -344,7 +344,7 @@ export const WebPageSchema: React.FC<WebPageSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -356,7 +356,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
   title,
   description,
   imageUrl,
-  authorName = COMPANY_INFO.NAME,
+  authorName = 'Ritter Digital GmbH',
   authorUrl,
   datePublished = new Date().toISOString(),
   dateModified,
@@ -377,7 +377,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
     },
     publisher: {
       '@type': 'Organization',
-      name: SEO.SITE_NAME,
+      name: SITE_NAME,
       logo: {
         '@type': 'ImageObject',
         url: `${SITE_URL}/images/logos/logo_ritterdigital.png`,
@@ -396,7 +396,7 @@ export const ArticleSchema: React.FC<ArticleSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -419,7 +419,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
     description,
     provider: {
       '@type': 'Organization',
-      name: SEO.SITE_NAME,
+      name: SITE_NAME,
       url: SITE_URL,
     },
     ...(serviceType && { serviceType }),
@@ -431,7 +431,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -439,9 +439,7 @@ export const ServiceSchema: React.FC<ServiceSchemaProps> = ({
 };
 
 // Breadcrumb-Schema
-export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({
-  items,
-}) => {
+export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({ items }) => {
   const schema: BreadcrumbListSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -456,7 +454,7 @@ export const BreadcrumbListSchema: React.FC<BreadcrumbListSchemaProps> = ({
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -481,7 +479,7 @@ export const FAQPageSchema: React.FC<FAQPageSchemaProps> = ({ questions }) => {
   return (
     <Head>
       <script
-        type='application/ld+json'
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
     </Head>
@@ -512,10 +510,7 @@ type SchemaGeneratorProps =
   | { type: 'organization'; data: Partial<OrganizationData> }
   | { type: 'all'; data: AllSchemaData };
 
-export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({
-  type,
-  data,
-}) => {
+export const SchemaGenerator: React.FC<SchemaGeneratorProps> = ({ type, data }) => {
   switch (type) {
     case 'website':
       return <WebsiteSchema {...data} />;

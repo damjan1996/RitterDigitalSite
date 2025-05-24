@@ -27,24 +27,21 @@ const tabsListVariants = cva('inline-flex items-center justify-center', {
 });
 
 type ElementRef<T> =
-  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>>
-    ? U
-    : never;
+  T extends React.ForwardRefExoticComponent<React.RefAttributes<infer U>> ? U : never;
 
 interface TabsListProps
   extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
     VariantProps<typeof tabsListVariants> {}
 
-const TabsList = React.forwardRef<
-  ElementRef<typeof TabsPrimitive.List>,
-  TabsListProps
->(({ className, variant, fullWidth, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(tabsListVariants({ variant, fullWidth }), className)}
-    {...props}
-  />
-));
+const TabsList = React.forwardRef<ElementRef<typeof TabsPrimitive.List>, TabsListProps>(
+  ({ className, variant, fullWidth, ...props }, ref) => (
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(tabsListVariants({ variant, fullWidth }), className)}
+      {...props}
+    />
+  )
+);
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const tabsTriggerVariants = cva(
@@ -77,16 +74,15 @@ interface TabsTriggerProps
   extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>,
     VariantProps<typeof tabsTriggerVariants> {}
 
-const TabsTrigger = React.forwardRef<
-  ElementRef<typeof TabsPrimitive.Trigger>,
-  TabsTriggerProps
->(({ className, variant, fullWidth, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(tabsTriggerVariants({ variant, fullWidth }), className)}
-    {...props}
-  />
-));
+const TabsTrigger = React.forwardRef<ElementRef<typeof TabsPrimitive.Trigger>, TabsTriggerProps>(
+  ({ className, variant, fullWidth, ...props }, ref) => (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      className={cn(tabsTriggerVariants({ variant, fullWidth }), className)}
+      {...props}
+    />
+  )
+);
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 const TabsContent = React.forwardRef<
@@ -104,11 +100,4 @@ const TabsContent = React.forwardRef<
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-export {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  type TabsTriggerProps,
-  type TabsListProps,
-};
+export { Tabs, TabsList, TabsTrigger, TabsContent, type TabsTriggerProps, type TabsListProps };

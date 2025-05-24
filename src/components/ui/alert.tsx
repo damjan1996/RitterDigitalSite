@@ -13,10 +13,8 @@ const alertVariants = cva(
       variant: {
         default: 'bg-background text-foreground',
         info: 'border-blue-200 bg-blue-50 text-blue-800 [&>svg]:text-blue-500',
-        success:
-          'border-green-200 bg-green-50 text-green-800 [&>svg]:text-green-500',
-        warning:
-          'border-yellow-200 bg-yellow-50 text-yellow-800 [&>svg]:text-yellow-500',
+        success: 'border-green-200 bg-green-50 text-green-800 [&>svg]:text-green-500',
+        warning: 'border-yellow-200 bg-yellow-50 text-yellow-800 [&>svg]:text-yellow-500',
         error: 'border-red-200 bg-red-50 text-red-800 [&>svg]:text-red-500',
       },
     },
@@ -49,21 +47,16 @@ const Alert = React.forwardRef<
   }, [variant]);
 
   return (
-    <div
-      ref={ref}
-      role='alert'
-      className={cn(alertVariants({ variant }), className)}
-      {...props}
-    >
-      {Icon && <Icon className='h-4 w-4' />}
-      <div className='flex-1'>{children}</div>
+    <div ref={ref} role="alert" className={cn(alertVariants({ variant }), className)} {...props}>
+      {Icon && <Icon className="h-4 w-4" />}
+      <div className="flex-1">{children}</div>
       {onClose && (
         <button
           onClick={onClose}
-          className='absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none'
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none"
         >
-          <X className='h-4 w-4' />
-          <span className='sr-only'>Schließen</span>
+          <X className="h-4 w-4" />
+          <span className="sr-only">Schließen</span>
         </button>
       )}
     </div>
@@ -71,28 +64,23 @@ const Alert = React.forwardRef<
 });
 Alert.displayName = 'Alert';
 
-const AlertTitle = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  // eslint-disable-next-line jsx-a11y/heading-has-content
-  <h5
-    ref={ref}
-    className={cn('mb-1 font-medium leading-none tracking-tight', className)}
-    {...props}
-  />
-));
+const AlertTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    // eslint-disable-next-line jsx-a11y/heading-has-content
+    <h5
+      ref={ref}
+      className={cn('mb-1 font-medium leading-none tracking-tight', className)}
+      {...props}
+    />
+  )
+);
 AlertTitle.displayName = 'AlertTitle';
 
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('text-sm [&_p]:leading-relaxed', className)}
-    {...props}
-  />
+  <div ref={ref} className={cn('text-sm [&_p]:leading-relaxed', className)} {...props} />
 ));
 AlertDescription.displayName = 'AlertDescription';
 

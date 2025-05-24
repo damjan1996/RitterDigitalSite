@@ -1,3 +1,4 @@
+// src/hooks/use-scroll.ts
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface ScrollPosition {
@@ -34,17 +35,11 @@ interface UseScrollOptions {
 export const useScroll = (
   options: UseScrollOptions = {}
 ): ScrollInfo & {
-  scrollTo: (
-    target: ScrollPosition | HTMLElement | string,
-    smooth?: boolean
-  ) => void;
+  scrollTo: (target: ScrollPosition | HTMLElement | string, smooth?: boolean) => void;
 } => {
   const { throttleMs = 100, offsetTop = 50, offsetBottom = 50 } = options;
 
-  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
-    x: 0,
-    y: 0,
-  });
+  const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({ x: 0, y: 0 });
   const [direction, setDirection] = useState<ScrollDirection>({
     vertical: null,
     horizontal: null,
@@ -100,8 +95,7 @@ export const useScroll = (
       const windowHeight = window.innerHeight;
 
       const newIsAtTop = currentPosition.y <= offsetTop;
-      const newIsAtBottom =
-        currentPosition.y + windowHeight >= documentHeight - offsetBottom;
+      const newIsAtBottom = currentPosition.y + windowHeight >= documentHeight - offsetBottom;
 
       // Prozentsatz des Scrolls berechnen
       const newPercentage = Math.min(

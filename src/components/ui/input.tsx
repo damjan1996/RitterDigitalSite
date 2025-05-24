@@ -11,8 +11,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: 'focus:ring-accent/40 focus:border-accent',
-        error:
-          'border-red-500 focus:ring-red-500/40 focus:border-red-500 placeholder:text-red-400',
+        error: 'border-red-500 focus:ring-red-500/40 focus:border-red-500 placeholder:text-red-400',
       },
       inputSize: {
         default: 'h-10',
@@ -37,16 +36,7 @@ export interface InputProps
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      className,
-      variant,
-      inputSize,
-      type,
-      leftIcon,
-      rightIcon,
-      isPassword = false,
-      ...props
-    },
+    { className, variant, inputSize, type, leftIcon, rightIcon, isPassword = false, ...props },
     ref
   ) => {
     const [showPassword, setShowPassword] = React.useState(false);
@@ -59,26 +49,24 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Wenn es ein Passwortfeld ist, überschreiben wir das rightIcon
     const passwordIcon = isPassword ? (
       <button
-        type='button'
+        type="button"
         onClick={togglePasswordVisibility}
-        className='flex items-center justify-center focus:outline-none'
+        className="flex items-center justify-center focus:outline-none"
         tabIndex={-1}
       >
         {showPassword ? (
-          <EyeOff className='h-4 w-4 text-gray-500' />
+          <EyeOff className="h-4 w-4 text-gray-500" />
         ) : (
-          <Eye className='h-4 w-4 text-gray-500' />
+          <Eye className="h-4 w-4 text-gray-500" />
         )}
       </button>
     ) : null;
 
     if (leftIcon || rightIcon || isPassword) {
       return (
-        <div className='relative'>
+        <div className="relative">
           {leftIcon && (
-            <div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
-              {leftIcon}
-            </div>
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">{leftIcon}</div>
           )}
           <input
             type={inputType}
@@ -92,7 +80,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {(rightIcon || isPassword) && (
-            <div className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500'>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
               {isPassword ? passwordIcon : rightIcon}
             </div>
           )}

@@ -86,9 +86,7 @@ export function toTitleCase(text: string): string {
  * Wandelt einen Camel Case String in einen mit Leerzeichen getrennten String um
  */
 export function camelCaseToWords(text: string): string {
-  return text
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, str => str.toUpperCase());
+  return text.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 }
 
 /**

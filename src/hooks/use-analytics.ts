@@ -1,7 +1,5 @@
-'use client';
-
 // src/hooks/use-analytics.ts
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useEffect, useCallback } from 'react';
 
 import { event as gaEvent, pageview } from '@/lib/analytics';
@@ -14,33 +12,39 @@ interface AnalyticsEvent {
 }
 
 /**
- * Hook für Google Analytics Integration (App Router Version)
+ * Hook für Google Analytics Integration
  * Verfolgt automatisch Seitenaufrufe und bietet Funktionen zum Tracking von Ereignissen
  */
 export const useAnalytics = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useRouter();
 
   // Seitenaufrufe verfolgen
   useEffect(() => {
-    // Konstruiere die vollständige URL für Tracking mit null-Check
-    const searchString = searchParams?.toString() || '';
-    const url = pathname + (searchString ? `?${searchString}` : '');
+    const handleRouteChange = (url: string) => {
+      if (process.env.NODE_ENV === 'production') {
+        pageview(url);
+      }
+    };
 
-    if (process.env.NODE_ENV === 'production') {
-      pageview(url);
-    }
-  }, [pathname, searchParams]);
+    // Initialen Seitenaufruf tracken
+    handleRouteChange(router.asPath);
+
+    // Bei Routenwechsel tracken
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.asPath, router.events]);
 
   // Funktion zum Tracking von benutzerdefinierten Ereignissen
-  const trackEvent = useCallback(
-    ({ action, category, label, value }: AnalyticsEvent) => {
-      if (process.env.NODE_ENV === 'production') {
-        gaEvent({ action, category, label, value });
-      }
-    },
-    []
-  );
+  const trackEvent = useCallback(({ action, category, label, value }: AnalyticsEvent) => {
+    if (process.env.NODE_ENV === 'production') {
+      gaEvent({ action, category, label, value });
+    } else {
+      /* empty */
+    }
+  }, []);
 
   // Vordefinierte Ereignisse
   const trackContactFormSubmission = useCallback(() => {
@@ -84,27 +88,12 @@ export const useAnalytics = () => {
     [trackEvent]
   );
 
-  const trackPageView = useCallback(
-    (url?: string) => {
-      // Null-safe Behandlung von searchParams
-      const searchString = searchParams?.toString() || '';
-      const trackingUrl =
-        url || pathname + (searchString ? `?${searchString}` : '');
-
-      if (process.env.NODE_ENV === 'production') {
-        pageview(trackingUrl);
-      }
-    },
-    [pathname, searchParams]
-  );
-
   return {
     trackEvent,
     trackContactFormSubmission,
     trackDownload,
     trackExternalLinkClick,
     trackServiceInterest,
-    trackPageView,
   };
 };
 

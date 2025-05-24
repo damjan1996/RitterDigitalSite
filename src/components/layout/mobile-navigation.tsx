@@ -1,9 +1,9 @@
-// src/components/layout/mobile-navigation.tsx
 'use client';
 
+// src/components/layout/mobile-navigation.tsx
 import { ChevronDown, Mail, Menu, Phone, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation'; // Ersetzt useRouter aus next/router
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -50,13 +50,8 @@ interface MobileNavigationProps {
   isDark?: boolean;
 }
 
-const MobileNavigation = ({
-  isOpen,
-  setIsOpen,
-  isDark = false,
-}: MobileNavigationProps) => {
-  const pathnameResult = usePathname();
-  const pathname = pathnameResult || '/'; // Fallback zu '/' falls pathname null ist
+const MobileNavigation = ({ isOpen, setIsOpen, isDark = false }: MobileNavigationProps) => {
+  const pathname = usePathname(); // usePathname aus next/navigation anstatt useRouter
   const [openSubmenu, setOpenSubmenu] = React.useState<string | null>(null);
 
   const toggleMenu = () => {
@@ -83,22 +78,18 @@ const MobileNavigation = ({
       <button
         onClick={toggleMenu}
         aria-label={isOpen ? 'Menü schließen' : 'Menü öffnen'}
-        className='flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2'
+        className="flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
       >
         {isOpen ? (
-          <X
-            className={cn('h-6 w-6', isDark ? 'text-white' : 'text-primary')}
-          />
+          <X className={cn('h-6 w-6', isDark ? 'text-white' : 'text-primary')} />
         ) : (
-          <Menu
-            className={cn('h-6 w-6', isDark ? 'text-white' : 'text-primary')}
-          />
+          <Menu className={cn('h-6 w-6', isDark ? 'text-white' : 'text-primary')} />
         )}
       </button>
 
       {/* Mobile Menu Overlay */}
       <div
-        role='button'
+        role="button"
         tabIndex={0}
         className={cn(
           'fixed inset-0 z-40 bg-black/50 transition-opacity duration-300',
@@ -110,7 +101,7 @@ const MobileNavigation = ({
             toggleMenu();
           }
         }}
-        aria-label='Menü-Overlay schließen'
+        aria-label="Menü-Overlay schließen"
       />
 
       {/* Mobile Menu Panel */}
@@ -120,30 +111,26 @@ const MobileNavigation = ({
           isOpen ? 'translate-x-0' : 'translate-x-full'
         )}
         aria-hidden={!isOpen}
-        role='dialog'
-        aria-modal='true'
-        aria-label='Mobile Navigation'
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation"
       >
-        <div className='flex justify-end p-4'>
-          <button
-            onClick={toggleMenu}
-            aria-label='Menü schließen'
-            className='p-2'
-          >
-            <X className='h-6 w-6 text-primary' />
+        <div className="flex justify-end p-4">
+          <button onClick={toggleMenu} aria-label="Menü schließen" className="p-2">
+            <X className="h-6 w-6 text-primary" />
           </button>
         </div>
 
-        <div className='px-6 pb-12'>
-          <nav className='mb-8'>
-            <ul className='space-y-1'>
+        <div className="px-6 pb-12">
+          <nav className="mb-8">
+            <ul className="space-y-1">
               {mainMenuItems.map(item => (
-                <li key={item.href} className='border-b border-gray-100 py-2'>
+                <li key={item.href} className="border-b border-gray-100 py-2">
                   {item.submenu ? (
                     <div>
                       <button
                         className={cn(
-                          'flex w-full items-center justify-between py-3 text-left text-base font-medium',
+                          'flex w-full items-center justify-between py-3 text-left text-base font-medium', // Increased padding and font size
                           pathname.startsWith(item.href)
                             ? 'text-accent'
                             : 'text-primary hover:text-accent'
@@ -165,14 +152,12 @@ const MobileNavigation = ({
                       <div
                         className={cn(
                           'mt-1 overflow-hidden transition-all duration-200 ease-in-out',
-                          openSubmenu === item.title
-                            ? 'max-h-96 opacity-100'
-                            : 'max-h-0 opacity-0'
+                          openSubmenu === item.title ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         )}
                         aria-hidden={openSubmenu !== item.title}
                         id={`submenu-${item.title}`}
                       >
-                        <ul className='space-y-2 py-2 pl-4'>
+                        <ul className="space-y-2 py-2 pl-4">
                           {item.submenu.map(subItem => (
                             <li key={subItem.href}>
                               <Link
@@ -196,10 +181,8 @@ const MobileNavigation = ({
                     <Link
                       href={item.href}
                       className={cn(
-                        'block py-3 text-base font-medium',
-                        pathname === item.href
-                          ? 'text-accent'
-                          : 'text-primary hover:text-accent'
+                        'block py-3 text-base font-medium', // Increased padding and font size
+                        pathname === item.href ? 'text-accent' : 'text-primary hover:text-accent'
                       )}
                       onClick={handleLinkClick}
                     >
@@ -212,29 +195,29 @@ const MobileNavigation = ({
           </nav>
 
           {/* Kontakt */}
-          <div className='mt-8 space-y-5'>
+          <div className="mt-8 space-y-5">
             <a
-              href='tel:+491234567890'
-              className='flex items-center py-2 text-primary hover:text-accent'
+              href="tel:+491234567890"
+              className="flex items-center py-2 text-primary hover:text-accent"
             >
-              <Phone className='mr-3 h-5 w-5 text-accent' />
-              <span className='text-base'>+49 (0) 123 456 7890</span>
+              <Phone className="mr-3 h-5 w-5 text-accent" />
+              <span className="text-base">+49 (0) 123 456 7890</span>
             </a>
             <a
-              href='mailto:kontakt@ritterdigital.de'
-              className='flex items-center py-2 text-primary hover:text-accent'
+              href="mailto:kontakt@ritterdigital.de"
+              className="flex items-center py-2 text-primary hover:text-accent"
             >
-              <Mail className='mr-3 h-5 w-5 text-accent' />
-              <span className='text-base'>kontakt@ritterdigital.de</span>
+              <Mail className="mr-3 h-5 w-5 text-accent" />
+              <span className="text-base">kontakt@ritterdigital.de</span>
             </a>
           </div>
 
           {/* CTA Button */}
-          <div className='mt-10 px-2'>
-            <Link href='/kontakt' onClick={handleLinkClick}>
+          <div className="mt-10 px-2">
+            <Link href="/kontakt" onClick={handleLinkClick}>
               <Button
-                variant='default'
-                className='w-full bg-blue-600 py-6 text-base text-white hover:bg-blue-700'
+                variant="default"
+                className="w-full bg-blue-600 py-6 text-base text-white hover:bg-blue-700"
               >
                 Kontakt aufnehmen
               </Button>

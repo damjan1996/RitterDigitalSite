@@ -1,9 +1,8 @@
 // src/components/common/page-transition.tsx
 'use client';
-
 import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation'; // ✅ App Router import
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import { useScrollContext } from './scroll-context';
@@ -27,99 +26,98 @@ const Logo = () => (
       scale: 1.2,
       transition: { duration: 0.3, ease: customEase },
     }}
-    className='relative z-10'
+    className="relative z-10"
   >
     <Image
-      src='/images/logos/logo_ritterdigital.png'
-      alt='Ritter Digital'
+      src="/images/logos/logo_ritterdigital.png"
+      alt="Ritter Digital"
       width={280}
       height={90}
       priority
-      className='brightness-125 filter'
+      className="brightness-125 filter"
     />
   </motion.div>
 );
 
-const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
-  const pathname = usePathname(); // ✅ App Router hook
-  const [showLogo, setShowLogo] = useState(false);
-  const [showContent, setShowContent] = useState(true);
+const PageTransition = ({ children }: PageTransitionProps) => {
+  const router = useRouter();
+  const [showLogo, setShowLogo] = useState(false); // Start with logo hidden
+  const [showContent, setShowContent] = useState(true); // Start with content shown
   const { setIsTransitioning } = useScrollContext();
   const [isAnimating, setIsAnimating] = useState(false);
-  const [displayChildren, setDisplayChildren] = useState(children);
 
-  // ✅ App Router compatible transition logic
+  // Vereinfachte Erstinitialisierung - wichtig für Deployment-Stabilität
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Only show transition for route changes, not initial load
-    if (displayChildren !== children) {
-      setIsAnimating(true);
-      setIsTransitioning(true);
+    // Initial Logo kurz anzeigen, dann Content direkt einblenden
+    setShowLogo(true);
+    setIsAnimating(true);
+    setIsTransitioning(true);
+
+    // Sicherstellen, dass die Animation nicht stecken bleibt
+    const initialSafetyTimeout = setTimeout(() => {
+      setShowLogo(false);
+      setShowContent(true);
+      setIsAnimating(false);
+      setIsTransitioning(false);
+    }, 1000); // Nach 1 Sekunde immer anzeigen, egal was passiert
+
+    // Nach kurzer Zeit standardmäßig einblenden
+    const normalTimeout = setTimeout(() => {
+      setShowLogo(false);
+      setShowContent(true);
+      setIsAnimating(false);
+      setIsTransitioning(false);
+    }, 800);
+
+    return () => {
+      clearTimeout(initialSafetyTimeout);
+      clearTimeout(normalTimeout);
+    };
+  }, [setIsTransitioning]);
+
+  // Vereinfachte Router-Events - nur Änderung erkennen, keine komplexen Animationen
+  useEffect(() => {
+    if (typeof window === 'undefined' || !router.isReady) return;
+
+    const handleRouteChange = () => {
+      // Beim Routenwechsel kurz Logo anzeigen
       setShowLogo(true);
       setShowContent(false);
+      setIsAnimating(true);
+      setIsTransitioning(true);
 
-      // Update children after a brief delay
-      const updateChildrenTimer = setTimeout(() => {
-        setDisplayChildren(children);
-      }, 300);
-
-      // Complete transition
-      const completeTransitionTimer = setTimeout(() => {
+      // Nach kurzer Zeit immer einblenden
+      setTimeout(() => {
         setShowLogo(false);
         setShowContent(true);
         setIsAnimating(false);
         setIsTransitioning(false);
 
-        // Scroll to top
+        // Scroll zurücksetzen
         window.scrollTo({ top: 0, behavior: 'instant' });
-      }, 600);
+      }, 800);
+    };
 
-      return () => {
-        clearTimeout(updateChildrenTimer);
-        clearTimeout(completeTransitionTimer);
-      };
-    }
-    // ✅ Explicitly return undefined when condition is not met
-    return undefined;
-  }, [children, displayChildren, setIsTransitioning]);
-
-  // ✅ Handle pathname changes for App Router
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    // Brief animation on route change
-    setIsAnimating(true);
-    setIsTransitioning(true);
-
-    const timer = setTimeout(() => {
-      setIsAnimating(false);
-      setIsTransitioning(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [pathname, setIsTransitioning]); // ✅ Listen to pathname changes
-
-  // Initial load setup
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    // Brief initial animation
-    setShowLogo(true);
-    setIsAnimating(true);
-    setIsTransitioning(true);
-
-    const initialTimer = setTimeout(() => {
+    // Sicherstellen, dass bei Fehlern die Seite trotzdem angezeigt wird
+    const handleRouteError = () => {
       setShowLogo(false);
       setShowContent(true);
       setIsAnimating(false);
       setIsTransitioning(false);
-    }, 500);
+    };
 
-    return () => clearTimeout(initialTimer);
-  }, [setIsTransitioning]);
+    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeError', handleRouteError);
 
-  // Body classes for animation
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off('routeChangeError', handleRouteError);
+    };
+  }, [router.events, router.isReady, setIsTransitioning]);
+
+  // Body-Klassen für Animation
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -142,22 +140,22 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
       className={`relative bg-white ${isAnimating ? 'pointer-events-none' : ''}`}
       style={{ minHeight: '100vh' }}
     >
-      <AnimatePresence mode='wait'>
+      <AnimatePresence mode="wait">
         {showLogo && (
           <motion.div
-            key='logo-container'
-            className='pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-white'
+            key="logo-container"
+            className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-white"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: customEase }}
           >
-            <div className='flex items-center justify-center'>
+            <div className="flex items-center justify-center">
               <Logo />
 
               {/* Subtle glow effect */}
               <motion.div
-                className='from-[#FF7A35]/3 to-[#3D5A73]/3 absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r blur-2xl'
+                className="from-[#FF7A35]/3 to-[#3D5A73]/3 absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r blur-2xl"
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={{
                   scale: 1.1,
@@ -181,11 +179,11 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
         )}
       </AnimatePresence>
 
-      <AnimatePresence mode='wait'>
+      <AnimatePresence mode="wait">
         {showContent && (
           <motion.div
-            key={pathname} // ✅ Use pathname as key for App Router
-            className='relative z-0 min-h-screen'
+            key="content-container"
+            className="relative z-0 min-h-screen"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -194,9 +192,7 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
               ease: customEase,
             }}
           >
-            <div className={isAnimating ? 'pointer-events-none' : ''}>
-              {displayChildren}
-            </div>
+            <div className={isAnimating ? 'pointer-events-none' : ''}>{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
