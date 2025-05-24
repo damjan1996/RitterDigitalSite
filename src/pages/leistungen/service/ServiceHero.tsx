@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Sparkles, BarChart3, Database, BrainCircuit } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { useState, useEffect } from 'react';
 
+import { OptimizedImage } from '@/components/common/optimized-image';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 
@@ -253,12 +253,12 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
                 }}
               >
                 <div className="relative aspect-[4/3] w-full">
-                  <Image
+                  <OptimizedImage
                     src={imageUrl || '/placeholder.svg'}
                     alt={title}
                     fill
                     className="object-cover transition-transform duration-700 hover:scale-105"
-                    priority
+                    enablePriority={true}
                   />
 
                   {/* Overlay gradient */}
@@ -332,7 +332,7 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <div className="relative mb-8 overflow-hidden rounded-lg shadow-lg">
-              <Image
+              <OptimizedImage
                 src={imageUrl || '/placeholder.svg'}
                 alt={title}
                 width={600}

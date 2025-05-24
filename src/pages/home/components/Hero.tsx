@@ -507,6 +507,7 @@ export function Hero({
                           src={service.image || '/placeholder.svg'}
                           alt=""
                           fill
+                          style={{ objectFit: 'cover' }}
                           className="h-full w-full object-cover"
                         />
                       )}

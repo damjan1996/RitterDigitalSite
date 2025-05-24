@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
+import { OptimizedImage } from '@/components/common/optimized-image';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
@@ -198,12 +198,12 @@ export const Hero: React.FC = () => {
                   transition={{ duration: 0.5, delay: 1.2 }}
                 />
                 <div className="relative h-full w-full overflow-hidden rounded-lg shadow-lg">
-                  <Image
+                  <OptimizedImage
                     src="/images/office.jpg"
                     alt="Das Team von Ritter Digital"
                     fill
                     className="object-cover"
-                    priority
+                    enablePriority={true}
                   />
                 </div>
               </div>

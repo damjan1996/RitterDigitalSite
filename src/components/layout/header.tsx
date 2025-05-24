@@ -3,11 +3,11 @@
 // src/components/layout/header.tsx
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Phone, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
+import { OptimizedImage } from '@/components/common/optimized-image';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
@@ -90,12 +90,14 @@ export const Header: React.FC<HeaderProps> = ({ transparent = false, className }
           <div>
             <Link href="/" className="relative flex items-center">
               <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Image
+                <OptimizedImage
                   src="/images/logos/logo_ritterdigital.png"
                   alt="Ritter Digital Logo"
                   width={120}
                   height={48}
                   className="h-10 w-auto sm:h-12"
+                  enablePriority={true}
+                  sizes="120px"
                 />
               </motion.div>
             </Link>

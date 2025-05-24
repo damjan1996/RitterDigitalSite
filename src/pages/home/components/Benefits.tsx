@@ -348,7 +348,6 @@ export const Benefits: React.FC<BenefitsProps> = ({
                 height={500}
                 className="w-full rounded-lg object-cover transition-all duration-300"
                 priority
-                // fetchpriority-Attribut entfernt, stattdessen Next.js natives 'priority'-Attribut verwendet
               />
               <motion.div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-transparent to-[#FF7A35]/20"

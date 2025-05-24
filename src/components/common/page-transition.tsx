@@ -1,10 +1,10 @@
 // src/components/common/page-transition.tsx
 'use client';
 import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
+import { OptimizedImage } from './optimized-image';
 import { useScrollContext } from './scroll-context';
 
 interface PageTransitionProps {
@@ -28,12 +28,12 @@ const Logo = () => (
     }}
     className="relative z-10"
   >
-    <Image
+    <OptimizedImage
       src="/images/logos/logo_ritterdigital.png"
       alt="Ritter Digital"
       width={280}
       height={90}
-      priority
+      enablePriority={true}
       className="brightness-125 filter"
     />
   </motion.div>

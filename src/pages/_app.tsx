@@ -58,28 +58,38 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* Performance Optimierung: Preload wichtige Assets */}
         <link
           rel="preload"
-          href="/fonts/DMSans-Regular.woff2"
+          href="/fonts/Inter-Regular.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/fonts/DMSans-Medium.woff2"
+          href="/fonts/Inter-Medium.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/fonts/DMSans-Bold.woff2"
+          href="/fonts/Inter-SemiBold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Inter-Bold.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
 
+        {/* Preload Logo für bessere Performance */}
+        <link rel="preload" as="image" href="/images/logos/logo_ritterdigital.png" />
+
         {/* Preload Hero Image auf der Startseite */}
-        {router.pathname === '/' && <link rel="preload" as="image" href="/images/hero-bg.webp" />}
+        {router.pathname === '/' && <link rel="preload" as="image" href="/images/office.jpg" />}
 
         {/* DNS Prefetch für externe Ressourcen */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

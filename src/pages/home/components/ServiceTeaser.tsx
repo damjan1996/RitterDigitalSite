@@ -1,5 +1,6 @@
 'use client';
 
+// src/pages/home/components/ServiceTeaser.tsx
 import {
   ArrowRight,
   BarChart3,
@@ -38,7 +39,7 @@ interface Service {
   href: string;
   video: string;
   keywords: string[];
-  detailedInfo: string; // Added detailed information field
+  detailedInfo: string;
 }
 
 // Service definitions
@@ -110,7 +111,7 @@ const defaultServices: Service[] = [
     icon: <ShoppingCart className="h-6 w-6" />,
     color: colors.accent,
     href: '/leistungen/jtl-wawi',
-    video: '/videos/jtlwawi.mp4',
+    video: '/videos/jtl.mp4',
     keywords: ['E-Commerce', 'ERP', 'Bestandsmanagement', 'Auftragsabwicklung'],
     detailedInfo:
       'Als zertifizierter JTL-Partner bieten wir professionelle Implementierung und Anpassung des JTL-Warenwirtschaftssystems für Ihren Online-Handel. Wir unterstützen Sie bei der nahtlosen Integration von JTL WaWi mit Ihren bestehenden Shop-Systemen und optimieren Ihre Lager- und Bestandsverwaltung.',
@@ -124,10 +125,10 @@ interface ServiceTeaserProps {
 }
 
 export function ServiceTeaser({
-  title = 'Unsere Leistungen im Überblick',
-  services = defaultServices,
-  className,
-}: ServiceTeaserProps) {
+                                title = 'Unsere Leistungen im Überblick',
+                                services = defaultServices,
+                                className,
+                              }: ServiceTeaserProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -135,10 +136,8 @@ export function ServiceTeaser({
   const carouselRef = useRef<HTMLDivElement>(null);
   const autoRotateTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Replace useMobile with our own implementation using useMediaQuery
+  // Custom hook for media queries
   const isMobile = useMediaQuery('(max-width: 639px)');
-  // Removing unused variable
-  // const isTablet = useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
 
   // Get header height
   useEffect(() => {
@@ -153,7 +152,7 @@ export function ServiceTeaser({
     return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
 
-  // Go to specific panel - defined with useCallback
+  // Go to specific panel
   const goToPanel = useCallback(
     (index: number): void => {
       if (isTransitioning) return;
@@ -161,10 +160,9 @@ export function ServiceTeaser({
       setIsTransitioning(true);
       setActiveIndex(index);
 
-      // Reset transition state after animation completes
       setTimeout(() => {
         setIsTransitioning(false);
-      }, 500); // Match this with your CSS transition duration
+      }, 500);
     },
     [isTransitioning]
   );
@@ -185,7 +183,7 @@ export function ServiceTeaser({
     };
   }, [activeIndex, isTransitioning, isMobile, services.length, goToPanel]);
 
-  // Pause auto-rotation when user interacts with the carousel
+  // Pause auto-rotation when user interacts
   const pauseAutoRotation = useCallback(() => {
     if (autoRotateTimerRef.current) {
       clearTimeout(autoRotateTimerRef.current);
@@ -226,13 +224,10 @@ export function ServiceTeaser({
       const touchEndX = e.changedTouches[0].clientX;
       const deltaX = touchEndX - touchStartX;
 
-      // Determine swipe direction if sufficient movement
       if (Math.abs(deltaX) > 50) {
         if (deltaX > 0) {
-          // Swipe right - previous
           handleSwipe(-1);
         } else {
-          // Swipe left - next
           handleSwipe(1);
         }
       } else {
@@ -254,226 +249,17 @@ export function ServiceTeaser({
     });
   }, [activeIndex]);
 
+  const currentService = services[activeIndex];
+
   return (
     <section
-      className={cn('relative overflow-hidden bg-[#0A0A1A]', className)}
+      className={cn('relative overflow-hidden bg-gray-900', className)}
       style={{
         paddingTop: `${headerHeight}px`,
         minHeight: isMobile ? '100vh' : 'auto',
       }}
       id="carousel-section"
     >
-      {/* Fix for ESLint "unknown property" warnings */}
-      {/* eslint-disable-next-line react/no-unknown-property */}
-      <style jsx>{`
-        /* Core carousel styles */
-        .carousel-container {
-          position: relative;
-          overflow: hidden;
-          height: 300px;
-        }
-
-        @media (min-width: 640px) {
-          .carousel-container {
-            height: 350px;
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .carousel-container {
-            height: 400px;
-          }
-        }
-
-        .carousel-slide {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          opacity: 0;
-          transition: opacity 0.5s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          pointer-events: none;
-        }
-
-        .carousel-slide.active {
-          opacity: 1;
-          z-index: 1;
-          pointer-events: auto;
-        }
-
-        /* Navigation buttons */
-        .carousel-nav-button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 10;
-          background: rgba(255, 255, 255, 0.1);
-          border: none;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          cursor: pointer;
-          transition: background 0.3s;
-          opacity: 0.7;
-        }
-
-        .carousel-nav-button:hover {
-          background: rgba(255, 255, 255, 0.2);
-          opacity: 1;
-        }
-
-        .carousel-nav-button:focus {
-          outline: 2px solid ${colors.accent};
-          outline-offset: 2px;
-        }
-
-        .carousel-nav-button.prev {
-          left: 10px;
-        }
-
-        .carousel-nav-button.next {
-          right: 10px;
-        }
-
-        /* Indicator dots */
-        .indicator-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background-color: rgba(255, 255, 255, 0.3);
-          transition: all 0.3s ease;
-        }
-
-        .indicator-dot.active {
-          background-color: white;
-          width: 25px;
-          border-radius: 4px;
-        }
-
-        /* Video styles */
-        .video-container {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          border-radius: 8px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .service-video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        /* Hover effects */
-        @media (hover: hover) {
-          .carousel-nav-button {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-          }
-
-          .carousel-container:hover .carousel-nav-button {
-            opacity: 0.7;
-          }
-
-          .carousel-container:hover .carousel-nav-button:hover {
-            opacity: 1;
-          }
-        }
-
-        /* Service grid and cards */
-        .service-info-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-        }
-
-        .service-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 0.5rem;
-          padding: 1.25rem;
-          transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .service-card:hover {
-          background: rgba(255, 255, 255, 0.08);
-          transform: translateY(-3px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .service-card.active {
-          border-color: ${colors.accent};
-          background: rgba(255, 122, 53, 0.1);
-        }
-
-        .service-card-header {
-          display: flex;
-          align-items: center;
-          margin-bottom: 0.75rem;
-          gap: 0.75rem;
-        }
-
-        .service-card-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 2.5rem;
-          height: 2.5rem;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          color: white;
-        }
-
-        .service-card.active .service-card-icon {
-          background: ${colors.accent};
-        }
-
-        .service-card-title {
-          font-weight: 600;
-          font-size: 1.125rem;
-          color: white;
-        }
-
-        .service-card-description {
-          color: rgba(255, 255, 255, 0.8);
-          font-size: 0.875rem;
-          margin-bottom: 1rem;
-          flex-grow: 1;
-        }
-
-        .service-card-keywords {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-top: auto;
-        }
-
-        .service-card-keyword {
-          font-size: 0.75rem;
-          padding: 0.25rem 0.5rem;
-          border-radius: 1rem;
-          background: rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.8);
-        }
-
-        .service-card.active .service-card-keyword {
-          background: rgba(255, 122, 53, 0.2);
-        }
-      `}</style>
-
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-4 py-6 md:px-6">
         {/* Section title */}
         <h2
@@ -490,7 +276,7 @@ export function ServiceTeaser({
           {/* Left column - Video carousel */}
           <div className="order-2 md:order-1">
             <div
-              className="carousel-container"
+              className="relative aspect-video overflow-hidden rounded-lg bg-gray-800"
               ref={carouselRef}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
@@ -499,40 +285,42 @@ export function ServiceTeaser({
               role="region"
               aria-label="Service Carousel"
             >
+              {/* Video slides */}
               {services.map((service, index) => (
                 <div
                   key={service.id}
-                  className={`carousel-slide ${activeIndex === index ? 'active' : ''}`}
+                  className={cn(
+                    'absolute inset-0 transition-opacity duration-500',
+                    activeIndex === index ? 'opacity-100' : 'opacity-0'
+                  )}
                   aria-hidden={activeIndex !== index}
                 >
-                  <div className="video-container">
-                    <video
-                      className={`service-video service-video-${index}`}
-                      src={service.video}
-                      muted
-                      loop
-                      playsInline
-                      autoPlay
-                      aria-label={`Video für ${service.title}`}
-                    />
-                  </div>
+                  <video
+                    className={`service-video-${index} h-full w-full object-cover`}
+                    src={service.video}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    aria-label={`Video für ${service.title}`}
+                  />
                 </div>
               ))}
 
               {/* Navigation buttons */}
               <button
-                className="carousel-nav-button prev"
+                className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all duration-200 hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white/50"
                 onClick={() => handleSwipe(-1)}
                 aria-label="Vorheriger Slide"
               >
-                <ChevronLeft />
+                <ChevronLeft className="h-5 w-5" />
               </button>
               <button
-                className="carousel-nav-button next"
+                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-all duration-200 hover:bg-black/70 focus:outline-none focus:ring-2 focus:ring-white/50"
                 onClick={() => handleSwipe(1)}
                 aria-label="Nächster Slide"
               >
-                <ChevronRight />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
@@ -541,7 +329,12 @@ export function ServiceTeaser({
               {services.map((_, idx) => (
                 <button
                   key={idx}
-                  className={`indicator-dot ${activeIndex === idx ? 'active' : ''}`}
+                  className={cn(
+                    'h-2 w-2 rounded-full transition-all duration-200',
+                    activeIndex === idx
+                      ? 'bg-orange-500 w-4'
+                      : 'bg-white/30 hover:bg-white/50'
+                  )}
                   onClick={() => {
                     pauseAutoRotation();
                     goToPanel(idx);
@@ -559,38 +352,30 @@ export function ServiceTeaser({
             <div className="flex flex-col">
               {/* Title with accent line */}
               <div className="relative mb-4">
-                <div
-                  className="absolute -left-3 top-1/2 hidden h-12 w-1.5 -translate-y-1/2 md:block"
-                  style={{
-                    background: `linear-gradient(to bottom, ${colors.accent}, ${colors.accent}30)`,
-                  }}
-                />
+                <div className="absolute -left-3 top-1/2 hidden h-12 w-1.5 -translate-y-1/2 bg-gradient-to-b from-orange-500 to-orange-500/30 md:block" />
                 <h1
                   className={cn(
                     'font-medium leading-tight tracking-tight text-white',
                     isMobile ? 'text-center text-3xl' : 'text-left text-4xl md:text-5xl'
                   )}
                 >
-                  {services[activeIndex]?.title}
+                  {currentService?.title}
                 </h1>
               </div>
 
               {/* Description */}
               <p
                 className={cn(
-                  'mb-4 max-w-xl text-[#ccd]',
+                  'mb-4 max-w-xl text-gray-300',
                   isMobile ? 'mx-auto text-center' : 'text-left'
                 )}
               >
-                {services[activeIndex]?.description}
+                {currentService?.description}
               </p>
 
-              {/* Detailed information - always visible */}
-              <div
-                className="mb-6 border-l-2 py-2 pl-4 text-white/80"
-                style={{ borderColor: colors.accent }}
-              >
-                <p>{services[activeIndex]?.detailedInfo}</p>
+              {/* Detailed information */}
+              <div className="mb-6 border-l-2 border-orange-500 py-2 pl-4 text-white/80">
+                <p>{currentService?.detailedInfo}</p>
               </div>
 
               {/* Keywords */}
@@ -600,7 +385,7 @@ export function ServiceTeaser({
                   isMobile ? 'justify-center' : 'justify-start'
                 )}
               >
-                {services[activeIndex]?.keywords.map((keyword, kidx) => (
+                {currentService?.keywords.map((keyword, kidx) => (
                   <span
                     key={kidx}
                     className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm text-white/80"
@@ -618,12 +403,11 @@ export function ServiceTeaser({
                 )}
               >
                 <Button
-                  className="relative overflow-hidden rounded-full px-6 py-3 font-medium text-white transition-all duration-300"
+                  className="relative overflow-hidden rounded-full bg-orange-500 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-orange-600"
                   size="default"
-                  style={{ backgroundColor: colors.accent }}
                   onClick={() => {
-                    if (services[activeIndex]) {
-                      window.location.href = services[activeIndex].href || '#';
+                    if (currentService) {
+                      window.location.href = currentService.href || '#';
                     }
                   }}
                 >
@@ -633,18 +417,14 @@ export function ServiceTeaser({
                   </span>
                 </Button>
 
-                <Link href={services[activeIndex]?.href || '#'} className="group">
+                <Link href="/kontakt" className="group">
                   <Button
                     variant="outline"
-                    className="relative rounded-full px-6 py-3 font-medium transition-all duration-300"
+                    className="relative rounded-full border-white/20 px-6 py-3 font-medium text-white transition-all duration-300 hover:border-white/40 hover:bg-white/5"
                     size="default"
-                    style={{ borderColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
                   >
                     <span className="relative z-10">Kontakt</span>
-                    <div
-                      className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
-                      style={{ backgroundColor: colors.accent }}
-                    />
+                    <div className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-orange-500 transition-transform duration-300 group-hover:scale-x-100" />
                   </Button>
                 </Link>
               </div>
@@ -655,11 +435,14 @@ export function ServiceTeaser({
         {/* Service cards grid - all services visible at once */}
         <div className="mt-12 border-t border-white/10 pt-8">
           <h3 className="mb-6 text-center text-xl font-medium text-white/70">Alle Leistungen</h3>
-          <div className="service-info-grid">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service, idx) => (
               <div
                 key={service.id}
-                className={`service-card ${activeIndex === idx ? 'active' : ''}`}
+                className={cn(
+                  'cursor-pointer rounded-lg border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-orange-500/50 hover:bg-white/10',
+                  activeIndex === idx && 'border-orange-500 bg-orange-500/10'
+                )}
                 onClick={() => {
                   pauseAutoRotation();
                   goToPanel(idx);
@@ -675,14 +458,24 @@ export function ServiceTeaser({
                   }
                 }}
               >
-                <div className="service-card-header">
-                  <div className="service-card-icon">{service.icon}</div>
-                  <h4 className="service-card-title">{service.title}</h4>
+                <div className="mb-3 flex items-center gap-3">
+                  <div
+                    className={cn(
+                      'flex h-10 w-10 items-center justify-center rounded-lg transition-colors duration-200',
+                      activeIndex === idx ? 'bg-orange-500 text-white' : 'bg-white/10 text-white/70'
+                    )}
+                  >
+                    {service.icon}
+                  </div>
+                  <h4 className="font-medium text-white">{service.title}</h4>
                 </div>
-                <p className="service-card-description">{service.description}</p>
-                <div className="service-card-keywords">
+                <p className="mb-3 text-sm text-white/70">{service.description}</p>
+                <div className="flex flex-wrap gap-1">
                   {service.keywords.slice(0, 2).map((keyword, kidx) => (
-                    <span key={kidx} className="service-card-keyword">
+                    <span
+                      key={kidx}
+                      className="rounded-md bg-white/5 px-2 py-1 text-xs text-white/60"
+                    >
                       {keyword}
                     </span>
                   ))}
@@ -701,7 +494,6 @@ function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    // Default to false for SSR
     if (typeof window === 'undefined') {
       setMatches(false);
       return;

@@ -1,16 +1,16 @@
 // src/components/common/seo-image.tsx
-import Image from 'next/image';
 import type { ImageProps } from 'next/image';
 import React, { useState } from 'react';
 
+import { OptimizedImage } from '@/components/common/optimized-image';
 import { cn } from '@/lib/utils';
 
-interface SEOImageProps extends Omit<ImageProps, 'onError' | 'loading'> {
+interface SEOImageProps extends Omit<ImageProps, 'onError' | 'loading' | 'priority'> {
   fallbackSrc?: string;
   fallbackAlt?: string;
   wrapperClassName?: string;
   lazyLoad?: boolean;
-  priority?: boolean;
+  enablePriority?: boolean;
   sizes?: string;
   eager?: boolean;
 }
@@ -22,6 +22,7 @@ interface SEOImageProps extends Omit<ImageProps, 'onError' | 'loading'> {
  * - Korrekte srcSet und sizes Attribute
  * - Automatische Größenanpassung
  * - Alt-Text-Unterstützung für Barrierefreiheit
+ * - Workaround für Next.js 14.1.0 fetchPriority Bug
  */
 export const SEOImage: React.FC<SEOImageProps> = ({
   src,
@@ -33,7 +34,7 @@ export const SEOImage: React.FC<SEOImageProps> = ({
   width,
   height,
   lazyLoad = true,
-  priority = false,
+  enablePriority = false,
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   eager = false,
   ...props
@@ -43,7 +44,7 @@ export const SEOImage: React.FC<SEOImageProps> = ({
   const [error, setError] = useState<boolean>(false);
 
   // Fehlerbehandlung: Fallback-Bild laden wenn Original-Bild fehlschlägt
-  const handleError = () => {
+  const handleError = (event: React.SyntheticEvent<HTMLImageElement>) => {
     if (!error) {
       console.warn(`Image failed to load: ${src}, using fallback`);
       setImgSrc(fallbackSrc);
@@ -53,38 +54,24 @@ export const SEOImage: React.FC<SEOImageProps> = ({
   };
 
   // Ermittle die optimale loading-Strategie
-  // priority überschreibt lazyLoad, eager lädt das Bild sofort
-  const loadingStrategy = priority
-    ? undefined // Next.js verwendet automatisch eager loading für priority images
-    : eager
-      ? 'eager'
-      : lazyLoad
-        ? 'lazy'
-        : undefined;
+  // enablePriority überschreibt lazyLoad, eager lädt das Bild sofort
+  const shouldUsePriority = enablePriority || eager;
+
+  // Stelle sicher, dass alt immer einen Wert hat für ESLint
+  const finalAlt = imgAlt || alt || '';
 
   return (
     <div className={cn('relative', wrapperClassName)}>
-      <Image
+      <OptimizedImage
         src={imgSrc}
-        alt={imgAlt || 'Bild'} // Stelle sicher, dass immer ein Alt-Text vorhanden ist
+        alt={finalAlt} // Explizit definiert für ESLint
         className={cn('transition-opacity duration-300', className)}
         onError={handleError}
         width={width}
         height={height}
-        loading={loadingStrategy}
-        priority={priority}
+        enablePriority={shouldUsePriority}
         sizes={sizes}
-        // Zusätzliche Attribute für bessere Ladezeiten und CLS-Prävention
-        placeholder={priority ? 'blur' : undefined}
-        blurDataURL={
-          priority &&
-          typeof src === 'string' &&
-          (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png'))
-            ? `data:image/svg+xml;base64,${Buffer.from(
-                `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#e2e8f0"/></svg>`
-              ).toString('base64')}`
-            : undefined
-        }
+        loading={shouldUsePriority ? 'eager' : lazyLoad ? 'lazy' : 'eager'}
         {...props}
       />
 
@@ -96,7 +83,7 @@ export const SEOImage: React.FC<SEOImageProps> = ({
             '@context': 'https://schema.org',
             '@type': 'ImageObject',
             contentUrl: typeof src === 'string' ? src : '',
-            name: alt,
+            name: finalAlt,
             width: width,
             height: height,
           }),
